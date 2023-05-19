@@ -4,8 +4,8 @@ import { api } from "~/utils/api";
 
 export const Create = () => {
   const card: Omit<Card, "id"> = {
-    front: "",
-    back: "",
+    front: "Card front",
+    back: "Card back",
   };
 
   const cardMutation = api.card.create.useMutation();
@@ -13,7 +13,12 @@ export const Create = () => {
   return (
     <>
       <Editor card={card} />
-      <button onClick={() => cardMutation.mutate(card)}>create</button>
+      <button
+        className="rounded-full border-2 border-white px-3 py-1"
+        onClick={() => cardMutation.mutate(card)}
+      >
+        create
+      </button>
     </>
   );
 };
