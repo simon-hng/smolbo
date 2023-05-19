@@ -21,10 +21,19 @@ model Example {
     updatedAt DateTime @updatedAt
 }
 
+model Deck {
+    id          String @id @default(cuid())
+    title       String
+    description String
+    cards       Card[]
+  }
+
 model Card {
     id      String @id @default(cuid())
     front   String
     back    String
+    DeckId  String
+    Deck    Deck @relation(fields: [DeckId], references: [id])
 }
 
 // Necessary for Next auth
