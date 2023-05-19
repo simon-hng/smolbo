@@ -21,9 +21,10 @@ model Example {
     updatedAt DateTime @updatedAt
 }
 
-model Note {
+model Card {
     id      String @id @default(cuid())
-    content String
+    front   String
+    back    String
 }
 
 // Necessary for Next auth
