@@ -8,11 +8,15 @@ interface EditorProps {
 export const Editor = ({ card }: EditorProps) => {
   return (
     <div>
-      <h2>Front</h2>
-      <textarea className="bg-slate-900">{card.front}</textarea>
+      <label>
+        Front
+        <textarea className="bg-slate-900" value={card.front} />
+      </label>
 
-      <h2>Back</h2>
-      <textarea className="bg-slate-900">{card.back}</textarea>
+      <label>
+        Back
+        <textarea className="bg-slate-900" value={card.back} />
+      </label>
     </div>
   );
 };

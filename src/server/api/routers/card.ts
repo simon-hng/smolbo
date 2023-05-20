@@ -7,6 +7,7 @@ export const cardRouter = createTRPCRouter({
       z.object({
         front: z.string(),
         back: z.string(),
+        deckId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {

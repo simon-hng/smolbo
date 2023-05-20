@@ -7,6 +7,7 @@ export const deckRouter = createTRPCRouter({
       z.object({
         title: z.string(),
         description: z.string(),
+        userId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -40,6 +41,14 @@ export const deckRouter = createTRPCRouter({
     return ctx.prisma.deck.findFirst({
       where: {
         id: input,
+      },
+    });
+  }),
+
+  getAllForUser: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    return ctx.prisma.deck.findMany({
+      where: {
+        userId: input,
       },
     });
   }),
