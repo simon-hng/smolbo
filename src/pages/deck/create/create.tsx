@@ -49,7 +49,7 @@ export const Create = () => {
       </div>
 
       <button
-        className="rounded-full border-2 border-white px-3 py-1"
+        className="button"
         onClick={() => {
           if (!session) {
             return;
