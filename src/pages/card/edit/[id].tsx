@@ -12,11 +12,11 @@ const Edit: NextPage = () => {
 
   const card = api.card.getById.useQuery(query.id);
 
-  if (card.data) {
-    return <Editor card={card.data} />;
+  if (!card.data) {
+    return <h1>Card with id {query.id} not found</h1>;
   }
 
-  return <h1>Card with id {query.id} not found</h1>;
+  return <Editor card={card.data} />;
 };
 
 export default Edit;
