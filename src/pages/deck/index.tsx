@@ -1,3 +1,3 @@
-import { Deck } from "./browse";
+import { DeckPage } from "./deckPage";
 
-export default Deck;
+export default DeckPage;
