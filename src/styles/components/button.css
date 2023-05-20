@@ -1,0 +1,5 @@
+@layer components {
+  .button {
+    @apply rounded-full border-2 border-white px-3 py-1;
+  }
+}
