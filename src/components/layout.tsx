@@ -1,3 +1,5 @@
+import { Navigation } from "./navigation/navigation";
+
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -5,7 +7,8 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-      <div className="p-12">{children}</div>
+      <Navigation />
+      <main className="p-12">{children}</main>
     </div>
   );
 };
