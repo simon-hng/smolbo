@@ -7,7 +7,7 @@ interface DeckCardProps {
 
 export const DeckCard = ({ deck }: DeckCardProps) => (
   <Link href={`/deck/view/${deck.id}`}>
-    <div className="space-y-2 rounded border-2 border-white bg-slate-900 p-4">
+    <div className="space-y-2 card">
       <h2 className="text-2xl">{deck.title}</h2>
       <p>{deck.description}</p>
     </div>

@@ -16,9 +16,15 @@ export const DecksPage = () => {
   }
 
   return (
-    <>
-      {decksQuery.data &&
-        decksQuery.data.map((deck) => <DeckCard key={deck.id} deck={deck} />)}
-    </>
+    <div className="space-y-4">
+      <div>
+        {decksQuery.data &&
+          decksQuery.data.map((deck) => <DeckCard key={deck.id} deck={deck} />)}
+      </div>
+
+      <div className="flex">
+        <button className="button">Create Deck</button>
+      </div>
+    </div>
   );
 };
