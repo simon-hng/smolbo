@@ -3,13 +3,33 @@ import Link from "next/link";
 
 interface DeckCardProps {
   deck: Deck;
+  deleteHandler: (id: string) => void;
 }
 
-export const DeckCard = ({ deck }: DeckCardProps) => (
-  <Link href={`/deck/view/${deck.id}`}>
-    <div className="space-y-2 card">
-      <h2 className="text-2xl">{deck.title}</h2>
-      <p>{deck.description}</p>
+export const DeckCard = ({ deck, deleteHandler }: DeckCardProps) => {
+  return (
+    <div className="card h-full w-80">
+      <Link href={`/decks/${deck.id}`}>
+        <div className="mb-4">
+          <h2 className="mb-2 text-2xl">{deck.title}</h2>
+          <p>{deck.description}</p>
+        </div>
+      </Link>
+
+      <div className="flex space-x-2">
+        <Link
+          className="button w-full text-center"
+          href={`decks/edit/${deck.id}`}
+        >
+          Edit
+        </Link>
+        <button
+          onClick={() => deleteHandler(deck.id)}
+          className="button w-full bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
     </div>
-  </Link>
-);
+  );
+};

@@ -52,4 +52,14 @@ export const deckRouter = createTRPCRouter({
       },
     });
   }),
+
+  deleteById: publicProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.deck.delete({
+        where: {
+          id: input,
+        },
+      });
+    }),
 });

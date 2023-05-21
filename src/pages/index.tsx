@@ -21,7 +21,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Link className="button" href="/deck/">
+        <Link className="button" href="/decks/">
           Browse cards
         </Link>
       </main>
