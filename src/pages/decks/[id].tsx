@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
@@ -21,7 +21,7 @@ const View: NextPage = () => {
 
   return (
     <div>
-      <h1>{deckQuery.data.title}</h1>
+      <h1 className="text-2xl">{deckQuery.data.title}</h1>
       <p>{deckQuery.data.description}</p>
     </div>
   );
