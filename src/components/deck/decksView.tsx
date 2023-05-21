@@ -34,11 +34,15 @@ export const DecksView = () => {
   }
 
   return (
-    <div className="flex space-x-4 overflow-x-scroll">
-      {decks &&
-        decks.map((deck) => (
-          <DeckCard key={deck.id} deck={deck} deleteHandler={deleteHandler} />
-        ))}
+    <div className="overflow-hidden">
+      <div className="flex space-x-4 overflow-x-auto scroll-smooth py-8">
+        {decks &&
+          decks.map((deck) => (
+            <div key={deck.id}>
+              <DeckCard deck={deck} deleteHandler={deleteHandler} />
+            </div>
+          ))}
+      </div>
     </div>
   );
 };

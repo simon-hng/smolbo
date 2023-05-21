@@ -8,7 +8,7 @@ interface DeckCardProps {
 
 export const DeckCard = ({ deck, deleteHandler }: DeckCardProps) => {
   return (
-    <div className="card h-full w-80">
+    <div className="card h-full w-96">
       <Link href={`/decks/${deck.id}`}>
         <div className="mb-4">
           <h2 className="mb-2 text-2xl">{deck.title}</h2>
@@ -17,6 +17,7 @@ export const DeckCard = ({ deck, deleteHandler }: DeckCardProps) => {
       </Link>
 
       <div className="flex space-x-2">
+        <button className="button w-full">Add card</button>
         <Link
           className="button w-full text-center"
           href={`decks/edit/${deck.id}`}
