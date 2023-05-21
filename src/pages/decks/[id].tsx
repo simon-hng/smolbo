@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
-const View: NextPage = () => {
+const DesksViewPage: NextPage = () => {
   const { query } = useRouter();
 
   if (typeof query.id !== "string") {
@@ -27,4 +27,4 @@ const View: NextPage = () => {
   );
 };
 
-export default View;
+export default DesksViewPage;
