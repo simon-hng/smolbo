@@ -1,4 +1,5 @@
 import { type Deck } from "@prisma/client";
+import { Pencil1Icon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 interface DeckCardProps {
@@ -17,17 +18,24 @@ export const DeckCard = ({ deck, deleteHandler }: DeckCardProps) => {
       </Link>
 
       <div className="flex space-x-2">
-        <button className="button w-full">Add card</button>
+        <button className="button flex w-full items-center text-center">
+          <PlusIcon aria-hidden className="mr-2" />
+          Card
+        </button>
+
         <Link
-          className="button w-full text-center"
+          className="button flex w-full items-center text-center"
           href={`decks/edit/${deck.id}`}
         >
+          <Pencil1Icon className="mr-2" aria-hidden />
           Edit
         </Link>
+
         <button
           onClick={() => deleteHandler(deck.id)}
-          className="button w-full bg-red-600"
+          className="button flex w-full items-center bg-red-600"
         >
+          <TrashIcon className="mr-2" aria-hidden />
           Delete
         </button>
       </div>
