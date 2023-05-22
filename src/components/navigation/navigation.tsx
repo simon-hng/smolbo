@@ -20,7 +20,7 @@ export const Navigation: React.FC = () => {
           <NavigationMenu.Content className="absolute mt-2 rounded border-2 border-white bg-slate-900 px-2">
             <ul className="space-y-2 py-2">
               <li>
-                <Link href="user">Account</Link>
+                <Link href="/user">Account</Link>
               </li>
               <li>
                 <button

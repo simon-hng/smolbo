@@ -11,9 +11,21 @@ export const User: NextPage = () => {
 
   return (
     <div>
-      <UserAvatar />
+      <h1 className="mb-8 text-4xl">General Settings</h1>
 
-      <p>Welcome {session.user.name}</p>
+      <div className="space-y-4">
+        <UserAvatar />
+
+        <label className="flex flex-col">
+          Name
+          <input className="textarea" value={session.user.name ?? "err"} />
+        </label>
+
+        <label className="flex flex-col">
+          Email
+          <input className="textarea" value={session.user.email ?? "err"} />
+        </label>
+      </div>
     </div>
   );
 };
