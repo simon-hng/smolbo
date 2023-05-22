@@ -3,7 +3,7 @@
     @apply rounded border-2 border-white p-4 duration-200;
 
     &:hover {
-      @apply shadow shadow-white
+      @apply shadow shadow-white;
     }
   }
 }

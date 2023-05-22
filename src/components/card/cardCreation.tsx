@@ -31,19 +31,20 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-slate-900 opacity-80" />
-        <Dialog.Content className="fixed-center min-w-full">
-          <div className="mx-12 space-y-4 rounded border-2 border-white bg-slate-900 p-4 text-white">
+        <Dialog.Overlay className="dialog-overlay" />
+        <Dialog.Content className="dialog-content">
+          <div className="dialog-content-wrapper">
             <div>
               <div className="flex flex-row justify-between">
                 <Dialog.Title className="mb-2 text-2xl">
                   Create a new card
                 </Dialog.Title>
 
-                <Dialog.Close className="flex h-8 w-8 items-center justify-center rounded-full p-1 duration-200 hover:bg-slate-800">
+                <Dialog.Close className="dialog-close">
                   <Cross2Icon />
                 </Dialog.Close>
               </div>
+
               <Dialog.Description>
                 You are adding a card to {deck.title}
               </Dialog.Description>

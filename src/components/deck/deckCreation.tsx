@@ -26,69 +26,68 @@ export const DeckCreation = () => {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0" />
-        <Dialog.Content className="fixed-center space-y-4 rounded border-2 border-white bg-slate-900 p-4 text-white">
-          <Dialog.Close asChild>
-            <button
-              className="absolute right-2 top-2 rounded-full p-1 duration-200 hover:bg-slate-800"
-              aria-label="Close"
-            >
-              <Cross2Icon />
-            </button>
-          </Dialog.Close>
+        <Dialog.Overlay className="dialog-overlay" />
+        <Dialog.Content className="dialog-content">
+          <div className="dialog-content-wrapper">
+            <div>
+              <div className="flex flex-row justify-between">
+                <Dialog.Title className="mb-2 text-2xl">
+                  Create a new deck
+                </Dialog.Title>
 
-          <div>
-            <Dialog.Title className="mb-2 text-2xl">
-              Create a new deck
-            </Dialog.Title>
+                <Dialog.Close className="dialog-close">
+                  <Cross2Icon />
+                </Dialog.Close>
+              </div>
 
-            <Dialog.Description>
-              Decks offer offer a way of grouping cards
-            </Dialog.Description>
-          </div>
+              <Dialog.Description>
+                Decks offer offer a way of grouping cards
+              </Dialog.Description>
+            </div>
 
-          <div className="flex flex-col space-y-4">
-            <label className="flex flex-col">
-              Deck title
-              <input
-                type="text"
-                className="textarea mt-2"
-                value={deck.title}
-                onChange={(e) => {
-                  return setDeck({ ...deck, title: e.target.value });
+            <div className="flex flex-col space-y-4">
+              <label className="flex flex-col">
+                Deck title
+                <input
+                  type="text"
+                  className="textarea mt-2"
+                  value={deck.title}
+                  onChange={(e) => {
+                    return setDeck({ ...deck, title: e.target.value });
+                  }}
+                />
+              </label>
+
+              <label className="flex flex-col">
+                Deck description
+                <textarea
+                  className="textarea mt-2"
+                  defaultValue={deck.description}
+                  onChange={(e) => {
+                    return setDeck({ ...deck, description: e.target.value });
+                  }}
+                />
+              </label>
+            </div>
+
+            <Dialog.Close asChild>
+              <button
+                className="button"
+                onClick={() => {
+                  if (!session) {
+                    return;
+                  }
+
+                  deckCreateMutation.mutate({
+                    ...deck,
+                    userId: session.user.id,
+                  });
                 }}
-              />
-            </label>
-
-            <label className="flex flex-col">
-              Deck description
-              <textarea
-                className="textarea mt-2"
-                defaultValue={deck.description}
-                onChange={(e) => {
-                  return setDeck({ ...deck, description: e.target.value });
-                }}
-              />
-            </label>
+              >
+                save
+              </button>
+            </Dialog.Close>
           </div>
-
-          <Dialog.Close asChild>
-            <button
-              className="button"
-              onClick={() => {
-                if (!session) {
-                  return;
-                }
-
-                deckCreateMutation.mutate({
-                  ...deck,
-                  userId: session.user.id,
-                });
-              }}
-            >
-              save
-            </button>
-          </Dialog.Close>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
