@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
-import { DeckCard } from "./deckCard";
+import { DeckCard, DeckCardSkeleton } from "./deckCard";
 
 export const DeckCarousel = () => {
   const { data: session } = useSession({
@@ -16,7 +16,7 @@ export const DeckCarousel = () => {
   });
 
   if (isLoading) {
-    return <div>is loading</div>;
+    return <DeckCarouselSkeleton />;
   }
 
   if (error) {
@@ -31,13 +31,18 @@ export const DeckCarousel = () => {
   return (
     <div className="overflow-hidden">
       <div className="flex space-x-4 overflow-x-auto scroll-smooth py-8">
-        {decks &&
-          decks.map((deck) => (
-            <div key={deck.id}>
-              <DeckCard deck={deck} />
-            </div>
-          ))}
+        {decks && decks.map((deck) => <DeckCard key={deck.id} deck={deck} />)}
       </div>
     </div>
   );
 };
+
+export const DeckCarouselSkeleton = () => (
+  <div className="overflow-hidden">
+    <div className="flex space-x-4 overflow-x-auto scroll-smooth py-8">
+      <DeckCardSkeleton />
+      <DeckCardSkeleton />
+      <DeckCardSkeleton />
+    </div>
+  </div>
+);

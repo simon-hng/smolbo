@@ -45,3 +45,7 @@ export const DeckCard = ({ deck }: DeckCardProps) => {
     </div>
   );
 };
+
+export const DeckCardSkeleton = () => (
+  <div className="card skeleton h-40 w-96"></div>
+);

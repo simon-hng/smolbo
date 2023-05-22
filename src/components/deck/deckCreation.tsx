@@ -93,3 +93,7 @@ export const DeckCreation = () => {
     </Dialog.Root>
   );
 };
+
+export const DeckCreationSkeleton = () => (
+  <button className="button skeleton w-36 border-none" />
+);

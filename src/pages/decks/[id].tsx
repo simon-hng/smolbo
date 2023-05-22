@@ -24,23 +24,30 @@ const CardsCarousel = ({ cards }: CardsCarouselProps) => {
 const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
 
-  if (typeof query.id !== "string") {
-    return <div>Wrong usage of url</div>;
-  }
-
-  const deckQuery = api.deck.getById.useQuery(query.id);
+  const deckQuery = api.deck.getById.useQuery(query.id as string, {
+    enabled: !!query.id,
+  });
 
   if (deckQuery.isLoading) {
-    return <h1>Getting card with id {query.id}</h1>;
+    return (
+      <div>
+        <h1 className="skeleton mb-2 w-40 text-4xl"></h1>
+        <p className="skeleton w-60 animate-pulse"></p>
+      </div>
+    );
   }
 
   if (deckQuery.error || !deckQuery.data) {
-    return <h1>Deck with id {query.id} not found</h1>;
+    return (
+      <h1 className="skeleton mb-2 w-40 text-4xl">
+        Deck with id {query.id} not found
+      </h1>
+    );
   }
 
   return (
     <div>
-      <h1 className="text-2xl">{deckQuery.data.title}</h1>
+      <h1 className="mb-2 text-4xl">{deckQuery.data.title}</h1>
       <p>{deckQuery.data.description}</p>
 
       <CardsCarousel cards={deckQuery.data.cards} />

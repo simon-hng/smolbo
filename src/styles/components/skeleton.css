@@ -1,0 +1,9 @@
+@layer components {
+  .skeleton {
+    @apply animate-pulse border-none bg-slate-800 after:content-['\00a0'];
+
+    &:hover {
+      @apply border-none;
+    }
+  }
+}
