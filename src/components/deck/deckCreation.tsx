@@ -52,7 +52,7 @@ export const DeckCreation = () => {
               Deck title
               <input
                 type="text"
-                className="mt-2 rounded border-2 border-white bg-slate-900 p-2"
+                className="textarea mt-2"
                 value={deck.title}
                 onChange={(e) => {
                   return setDeck({ ...deck, title: e.target.value });
@@ -63,7 +63,7 @@ export const DeckCreation = () => {
             <label className="flex flex-col">
               Deck description
               <textarea
-                className="mt-2 rounded border-2 border-white bg-slate-900 p-2"
+                className="textarea mt-2"
                 defaultValue={deck.description}
                 onChange={(e) => {
                   return setDeck({ ...deck, description: e.target.value });
