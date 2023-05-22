@@ -5,10 +5,15 @@ import {
   DeckCarouselSkeleton,
   DeckCreationSkeleton,
 } from "~/components/deck";
+import { api } from "~/utils/api";
 
 export const DecksPage = () => {
   const { data: session, status } = useSession({
     required: true,
+  });
+
+  const query = api.deck.getAllForUser.useQuery(session?.user.id ?? "", {
+    enabled: Boolean(session?.user.id),
   });
 
   if (status === "loading") {
@@ -20,14 +25,10 @@ export const DecksPage = () => {
     );
   }
 
-  if (!session) {
-    return <h1 className="text-4xl font-bold">You need to be logged in</h1>;
-  }
-
   return (
     <div className="space-y-4">
-      <DeckCarousel />
-      <DeckCreation />
+      <DeckCarousel query={query} />
+      <DeckCreation query={query} />
     </div>
   );
 };

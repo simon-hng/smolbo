@@ -1,36 +1,33 @@
-import { useSession } from "next-auth/react";
-import { api } from "~/utils/api";
 import { DeckCard, DeckCardSkeleton } from "./deckCard";
+import { type Deck } from "@prisma/client";
 
-export const DeckCarousel = () => {
-  const { data: session } = useSession({
-    required: true,
-  });
-
-  const {
-    data: decks,
-    isLoading,
-    error,
-  } = api.deck.getAllForUser.useQuery(session?.user.id ?? "", {
-    enabled: Boolean(session?.user.id),
-  });
-
-  if (isLoading) {
+interface DeckCarouselProps {
+  query: {
+    data: Deck[] | undefined;
+    isLoading: boolean;
+    error: {
+      message: string;
+    } | null;
+    refetch: () => void;
+  };
+}
+export const DeckCarousel = ({ query }: DeckCarouselProps) => {
+  if (query.isLoading) {
     return <DeckCarouselSkeleton />;
   }
 
-  if (error) {
-    return (
-      <div>
-        Failed to get decks
-        <p>{error?.message}</p>
-      </div>
-    );
+  if (query.error) {
+    return <div>Failed to get decks</div>;
   }
+
+  const decks = query.data;
 
   return (
     <div className="flex space-x-4 overflow-x-auto scroll-smooth py-8">
-      {decks && decks.map((deck) => <DeckCard key={deck.id} deck={deck} />)}
+      {decks &&
+        decks.map((deck) => (
+          <DeckCard key={deck.id} deck={deck} query={query} />
+        ))}
     </div>
   );
 };

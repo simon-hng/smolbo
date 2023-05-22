@@ -1,3 +1,4 @@
+import * as Toast from "@radix-ui/react-toast";
 import { Footer } from "~/components/footer";
 import { Navigation } from "~/components/navigation";
 
@@ -7,10 +8,12 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
-      <Navigation />
-      <main className="p-12">{children}</main>
-      <Footer />
-    </div>
+    <Toast.Provider>
+      <div className="min-h-screen bg-slate-900 text-white">
+        <Navigation />
+        <main className="p-12">{children}</main>
+        <Footer />
+      </div>
+    </Toast.Provider>
   );
 };
