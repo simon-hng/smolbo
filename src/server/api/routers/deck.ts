@@ -39,6 +39,9 @@ export const deckRouter = createTRPCRouter({
 
   getById: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.prisma.deck.findFirst({
+      include: {
+        cards: true,
+      },
       where: {
         id: input,
       },
