@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { DeckCard } from "./deckCard";
 
-export const DecksView = () => {
+export const DeckCarousel = () => {
   const { data: session } = useSession({
     required: true,
   });

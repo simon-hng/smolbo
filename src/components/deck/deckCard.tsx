@@ -1,7 +1,7 @@
 import { type Deck } from "@prisma/client";
-import { Pencil1Icon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { CardCreation } from "../card/cardCreation";
+import { CardCreation } from "~/components/card";
 import { api } from "~/utils/api";
 
 interface DeckCardProps {

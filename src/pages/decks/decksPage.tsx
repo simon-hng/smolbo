@@ -1,6 +1,5 @@
 import { useSession } from "next-auth/react";
-import { DeckCreation } from "~/components/deck/deckCreation";
-import { DecksView } from "~/components/deck/decksView";
+import { DeckCreation, DeckCarousel } from "~/components/deck";
 
 export const DecksPage = () => {
   const { data: session } = useSession({
@@ -13,7 +12,7 @@ export const DecksPage = () => {
 
   return (
     <div className="space-y-4">
-      <DecksView />
+      <DeckCarousel />
       <DeckCreation />
     </div>
   );
