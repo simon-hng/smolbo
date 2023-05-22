@@ -1,5 +1,5 @@
 @layer components {
   .textarea {
-    @apply rounded border-2 border-white bg-slate-900 p-2;
+    @apply rounded border-2 border-slate-500 bg-slate-900 p-2;
   }
 }

@@ -8,7 +8,7 @@
       @apply fixed-center min-w-full;
 
       &-wrapper {
-        @apply mx-12 space-y-4 rounded border-2 border-white bg-slate-900 p-4 text-white;
+        @apply mx-12 space-y-4 rounded border-2 border-slate-500 bg-slate-900 p-4 text-white;
       }
     }
 
