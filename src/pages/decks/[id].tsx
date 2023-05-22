@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { CardCarousel } from "~/components/card";
 import { api } from "~/utils/api";
 
+// TODO: this page here should probably be the edit page with a new page in this place,
+// where you can study your flashcards
 const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
 
