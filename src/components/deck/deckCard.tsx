@@ -2,13 +2,18 @@ import { type Deck } from "@prisma/client";
 import { Pencil1Icon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { CardCreation } from "../card/cardCreation";
+import { api } from "~/utils/api";
 
 interface DeckCardProps {
   deck: Deck;
-  deleteHandler: (id: string) => void;
 }
 
-export const DeckCard = ({ deck, deleteHandler }: DeckCardProps) => {
+export const DeckCard = ({ deck }: DeckCardProps) => {
+  const deckDeleteMutation = api.deck.deleteById.useMutation();
+  const deleteHandler = (deckId: string) => {
+    deckDeleteMutation.mutate(deckId);
+  };
+
   return (
     <div className="card h-full w-96">
       <Link href={`/decks/${deck.id}`}>

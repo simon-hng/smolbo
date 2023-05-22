@@ -15,11 +15,6 @@ export const DecksView = () => {
     enabled: Boolean(session?.user.id),
   });
 
-  const deckDeleteMutation = api.deck.deleteById.useMutation();
-  const deleteHandler = (deckId: string) => {
-    deckDeleteMutation.mutate(deckId);
-  };
-
   if (isLoading) {
     return <div>is loading</div>;
   }
@@ -39,7 +34,7 @@ export const DecksView = () => {
         {decks &&
           decks.map((deck) => (
             <div key={deck.id}>
-              <DeckCard deck={deck} deleteHandler={deleteHandler} />
+              <DeckCard deck={deck} />
             </div>
           ))}
       </div>
