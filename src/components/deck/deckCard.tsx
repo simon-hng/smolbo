@@ -1,6 +1,7 @@
 import { type Deck } from "@prisma/client";
 import { Pencil1Icon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import { CardCreation } from "../card/cardCreation";
 
 interface DeckCardProps {
   deck: Deck;
@@ -18,10 +19,7 @@ export const DeckCard = ({ deck, deleteHandler }: DeckCardProps) => {
       </Link>
 
       <div className="flex space-x-2">
-        <button className="button flex w-full items-center text-center">
-          <PlusIcon aria-hidden className="mr-2" />
-          Card
-        </button>
+        <CardCreation deck={deck} />
 
         <Link
           className="button flex w-full items-center text-center"
