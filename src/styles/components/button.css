@@ -1,9 +1,5 @@
 @layer components {
   .button {
     @apply rounded border-2 border-slate-500 px-4 py-1 duration-200;
-
-    &:hover {
-      @apply shadow shadow-white;
-    }
   }
 }
