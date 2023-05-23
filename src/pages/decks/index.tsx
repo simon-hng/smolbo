@@ -13,17 +13,19 @@ export const DecksPage = () => {
     required: true,
   });
 
+  const ctx = api.useContext();
+
   const decksQuery = api.deck.getAllForUser.useQuery(session?.user.id ?? "", {
     enabled: Boolean(session?.user.id),
   });
   const deckCreateMutation = api.deck.create.useMutation({
-    onSettled: async () => {
-      await decksQuery.refetch();
+    onSuccess: () => {
+      void ctx.deck.invalidate();
     },
   });
   const deckDeleteMutation = api.deck.deleteById.useMutation({
-    onSettled: async () => {
-      await decksQuery.refetch();
+    onSuccess: () => {
+      void ctx.deck.invalidate();
     },
   });
 
