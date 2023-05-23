@@ -2,16 +2,15 @@ import { useSession } from "next-auth/react";
 import { CardStackPlusIcon, Cross2Icon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
-import { api } from "~/utils/api";
-import { DeckCreationToast } from "./toast";
+import type { RouterInputs } from "~/utils/api";
 
 interface DeckCreationProps {
-  query: {
-    refetch: () => void;
+  deckCreateMutation: {
+    mutate: (deck: RouterInputs["deck"]["create"]) => void;
   };
 }
 
-export const DeckCreation = ({ query }: DeckCreationProps) => {
+export const DeckCreation = ({ deckCreateMutation }: DeckCreationProps) => {
   const { data: session } = useSession({
     required: true,
   });
@@ -19,12 +18,6 @@ export const DeckCreation = ({ query }: DeckCreationProps) => {
   const [deck, setDeck] = useState({
     title: "",
     description: "",
-  });
-
-  const deckCreateMutation = api.deck.create.useMutation({
-    onSettled: () => {
-      query.refetch();
-    },
   });
 
   const saveHandler = () => {
@@ -40,7 +33,6 @@ export const DeckCreation = ({ query }: DeckCreationProps) => {
 
   return (
     <>
-      {deckCreateMutation.isSuccess && <DeckCreationToast />}
       <Dialog.Root>
         <Dialog.Trigger asChild>
           <button className="button flex items-center">

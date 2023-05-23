@@ -1,32 +1,34 @@
+import type { RouterOutputs, RouterInputs } from "~/utils/api";
 import { DeckCard, DeckCardSkeleton } from "./deckCard";
-import { type Deck } from "@prisma/client";
 
 interface DeckCarouselProps {
-  query: {
-    data: Deck[] | undefined;
+  decksQuery: {
+    data: RouterOutputs["deck"]["getAllForUser"] | undefined;
     isLoading: boolean;
-    error: {
-      message: string;
-    } | null;
-    refetch: () => void;
+  };
+  deckDeleteMutation: {
+    mutate: (input: RouterInputs["deck"]["deleteById"]) => void;
   };
 }
-export const DeckCarousel = ({ query }: DeckCarouselProps) => {
-  if (query.isLoading) {
+export const DeckCarousel = ({
+  decksQuery,
+  deckDeleteMutation,
+}: DeckCarouselProps) => {
+  if (decksQuery.isLoading) {
     return <DeckCarouselSkeleton />;
   }
 
-  if (query.error) {
-    return <div>Failed to get decks</div>;
-  }
-
-  const decks = query.data;
+  const decks = decksQuery.data;
 
   return (
     <div className="flex space-x-4 overflow-x-auto scroll-smooth py-8">
       {decks &&
         decks.map((deck) => (
-          <DeckCard key={deck.id} deck={deck} query={query} />
+          <DeckCard
+            key={deck.id}
+            deck={deck}
+            deckDeleteMutation={deckDeleteMutation}
+          />
         ))}
     </div>
   );

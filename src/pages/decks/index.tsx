@@ -5,6 +5,7 @@ import {
   DeckCarouselSkeleton,
   DeckCreationSkeleton,
 } from "~/components/deck";
+import { ToastComponent } from "~/components/toast";
 import { api } from "~/utils/api";
 
 export const DecksPage = () => {
@@ -12,9 +13,21 @@ export const DecksPage = () => {
     required: true,
   });
 
-  const query = api.deck.getAllForUser.useQuery(session?.user.id ?? "", {
+  const decksQuery = api.deck.getAllForUser.useQuery(session?.user.id ?? "", {
     enabled: Boolean(session?.user.id),
   });
+  const deckCreateMutation = api.deck.create.useMutation({
+    onSettled: async () => {
+      await decksQuery.refetch();
+    },
+  });
+  const deckDeleteMutation = api.deck.deleteById.useMutation({
+    onSettled: async () => {
+      await decksQuery.refetch();
+    },
+  });
+
+  const deckApi = { decksQuery, deckCreateMutation, deckDeleteMutation };
 
   if (status === "loading") {
     return (
@@ -27,8 +40,18 @@ export const DecksPage = () => {
 
   return (
     <div className="space-y-4">
-      <DeckCarousel query={query} />
-      <DeckCreation query={query} />
+      <DeckCarousel {...deckApi} />
+      <DeckCreation {...deckApi} />
+
+      {deckCreateMutation.isSuccess && (
+        <ToastComponent
+          title={`successfully created deck ${deckCreateMutation.data.title}`}
+          status="success"
+        />
+      )}
+      {deckDeleteMutation.isSuccess && (
+        <ToastComponent title={`successfully deleted deck`} status="success" />
+      )}
     </div>
   );
 };
