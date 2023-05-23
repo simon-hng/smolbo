@@ -31,7 +31,7 @@ export const CardCard = ({ card }: CardCardProps) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div key={card.id} className="card h-full w-96">
+    <div key={card.id} className="card h-full">
       <CardCardDropdownMenu />
       <div className="prose prose-invert">
         <div className="cursor-pointer" onClick={() => setOpen(true)}>

@@ -37,6 +37,15 @@ export const deckRouter = createTRPCRouter({
       return input;
     }),
 
+  getLearningSet: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    // TODO add a more sophisticated way to get valid cards to learn
+    return ctx.prisma.card.findMany({
+      where: {
+        deckId: input,
+      },
+    });
+  }),
+
   getById: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.prisma.deck.findFirst({
       include: {
