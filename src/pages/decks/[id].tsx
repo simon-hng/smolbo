@@ -10,6 +10,8 @@ const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
 
   const [card, setCard] = useState<Card>();
+  const [open, setOpen] = useState(false);
+
   const learningSetQuery = api.deck.getLearningSet.useQuery(
     query.id as string,
     { enabled: !!query.id, onSuccess: (data) => setCard(data[0]) }
@@ -27,6 +29,7 @@ const DecksViewPage: NextPage = () => {
     setCardIndex(cardIndex + 1);
 
     animateCardExit(info.offset.x);
+    setOpen(false);
   };
 
   const animateCardExit = (offsetX: number) => {
@@ -56,7 +59,7 @@ const DecksViewPage: NextPage = () => {
   }
 
   return (
-    <div className="overflow-visible py-8">
+    <div className="h-full overflow-visible py-8">
       <motion.div
         drag="x"
         dragSnapToOrigin
@@ -64,7 +67,7 @@ const DecksViewPage: NextPage = () => {
         onDragEnd={dragEndHandler}
         animate={controls}
       >
-        <CardCard card={card} />
+        <CardCard card={card} open={open} setOpen={setOpen} />
       </motion.div>
     </div>
   );

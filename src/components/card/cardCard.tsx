@@ -1,5 +1,4 @@
 import { type Card } from "@prisma/client";
-import { useState } from "react";
 import { Remark } from "react-remark";
 import * as Separator from "@radix-ui/react-separator";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
@@ -25,16 +24,16 @@ const CardCardDropdownMenu = () => {
 
 interface CardCardProps {
   card: Card;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
-export const CardCard = ({ card }: CardCardProps) => {
-  const [open, setOpen] = useState(false);
-
+export const CardCard = ({ card, open, setOpen }: CardCardProps) => {
   return (
-    <div key={card.id} className="card h-full">
+    <div key={card.id} className="card" onClick={() => setOpen(true)}>
       <CardCardDropdownMenu />
       <div className="prose prose-invert">
-        <div className="cursor-pointer" onClick={() => setOpen(true)}>
+        <div>
           <Remark>{card.front}</Remark>
         </div>
 
