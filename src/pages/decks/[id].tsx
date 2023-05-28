@@ -26,13 +26,18 @@ const DecksViewPage: NextPage = () => {
     setCard(cards[cardIndex]);
     setCardIndex(cardIndex + 1);
 
+    animateCardExit(info.offset.x);
+  };
+
+  const animateCardExit = (offsetX: number) => {
+    const directionFactor = offsetX < 0 ? 1 : -1;
     void controls
       .start({
-        x: -1.25 * window.innerWidth,
+        x: -directionFactor * 1.25 * window.innerWidth,
         scale: 1.2,
       })
       .then(() => {
-        controls.set({ x: window.innerWidth });
+        controls.set({ x: directionFactor * window.innerWidth });
       })
       .then(() => {
         void controls.start({
