@@ -7,15 +7,18 @@ import { MarkdownRenderer } from "../markdown";
 const CardCardDropdownMenu = () => {
   return (
     <DropdownMenu.Root>
-      <div className="mb-4 flex items-center justify-end">
+      <div className="absolute right-4">
         <DropdownMenu.Trigger>
           <HamburgerMenuIcon />
         </DropdownMenu.Trigger>
       </div>
 
       <DropdownMenu.Portal>
-        <DropdownMenu.Content>
-          <DropdownMenu.Item>Edit card</DropdownMenu.Item>
+        <DropdownMenu.Content className="mt-2 space-y-2 rounded border-2 border-slate-500 bg-slate-900 p-2 text-white">
+          <DropdownMenu.Item className="cursor-pointer">Edit</DropdownMenu.Item>
+          <DropdownMenu.Item className="cursor-pointer">
+            Delete
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
@@ -30,13 +33,13 @@ interface CardCardProps {
 
 export const CardCard = ({ card, open, setOpen }: CardCardProps) => {
   return (
-    <div key={card.id} className="card" onClick={() => setOpen(true)}>
+    <div key={card.id} className="card relative" onClick={() => setOpen(true)}>
       <CardCardDropdownMenu />
       <MarkdownRenderer content={card.front} />
 
       {open && (
         <div>
-          <Separator.Root className="h-[1px] bg-white" />
+          <Separator.Root className="my-4 h-[1px] bg-white" />
           <MarkdownRenderer content={card.back} />
         </div>
       )}
