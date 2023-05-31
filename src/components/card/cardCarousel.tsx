@@ -1,5 +1,5 @@
 import { type Card } from "@prisma/client";
-import { CardCard } from "./cardCard";
+import { MarkdownRenderer } from "../markdown";
 
 interface CardCarouselProps {
   cards: Card[];
@@ -8,7 +8,14 @@ interface CardCarouselProps {
 export const CardCarousel = ({ cards }: CardCarouselProps) => {
   return (
     <div className="flex space-x-4 overflow-x-auto scroll-smooth py-8">
-      {cards && cards.map((card) => <CardCard key={card.id} card={card} />)}
+      {cards && cards.map((card) => (
+      <div>
+      <h1>{card.id}</h1>
+        <MarkdownRenderer content={card.front}/>
+        <MarkdownRenderer content={card.back}/>
+      </div>
+      )
+      )}
     </div>
   );
 };
