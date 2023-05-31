@@ -8,14 +8,14 @@ interface CardCarouselProps {
 export const CardCarousel = ({ cards }: CardCarouselProps) => {
   return (
     <div className="flex space-x-4 overflow-x-auto scroll-smooth py-8">
-      {cards && cards.map((card) => (
-      <div>
-      <h1>{card.id}</h1>
-        <MarkdownRenderer content={card.front}/>
-        <MarkdownRenderer content={card.back}/>
-      </div>
-      )
-      )}
+      {cards &&
+        cards.map((card) => (
+          <div key={card.id}>
+            <h1>{card.id}</h1>
+            <MarkdownRenderer content={card.front} />
+            <MarkdownRenderer content={card.back} />
+          </div>
+        ))}
     </div>
   );
 };
