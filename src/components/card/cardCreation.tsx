@@ -20,6 +20,15 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
     deckId: deck.id,
   });
   const cardCreateMutation = api.card.create.useMutation();
+  const cardRecommendation = api.card.getBackRecommendation.useQuery(
+    card.front,
+    {
+      enabled: false,
+      onSuccess: (data) => {
+        setCard({ ...card, back: data });
+      },
+    }
+  );
 
   return (
     <Dialog.Root>
@@ -72,6 +81,13 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
                   }}
                 />
               </label>
+
+              <button
+                className="button"
+                onClick={() => void cardRecommendation.refetch()}
+              >
+                Recommend
+              </button>
             </div>
 
             <Dialog.Close asChild>

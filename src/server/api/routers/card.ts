@@ -1,5 +1,9 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { backOff } from "exponential-backoff";
+import { OpenAI } from "langchain/llms/openai";
+import { PromptTemplate } from "langchain/prompts";
+import { LLMChain } from "langchain/chains";
 
 export const cardRouter = createTRPCRouter({
   create: publicProcedure
@@ -44,4 +48,25 @@ export const cardRouter = createTRPCRouter({
       },
     });
   }),
+
+  getBackRecommendation: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      console.log(input);
+
+      const model = new OpenAI({ temperature: 0.9 });
+      const prompt = new PromptTemplate({
+        template: `You are a flashcard app. 
+    What is a good answer in markdown to the following question
+    {question}`,
+        inputVariables: ["question"],
+      });
+
+      const chain = new LLMChain({ llm: model, prompt: prompt });
+
+      const result = await backOff(() => chain.call({ question: input }));
+      console.log(result);
+
+      return result as unknown as string;
+    }),
 });
