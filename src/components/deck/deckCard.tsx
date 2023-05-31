@@ -18,7 +18,7 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
 
   return (
     <>
-      <div className="card h-full w-96 flex-shrink-0">
+      <div className="card w-full flex-shrink-0">
         <Link href={`/decks/${deck.id}`}>
           <div className="mb-4">
             <h2 className="mb-2 text-2xl">{deck.title}</h2>
@@ -51,5 +51,5 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
 };
 
 export const DeckCardSkeleton = () => (
-  <div className="card skeleton h-40 w-96 flex-shrink-0"></div>
+  <div className="card skeleton h-40 w-full"></div>
 );
