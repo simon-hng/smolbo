@@ -1,8 +1,8 @@
 import { type Card } from "@prisma/client";
-import { Remark } from "react-remark";
 import * as Separator from "@radix-ui/react-separator";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { MarkdownRenderer } from "../markdown";
 
 const CardCardDropdownMenu = () => {
   return (
@@ -32,19 +32,14 @@ export const CardCard = ({ card, open, setOpen }: CardCardProps) => {
   return (
     <div key={card.id} className="card" onClick={() => setOpen(true)}>
       <CardCardDropdownMenu />
-      <div className="prose prose-invert">
+      <MarkdownRenderer content={card.front} />
+
+      {open && (
         <div>
-          <Remark>{card.front}</Remark>
+          <Separator.Root className="h-[1px] bg-white" />
+          <MarkdownRenderer content={card.back} />
         </div>
-
-        {open && (
-          <div>
-            <Separator.Root className="h-[1px] bg-white" />
-
-            <Remark>{card.back}</Remark>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };
