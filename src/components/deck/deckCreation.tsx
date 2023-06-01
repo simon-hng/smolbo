@@ -35,7 +35,7 @@ export const DeckCreation = ({ deckCreateMutation }: DeckCreationProps) => {
     <>
       <Dialog.Root>
         <Dialog.Trigger asChild>
-          <button className="button flex items-center">
+          <button className="button flex items-center hover:bg-slate-700">
             <CardStackPlusIcon aria-hidden className="mr-2" />
             Create Deck
           </button>
@@ -87,7 +87,10 @@ export const DeckCreation = ({ deckCreateMutation }: DeckCreationProps) => {
               </div>
 
               <Dialog.Close asChild>
-                <button className="button" onClick={saveHandler}>
+                <button
+                  className="button hover:bg-slate-700"
+                  onClick={saveHandler}
+                >
                   save
                 </button>
               </Dialog.Close>

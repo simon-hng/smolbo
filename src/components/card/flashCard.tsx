@@ -1,7 +1,11 @@
 import { type Card } from "@prisma/client";
 import * as Separator from "@radix-ui/react-separator";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import {
+  HamburgerMenuIcon,
+  Pencil1Icon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
 import { MarkdownRenderer } from "../markdown";
 
 const FlashCardDropdownMenu = () => {
@@ -15,8 +19,12 @@ const FlashCardDropdownMenu = () => {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content className="mt-2 space-y-2 rounded border-2 border-slate-500 bg-slate-900 p-2 text-white">
-          <DropdownMenu.Item className="cursor-pointer">Edit</DropdownMenu.Item>
-          <DropdownMenu.Item className="cursor-pointer">
+          <DropdownMenu.Item className="flex cursor-pointer items-center rounded px-2 py-1 hover:bg-slate-700">
+            <Pencil1Icon className="mr-2" aria-hidden />
+            Edit
+          </DropdownMenu.Item>
+          <DropdownMenu.Item className="flex cursor-pointer items-center rounded px-2 py-1 hover:bg-slate-700">
+            <TrashIcon className="mr-2" aria-hidden />
             Delete
           </DropdownMenu.Item>
         </DropdownMenu.Content>
