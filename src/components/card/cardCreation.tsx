@@ -26,6 +26,8 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
       refetchOnWindowFocus: false,
       enabled: false,
       onSuccess: (data) => {
+        if (!(data.length && data[0]?.message)) return;
+
         setCard({
           ...card,
           back: data[0].message.content,
