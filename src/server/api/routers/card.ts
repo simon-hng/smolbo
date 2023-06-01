@@ -54,18 +54,41 @@ export const cardRouter = createTRPCRouter({
   }),
 
   getBackRecommendation: publicProcedure
-    .input(z.string())
-    .query(async ({ input }) => {
-      console.log(input);
+    .input(
+      z.object({
+        deckId: z.string(),
+        front: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const deck = await ctx.prisma.deck.findFirst({
+        where: {
+          id: input.deckId,
+        },
+      });
+
+      if (!deck) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "The deck you provided does not exist",
+        });
+      }
+
       const result = await openai
         .createChatCompletion({
           model: "gpt-3.5-turbo",
           messages: [
             {
               role: "system",
-              content: `You are a flashcard app that responds in Markdown. Add mathematical equations in LaTeX if applicable. Utilize LaTeX in Markdown for equations, with inline LaTeX enclosed in \`$\` and LaTeX blocks enclosed in \`$$\`.`,
+              content: `You are a flashcard app that responds in Markdown. 
+                Use mathematical equations and set theory in latex.
+                Utilize LaTeX in Markdown for equations, with inline LaTeX enclosed in \`$\` and LaTeX blocks enclosed in \`$$\`.`,
             },
-            { role: "user", content: input },
+            {
+              role: "system",
+              content: `You are writing a flashcard for ${deck.title}`,
+            },
+            { role: "user", content: input.front },
           ],
         })
         .then((res) => res.data)

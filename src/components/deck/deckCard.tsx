@@ -30,7 +30,7 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
           <CardCreation deck={deck} />
 
           <Link
-            className="button flex w-full items-center text-center"
+            className="button flex w-full items-center text-center hover:bg-slate-700"
             href={`decks/edit/${deck.id}`}
           >
             <Pencil1Icon className="mr-2" aria-hidden />
@@ -39,7 +39,7 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
 
           <button
             onClick={() => deleteHandler(deck.id)}
-            className="button flex w-full items-center bg-red-600"
+            className="button flex w-full items-center bg-red-700 hover:bg-red-500"
           >
             <TrashIcon className="mr-2" aria-hidden />
             Delete

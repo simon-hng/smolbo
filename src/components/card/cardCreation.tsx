@@ -21,7 +21,10 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
   });
   const cardCreateMutation = api.card.create.useMutation();
   const cardRecommendation = api.card.getBackRecommendation.useQuery(
-    card.front,
+    {
+      deckId: deck.id,
+      front: card.front,
+    },
     {
       refetchOnWindowFocus: false,
       enabled: false,
@@ -39,7 +42,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <button className="button flex w-full items-center text-center">
+        <button className="button flex w-full items-center text-center hover:bg-slate-700">
           <PlusIcon aria-hidden className="mr-2" />
           Card
         </button>
@@ -89,7 +92,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
               </label>
 
               <button
-                className="button"
+                className="button hover:bg-slate-700"
                 onClick={() => void cardRecommendation.refetch()}
               >
                 Recommend
@@ -98,7 +101,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
 
             <Dialog.Close asChild>
               <button
-                className="button"
+                className="button hover:bg-slate-700"
                 onClick={() => {
                   if (!session) {
                     return;
