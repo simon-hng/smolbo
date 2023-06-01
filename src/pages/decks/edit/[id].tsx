@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
-import { CardCarousel } from "~/components/card";
+import { CardCarousel, CardCreation } from "~/components/card";
 import { api } from "~/utils/api";
 
 const DecksEditPage: NextPage = () => {
@@ -28,9 +28,13 @@ const DecksEditPage: NextPage = () => {
   }
 
   return (
-    <div>
-      <h1 className="mb-2 text-4xl">{deckQuery.data.title}</h1>
-      <p>{deckQuery.data.description}</p>
+    <div className="space-y-8">
+      <div>
+        <h1 className="mb-2 text-4xl">{deckQuery.data.title}</h1>
+        <p>{deckQuery.data.description}</p>
+      </div>
+
+      <CardCreation deck={deckQuery.data} />
 
       <CardCarousel cards={deckQuery.data.cards} />
     </div>

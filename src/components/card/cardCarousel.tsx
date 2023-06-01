@@ -1,21 +1,23 @@
 import { type Card } from "@prisma/client";
-import { MarkdownRenderer } from "../markdown";
+import { CardCard } from "./cardCard";
+import { useState } from "react";
+
+interface CardProps {
+  card: Card;
+}
+const Card = ({ card }: CardProps) => {
+  const [open, setOpen] = useState(false);
+
+  return <CardCard card={card} open={open} setOpen={setOpen} />;
+};
 
 interface CardCarouselProps {
   cards: Card[];
 }
-
 export const CardCarousel = ({ cards }: CardCarouselProps) => {
   return (
-    <div className="flex space-x-4 overflow-x-auto scroll-smooth py-8">
-      {cards &&
-        cards.map((card) => (
-          <div key={card.id}>
-            <h1>{card.id}</h1>
-            <MarkdownRenderer content={card.front} />
-            <MarkdownRenderer content={card.back} />
-          </div>
-        ))}
+    <div className="flex flex-col space-y-4">
+      {cards && cards.map((card) => <Card key={card.id} card={card} />)}
     </div>
   );
 };
