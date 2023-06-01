@@ -1,9 +1,13 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { backOff } from "exponential-backoff";
-import { OpenAI } from "langchain/llms/openai";
-import { PromptTemplate } from "langchain/prompts";
-import { LLMChain } from "langchain/chains";
+import { Configuration, OpenAIApi } from "openai";
+import { env } from "~/env.mjs";
+import { TRPCError } from "@trpc/server";
+
+const configuration = new Configuration({
+  apiKey: env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
 
 export const cardRouter = createTRPCRouter({
   create: publicProcedure
@@ -53,20 +57,26 @@ export const cardRouter = createTRPCRouter({
     .input(z.string())
     .query(async ({ input }) => {
       console.log(input);
+      const result = await openai
+        .createChatCompletion({
+          model: "gpt-3.5-turbo",
+          messages: [
+            {
+              role: "system",
+              content: `You are a flashcard app that responds in Markdown. Add mathematical equations in LaTeX if applicable. Utilize LaTeX in Markdown for equations, with inline LaTeX enclosed in \`$\` and LaTeX blocks enclosed in \`$$\`.`,
+            },
+            { role: "user", content: input },
+          ],
+        })
+        .then((res) => res.data)
+        .catch((e) => {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to get OpenAI response",
+            cause: e,
+          });
+        });
 
-      const model = new OpenAI({ temperature: 0.9 });
-      const prompt = new PromptTemplate({
-        template: `You are a flashcard app. 
-    What is a good answer in markdown to the following question
-    {question}`,
-        inputVariables: ["question"],
-      });
-
-      const chain = new LLMChain({ llm: model, prompt: prompt });
-
-      const result = await backOff(() => chain.call({ question: input }));
-      console.log(result);
-
-      return result as unknown as string;
+      return result.choices;
     }),
 });

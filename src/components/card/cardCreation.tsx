@@ -23,9 +23,13 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
   const cardRecommendation = api.card.getBackRecommendation.useQuery(
     card.front,
     {
+      refetchOnWindowFocus: false,
       enabled: false,
       onSuccess: (data) => {
-        setCard({ ...card, back: data });
+        setCard({
+          ...card,
+          back: data[0].message.content,
+        });
       },
     }
   );
