@@ -1,6 +1,6 @@
 import { type Card } from "@prisma/client";
-import { CardCard } from "./cardCard";
 import { useState } from "react";
+import { FlashCard } from ".";
 
 interface CardProps {
   card: Card;
@@ -8,7 +8,7 @@ interface CardProps {
 const Card = ({ card }: CardProps) => {
   const [open, setOpen] = useState(false);
 
-  return <CardCard card={card} open={open} setOpen={setOpen} />;
+  return <FlashCard card={card} open={open} setOpen={setOpen} />;
 };
 
 interface CardCarouselProps {

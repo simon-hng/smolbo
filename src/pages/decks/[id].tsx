@@ -3,7 +3,7 @@ import { type PanInfo, motion, useAnimation } from "framer-motion";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { CardCard } from "~/components/card";
+import { FlashCard } from "~/components/card";
 import { api } from "~/utils/api";
 
 const DecksViewPage: NextPage = () => {
@@ -67,7 +67,7 @@ const DecksViewPage: NextPage = () => {
         onDragEnd={dragEndHandler}
         animate={controls}
       >
-        <CardCard card={card} open={open} setOpen={setOpen} />
+        <FlashCard card={card} open={open} setOpen={setOpen} />
       </motion.div>
     </div>
   );

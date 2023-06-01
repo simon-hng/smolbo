@@ -4,7 +4,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { MarkdownRenderer } from "../markdown";
 
-const CardCardDropdownMenu = () => {
+const FlashCardDropdownMenu = () => {
   return (
     <DropdownMenu.Root>
       <div className="absolute right-4">
@@ -25,16 +25,16 @@ const CardCardDropdownMenu = () => {
   );
 };
 
-interface CardCardProps {
+interface FlashCardProps {
   card: Card;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export const CardCard = ({ card, open, setOpen }: CardCardProps) => {
+export const FlashCard = ({ card, open, setOpen }: FlashCardProps) => {
   return (
     <div key={card.id} className="card relative" onClick={() => setOpen(true)}>
-      <CardCardDropdownMenu />
+      <FlashCardDropdownMenu />
       <MarkdownRenderer content={card.front} />
 
       {open && (
