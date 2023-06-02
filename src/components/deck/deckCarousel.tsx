@@ -1,24 +1,32 @@
-import type { RouterOutputs, RouterInputs } from "~/utils/api";
+import { api } from "~/utils/api";
 import { DeckCard, DeckCardSkeleton } from "./deckCard";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
-interface DeckCarouselProps {
-  decksQuery: {
-    data: RouterOutputs["deck"]["getAllForUser"] | undefined;
-    isLoading: boolean;
-  };
-  deckDeleteMutation: {
-    mutate: (input: RouterInputs["deck"]["deleteById"]) => void;
-  };
-}
-export const DeckCarousel = ({
-  decksQuery,
-  deckDeleteMutation,
-}: DeckCarouselProps) => {
+export const DeckCarousel = () => {
+  const { data: session } = useSession({
+    required: true,
+  });
+
+  const ctx = api.useContext();
+  const decksQuery = api.deck.getAllForUser.useQuery(session?.user.id ?? "", {
+    enabled: Boolean(session?.user.id),
+  });
+  const deckDeleteMutation = api.deck.deleteById.useMutation({
+    onSuccess: () => {
+      toast.success("Deleted deck");
+      void ctx.deck.invalidate();
+    },
+    onError: () => {
+      toast.error("Failed to delete deck");
+    },
+  });
+
+  const decks = decksQuery.data;
+
   if (decksQuery.isLoading) {
     return <DeckCarouselSkeleton />;
   }
-
-  const decks = decksQuery.data;
 
   return (
     <div className="flex flex-col space-y-4">

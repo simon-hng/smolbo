@@ -2,17 +2,18 @@ import { useSession } from "next-auth/react";
 import { CardStackPlusIcon, Cross2Icon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
-import type { RouterInputs } from "~/utils/api";
+import { api } from "~/utils/api";
 
-interface DeckCreationProps {
-  deckCreateMutation: {
-    mutate: (deck: RouterInputs["deck"]["create"]) => void;
-  };
-}
-
-export const DeckCreation = ({ deckCreateMutation }: DeckCreationProps) => {
+export const DeckCreation = () => {
   const { data: session } = useSession({
     required: true,
+  });
+
+  const ctx = api.useContext();
+  const deckCreateMutation = api.deck.create.useMutation({
+    onSuccess: () => {
+      void ctx.deck.invalidate();
+    },
   });
 
   const [deck, setDeck] = useState({

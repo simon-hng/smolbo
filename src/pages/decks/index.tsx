@@ -1,59 +1,10 @@
-import { useSession } from "next-auth/react";
-import {
-  DeckCreation,
-  DeckCarousel,
-  DeckCarouselSkeleton,
-  DeckCreationSkeleton,
-} from "~/components/deck";
-import { ToastComponent } from "~/components/toast";
-import { api } from "~/utils/api";
+import { DeckCreation, DeckCarousel } from "~/components/deck";
 
 export const DecksPage = () => {
-  const { data: session, status } = useSession({
-    required: true,
-  });
-
-  const ctx = api.useContext();
-
-  const decksQuery = api.deck.getAllForUser.useQuery(session?.user.id ?? "", {
-    enabled: Boolean(session?.user.id),
-  });
-  const deckCreateMutation = api.deck.create.useMutation({
-    onSuccess: () => {
-      void ctx.deck.invalidate();
-    },
-  });
-  const deckDeleteMutation = api.deck.deleteById.useMutation({
-    onSuccess: () => {
-      void ctx.deck.invalidate();
-    },
-  });
-
-  const deckApi = { decksQuery, deckCreateMutation, deckDeleteMutation };
-
-  if (status === "loading") {
-    return (
-      <div className="space-y-4">
-        <DeckCarouselSkeleton />
-        <DeckCreationSkeleton />
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-4">
-      <DeckCarousel {...deckApi} />
-      <DeckCreation {...deckApi} />
-
-      {deckCreateMutation.isSuccess && (
-        <ToastComponent
-          title={`successfully created deck ${deckCreateMutation.data.title}`}
-          status="success"
-        />
-      )}
-      {deckDeleteMutation.isSuccess && (
-        <ToastComponent title={`successfully deleted deck`} status="success" />
-      )}
+      <DeckCarousel />
+      <DeckCreation />
     </div>
   );
 };
