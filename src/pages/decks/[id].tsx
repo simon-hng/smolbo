@@ -55,7 +55,7 @@ const DecksViewPage: NextPage = () => {
       });
   };
 
-  if (learningSetQuery.isLoading) {
+  if (learningSetQuery.isFetching) {
     return <div className="card skeleton h-48"></div>;
   }
 
