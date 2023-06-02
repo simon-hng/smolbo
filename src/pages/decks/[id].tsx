@@ -64,17 +64,15 @@ const DecksViewPage: NextPage = () => {
   }
 
   return (
-    <div className="h-full overflow-visible py-8">
-      <motion.div
-        drag="x"
-        dragSnapToOrigin
-        whileDrag={{ scale: 1.2 }}
-        onDragEnd={dragEndHandler}
-        animate={controls}
-      >
-        <FlashCard card={card} open={open} setOpen={setOpen} />
-      </motion.div>
-    </div>
+    <motion.div
+      drag="x"
+      dragSnapToOrigin
+      whileDrag={{ scale: 1.2 }}
+      onDragEnd={dragEndHandler}
+      animate={controls}
+    >
+      <FlashCard card={card} open={open} setOpen={setOpen} />
+    </motion.div>
   );
 };
 
