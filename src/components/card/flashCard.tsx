@@ -1,4 +1,4 @@
-import { type Card } from "@prisma/client";
+import type { Card } from "@prisma/client";
 import * as Separator from "@radix-ui/react-separator";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {

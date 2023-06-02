@@ -1,10 +1,11 @@
 import type { Card } from "@prisma/client";
-import { type PanInfo, motion, useAnimation } from "framer-motion";
-import { type NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FlashCard } from "~/components/card";
 import { api } from "~/utils/api";
+import { type PanInfo, motion, useAnimation } from "framer-motion";
 
 const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
@@ -14,7 +15,11 @@ const DecksViewPage: NextPage = () => {
 
   const learningSetQuery = api.deck.getLearningSet.useQuery(
     query.id as string,
-    { enabled: !!query.id, onSuccess: (data) => setCard(data[0]) }
+    {
+      enabled: !!query.id,
+      onSuccess: (data) => setCard(data[0]),
+      onError: () => toast.error("Failed to fetch cards"),
+    }
   );
   const cards = learningSetQuery.data;
   const [cardIndex, setCardIndex] = useState(1);
@@ -51,11 +56,11 @@ const DecksViewPage: NextPage = () => {
   };
 
   if (learningSetQuery.isLoading) {
-    return <h1>Loading</h1>;
+    return <div className="card skeleton h-48"></div>;
   }
 
   if (!card) {
-    return <h1>No more cards</h1>;
+    return <h1 className="text-center text-2xl">No more cards</h1>;
   }
 
   return (
