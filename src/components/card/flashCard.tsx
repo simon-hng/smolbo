@@ -7,8 +7,24 @@ import {
   TrashIcon,
 } from "@radix-ui/react-icons";
 import { MarkdownRenderer } from "../markdown";
+import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
-const FlashCardDropdownMenu = () => {
+interface FlashCardDropdownMenuProps {
+  card: Card;
+}
+const FlashCardDropdownMenu = ({ card }: FlashCardDropdownMenuProps) => {
+  const ctx = api.useContext();
+  const deleteCardMutation = api.card.deleteById.useMutation({
+    onSuccess: () => {
+      toast.success("deleted card");
+      void ctx.deck.invalidate();
+    },
+    onError: () => {
+      toast.error("failed to delete card");
+    },
+  });
+
   return (
     <DropdownMenu.Root>
       <div className="absolute right-4">
@@ -23,9 +39,14 @@ const FlashCardDropdownMenu = () => {
             <Pencil1Icon className="mr-2" aria-hidden />
             Edit
           </DropdownMenu.Item>
-          <DropdownMenu.Item className="flex cursor-pointer items-center rounded px-2 py-1 hover:bg-slate-700">
-            <TrashIcon className="mr-2" aria-hidden />
-            Delete
+          <DropdownMenu.Item asChild>
+            <button
+              className="flex cursor-pointer items-center rounded px-2 py-1 hover:bg-slate-700"
+              onClick={() => void deleteCardMutation.mutate(card.id)}
+            >
+              <TrashIcon className="mr-2" aria-hidden />
+              Delete
+            </button>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
@@ -42,7 +63,7 @@ interface FlashCardProps {
 export const FlashCard = ({ card, open, setOpen }: FlashCardProps) => {
   return (
     <div key={card.id} className="card relative" onClick={() => setOpen(true)}>
-      <FlashCardDropdownMenu />
+      <FlashCardDropdownMenu card={card} />
       <MarkdownRenderer content={card.front} />
 
       {open && (

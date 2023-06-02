@@ -53,6 +53,16 @@ export const cardRouter = createTRPCRouter({
     });
   }),
 
+  deleteById: publicProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.card.delete({
+        where: {
+          id: input,
+        },
+      });
+    }),
+
   getBackRecommendation: publicProcedure
     .input(
       z.object({
