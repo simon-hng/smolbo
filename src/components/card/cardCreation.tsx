@@ -4,6 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { api } from "~/utils/api";
 import { type Deck } from "@prisma/client";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface CardCreationProps {
   deck: Deck;
@@ -35,6 +36,10 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
           ...card,
           back: data[0].message.content,
         });
+      },
+      onError: (err) => {
+        toast.error("failed to get recommendation");
+        console.error(err);
       },
     }
   );
@@ -92,8 +97,13 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
               </label>
 
               <button
-                className="button hover:bg-slate-700"
+                className={`button hover:bg-slate-700 ${
+                  cardRecommendation.isFetching
+                    ? "animate-pulse bg-slate-700"
+                    : ""
+                }`}
                 onClick={() => void cardRecommendation.refetch()}
+                disabled={cardRecommendation.isFetching}
               >
                 Recommend
               </button>
