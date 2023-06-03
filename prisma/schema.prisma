@@ -31,7 +31,7 @@ model Card {
   front     String
   back      String
   deckId    String
-  deck      Deck       @relation(fields: [deckId], references: [id])
+  deck      Deck       @relation(fields: [deckId], references: [id], onDelete: Cascade)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   cardStats CardStat[]
@@ -40,9 +40,9 @@ model Card {
 model CardStat {
   id          String   @id @default(cuid())
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   cardId      String
-  card        Card     @relation(fields: [cardId], references: [id])
+  card        Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
   lastLearned DateTime @updatedAt
   successful  Int
   repeat      Int
