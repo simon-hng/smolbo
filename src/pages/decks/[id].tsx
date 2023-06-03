@@ -69,7 +69,7 @@ const DecksViewPage: NextPage = () => {
     <motion.div
       drag="x"
       dragSnapToOrigin
-      whileDrag={{ scale: 1.2 }}
+      whileDrag={{ scale: 1.10 }}
       onDragEnd={dragEndHandler}
       animate={controls}
     >
