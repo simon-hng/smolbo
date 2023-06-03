@@ -38,14 +38,14 @@ model Card {
 }
 
 model CardStat {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cardId      String
-  card        Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
-  lastLearned DateTime @updatedAt
-  successful  Int
-  repeat      Int
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cardId     String
+  card       Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  dueDate    DateTime @default(now())
+  successful Int
+  repeat     Int
 }
 
 // Necessary for Next auth

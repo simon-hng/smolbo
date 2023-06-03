@@ -15,7 +15,14 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
     back: "",
     deckId: deck.id,
   });
-  const cardCreateMutation = api.card.create.useMutation();
+  const cardCreateMutation = api.card.create.useMutation({
+    onSuccess: () => {
+      toast.success("added card");
+    },
+    onError: () => {
+      toast.error("failed to add card");
+    },
+  });
   const cardRecommendation = api.card.getBackRecommendation.useQuery(
     {
       deckId: deck.id,
@@ -32,9 +39,8 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
           back: data[0].message.content,
         });
       },
-      onError: (err) => {
+      onError: () => {
         toast.error("failed to get recommendation");
-        console.error(err);
       },
     }
   );
