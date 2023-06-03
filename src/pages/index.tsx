@@ -11,11 +11,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <div className="flex flex-col">
+        <h1 className="mb-8 text-4xl">Home</h1>
+
         <Link className="button hover:bg-slate-700" href="/decks/">
           Browse cards
         </Link>
-      </main>
+      </div>
     </>
   );
 };

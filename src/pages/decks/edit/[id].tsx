@@ -13,8 +13,8 @@ const DecksEditPage: NextPage = () => {
   if (deckQuery.isLoading) {
     return (
       <div>
-        <h1 className="skeleton mb-2 w-40 text-4xl"></h1>
-        <p className="skeleton w-60 animate-pulse"></p>
+        <h1 className="skeleton mb-2 w-80 text-4xl"></h1>
+        <p className="skeleton w-80 animate-pulse"></p>
       </div>
     );
   }
