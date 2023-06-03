@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { api } from "~/utils/api";
@@ -11,10 +10,6 @@ interface CardCreationProps {
 }
 
 export const CardCreation = ({ deck }: CardCreationProps) => {
-  const { data: session } = useSession({
-    required: true,
-  });
-
   const [card, setCard] = useState({
     front: "",
     back: "",
@@ -113,10 +108,6 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
               <button
                 className="button hover:bg-slate-700"
                 onClick={() => {
-                  if (!session) {
-                    return;
-                  }
-
                   cardCreateMutation.mutate({
                     ...card,
                   });

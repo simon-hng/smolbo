@@ -1,17 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 const Home: NextPage = () => {
-  const { data: session } = useSession({
-    required: true,
-  });
-
-  if (!session) {
-    <h1 className="text-bold text-2xl">Login to start using the app</h1>;
-  }
-
   return (
     <>
       <Head>

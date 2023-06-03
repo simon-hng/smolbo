@@ -1,14 +1,9 @@
-import { useSession } from "next-auth/react";
 import { CardStackPlusIcon, Cross2Icon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { api } from "~/utils/api";
 
 export const DeckCreation = () => {
-  const { data: session } = useSession({
-    required: true,
-  });
-
   const ctx = api.useContext();
   const deckCreateMutation = api.deck.create.useMutation({
     onSuccess: () => {
@@ -22,13 +17,8 @@ export const DeckCreation = () => {
   });
 
   const saveHandler = () => {
-    if (!session) {
-      return;
-    }
-
     deckCreateMutation.mutate({
       ...deck,
-      userId: session.user.id,
     });
   };
 

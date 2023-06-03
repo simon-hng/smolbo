@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { Configuration, OpenAIApi } from "openai";
 import { env } from "~/env.mjs";
 import { TRPCError } from "@trpc/server";
@@ -10,7 +10,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export const cardRouter = createTRPCRouter({
-  create: publicProcedure
+  create: protectedProcedure
     .input(
       z.object({
         front: z.string(),
@@ -19,11 +19,18 @@ export const cardRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.card.create({
+      const card = await ctx.prisma.card.create({
         data: input,
       });
 
-      return input;
+      await ctx.prisma.cardStat.create({
+        data: {
+          userId: ctx.session.user.id,
+          cardId: card.id,
+          successful: 0,
+          repeat: 0,
+        },
+      });
     }),
 
   update: publicProcedure
@@ -41,8 +48,6 @@ export const cardRouter = createTRPCRouter({
         },
         data: input,
       });
-
-      return input;
     }),
 
   getById: publicProcedure.input(z.string()).query(({ ctx, input }) => {

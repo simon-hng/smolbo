@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { UserAvatar } from "~/components/userAvatar";
 
 export const User: NextPage = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession({ required: true });
 
   if (!session?.user) {
     return <p>You&apos;re not signed in </p>;

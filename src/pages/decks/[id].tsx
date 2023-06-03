@@ -14,7 +14,9 @@ const DecksViewPage: NextPage = () => {
   const [open, setOpen] = useState(false);
 
   const learningSetQuery = api.deck.getLearningSet.useQuery(
-    query.id as string,
+    {
+      deckId: query.id as string,
+    },
     {
       enabled: !!query.id,
       onSuccess: (data) => setCard(data[0]),

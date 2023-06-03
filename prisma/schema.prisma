@@ -44,6 +44,8 @@ model CardStat {
   cardId      String
   card        Card     @relation(fields: [cardId], references: [id])
   lastLearned DateTime @updatedAt
+  successful  Int
+  repeat      Int
 }
 
 // Necessary for Next auth

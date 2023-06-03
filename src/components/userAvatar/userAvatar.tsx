@@ -6,7 +6,7 @@ interface UserAvatarProps {
 }
 
 export const UserAvatar = ({ className }: UserAvatarProps) => {
-  const { data: session } = useSession();
+  const { data: session } = useSession({ required: true });
 
   return (
     <Avatar.Root className={className}>

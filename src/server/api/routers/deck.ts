@@ -1,21 +1,21 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
 export const deckRouter = createTRPCRouter({
-  create: publicProcedure
+  create: protectedProcedure
     .input(
       z.object({
         title: z.string(),
         description: z.string(),
-        userId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.deck.create({
-        data: input,
+        data: {
+          ...input,
+          userId: ctx.session.user.id,
+        },
       });
-
-      return input;
     }),
 
   update: publicProcedure
@@ -33,18 +33,28 @@ export const deckRouter = createTRPCRouter({
         },
         data: input,
       });
-
-      return input;
     }),
 
-  getLearningSet: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    // TODO add a more sophisticated way to get valid cards to learn
-    return ctx.prisma.card.findMany({
-      where: {
-        deckId: input,
-      },
-    });
-  }),
+  getLearningSet: protectedProcedure
+    .input(
+      z.object({
+        deckId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.card.findMany({
+        where: {
+          deckId: input.deckId,
+        },
+        include: {
+          cardStats: {
+            where: {
+              userId: ctx.session.user.id,
+            },
+          },
+        },
+      });
+    }),
 
   getById: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.prisma.deck.findFirst({
@@ -57,10 +67,10 @@ export const deckRouter = createTRPCRouter({
     });
   }),
 
-  getAllForUser: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+  getAllForUser: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.deck.findMany({
       where: {
-        userId: input,
+        userId: ctx.session.user.id,
       },
     });
   }),
