@@ -45,6 +45,14 @@ export const deckRouter = createTRPCRouter({
       return ctx.prisma.card.findMany({
         where: {
           deckId: input.deckId,
+          cardStats: {
+            some: {
+              dueDate: {
+                lt: new Date(),
+              },
+              userId: ctx.session.user.id,
+            },
+          },
         },
         include: {
           cardStats: {
