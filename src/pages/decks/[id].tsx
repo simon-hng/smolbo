@@ -25,22 +25,29 @@ const DecksViewPage: NextPage = () => {
     }
   );
   const cards = learningSetQuery.data;
+
+  const learningSetUpdate = api.deck.updateLearningSet.useMutation();
   const [cardIndex, setCardIndex] = useState(1);
 
   const controls = useAnimation();
 
-  const dragEndHandler = (_event: Event, info: PanInfo) => {
-    const swipeThreshhold = window.innerWidth / 2;
-    if (Math.abs(info.offset.x) < swipeThreshhold || !cards) return;
-
-    setCard(cards[cardIndex]);
-    setCardIndex(cardIndex + 1);
-
-    animateCardExit(info.offset.x);
-    setOpen(false);
+  const updateCard = (isCorrect: boolean, card: Card) => {
+    if (isCorrect) {
+      if (card.repetitions === 0) {
+        card.interval = 1;
+      } else if (card.repetitions === 1) {
+        card.interval = 6;
+      } else {
+        card.interval *= card.interval;
+      }
+      card.repetitions++;
+    } else {
+      card.interval = 1;
+      card.repetitions = 0;
+    }
   };
 
-  const animateCardExit = (offsetX: number) => {
+  const animateCardExit = (offsetX: number, lastCard = false) => {
     const directionFactor = offsetX < 0 ? 1 : -1;
     void controls
       .start({
@@ -48,14 +55,43 @@ const DecksViewPage: NextPage = () => {
         scale: 1.2,
       })
       .then(() => {
-        controls.set({ x: directionFactor * window.innerWidth });
+        if (!lastCard) {
+          controls.set({ x: directionFactor * window.innerWidth });
+        }
       })
       .then(() => {
-        void controls.start({
-          x: 0,
-          scale: 1,
-        });
+        if (!lastCard) {
+          void controls.start({
+            x: 0,
+            scale: 1,
+          });
+        }
       });
+  };
+
+  const endHandler = () => {
+    if (!cards) return;
+    learningSetUpdate.mutate(cards);
+  };
+
+  const dragEndHandler = (_event: Event, info: PanInfo) => {
+    const swipeThreshhold = window.innerWidth / 3;
+    if (Math.abs(info.offset.x) < swipeThreshhold || !cards || !card) return;
+
+    const isCorrect = info.offset.x < 0;
+    updateCard(isCorrect, card);
+
+    if (cardIndex >= cards.length) {
+      animateCardExit(info.offset.x, true);
+      setCard(undefined);
+      endHandler();
+      return;
+    }
+
+    setCard(cards[cardIndex]);
+    setCardIndex(cardIndex + 1);
+    animateCardExit(info.offset.x);
+    setOpen(false);
   };
 
   if (learningSetQuery.isFetching) {
