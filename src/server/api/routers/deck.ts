@@ -39,27 +39,17 @@ export const deckRouter = createTRPCRouter({
     .input(
       z.object({
         deckId: z.string(),
+        amount: z.number().int(),
       })
     )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.card.findMany({
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.card.findMany({
+        take: input.amount,
+        orderBy: {
+          interval: "asc",
+        },
         where: {
           deckId: input.deckId,
-          cardStats: {
-            some: {
-              dueDate: {
-                lt: new Date(),
-              },
-              userId: ctx.session.user.id,
-            },
-          },
-        },
-        include: {
-          cardStats: {
-            where: {
-              userId: ctx.session.user.id,
-            },
-          },
         },
       });
     }),

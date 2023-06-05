@@ -19,17 +19,8 @@ export const cardRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const card = await ctx.prisma.card.create({
+      return await ctx.prisma.card.create({
         data: input,
-      });
-
-      await ctx.prisma.cardStat.create({
-        data: {
-          userId: ctx.session.user.id,
-          cardId: card.id,
-          successful: 0,
-          repeat: 0,
-        },
       });
     }),
 

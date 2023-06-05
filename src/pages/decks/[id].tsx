@@ -16,6 +16,7 @@ const DecksViewPage: NextPage = () => {
   const learningSetQuery = api.deck.getLearningSet.useQuery(
     {
       deckId: query.id as string,
+      amount: 10,
     },
     {
       enabled: !!query.id,
@@ -69,7 +70,7 @@ const DecksViewPage: NextPage = () => {
     <motion.div
       drag="x"
       dragSnapToOrigin
-      whileDrag={{ scale: 1.10 }}
+      whileDrag={{ scale: 1.1 }}
       onDragEnd={dragEndHandler}
       animate={controls}
     >
