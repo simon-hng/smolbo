@@ -27,25 +27,14 @@ model Deck {
 }
 
 model Card {
-  id        String     @id @default(cuid())
-  front     String
-  back      String
-  deckId    String
-  deck      Deck       @relation(fields: [deckId], references: [id], onDelete: Cascade)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  cardStats CardStat[]
-}
-
-model CardStat {
-  id         String   @id @default(cuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cardId     String
-  card       Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
-  dueDate    DateTime @default(now())
-  successful Int
-  repeat     Int
+  id          String   @id @default(cuid())
+  front       String
+  back        String
+  deckId      String
+  deck        Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  interval    Int      @default(1)
+  repetitions Int      @default(0)
 }
 
 // Necessary for Next auth
@@ -84,7 +73,6 @@ model User {
   accounts      Account[]
   sessions      Session[]
   decks         Deck[]
-  cardStats     CardStat[]
 }
 
 model VerificationToken {
