@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/decrease-interval",
+      "schedule": "0 12 * * *"
+    }
+  ]
+}
