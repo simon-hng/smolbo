@@ -28,7 +28,7 @@ const FlashCardDropdownMenu = ({ card }: FlashCardDropdownMenuProps) => {
 
   return (
     <DropdownMenu.Root>
-      <div className="dialog-close absolute right-4 top-3">
+      <div className="dialog-close float-right">
         <DropdownMenu.Trigger>
           <HamburgerMenuIcon />
         </DropdownMenu.Trigger>
