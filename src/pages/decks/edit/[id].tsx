@@ -12,18 +12,29 @@ const DecksEditPage: NextPage = () => {
 
   if (deckQuery.isLoading) {
     return (
-      <div>
-        <h1 className="skeleton mb-2 w-80 text-4xl"></h1>
-        <p className="skeleton w-80 animate-pulse"></p>
+      <div className="space-y-8">
+        <div>
+          <h1 className="skeleton mb-2 w-80 text-4xl" />
+          <p className="skeleton w-80 animate-pulse" />
+        </div>
+
+        <div className="skeleton button" />
+
+        <div className="space-y-4">
+          <div className="card skeleton" />
+          <div className="card skeleton" />
+          <div className="card skeleton" />
+        </div>
       </div>
     );
   }
 
   if (deckQuery.error || !deckQuery.data) {
     return (
-      <h1 className="skeleton mb-2 w-40 text-4xl">
-        Deck with id {query.id} not found
-      </h1>
+      <div>
+        <h1 className="skeleton mb-2 w-40 text-4xl">Failed to load deck</h1>
+        <p> Deck with id {query.id} not found</p>
+      </div>
     );
   }
 
