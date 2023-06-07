@@ -3,6 +3,7 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { Configuration, OpenAIApi } from "openai";
 import { env } from "~/env.mjs";
 import { TRPCError } from "@trpc/server";
+import { ensure } from "~/utils/ts-utils";
 
 const configuration = new Configuration({
   apiKey: env.OPENAI_API_KEY,
@@ -97,15 +98,15 @@ export const cardRouter = createTRPCRouter({
             { role: "user", content: input.front },
           ],
         })
-        .then((res) => res.data)
+        .then((res) => res.data.choices.at(0)?.message?.content)
         .catch((e) => {
           throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
-            message: "Failed to get OpenAI response",
+            message: "Failed to get OpenAI response. Maybe the api did some weird shit again",
             cause: e,
           });
         });
 
-      return result.choices;
+      return ensure(result);
     }),
 });

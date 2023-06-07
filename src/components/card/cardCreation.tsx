@@ -9,7 +9,7 @@ import { api } from "~/utils/api";
 import { type Deck } from "@prisma/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { ensure } from "~/utils/ts-utils";
+import useCardRecommendation from "~/hooks/useCardRecommendation";
 
 interface CardCreationProps {
   deck: Deck;
@@ -22,6 +22,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
     back: "",
     deckId: deck.id,
   });
+
   const cardCreateMutation = api.card.create.useMutation({
     onSuccess: () => {
       toast.success("added card");
@@ -32,30 +33,9 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
     },
   });
 
-  const [recommendations, setRecommendations] = useState<string[]>([]);
-
-  const cardRecommendation = api.card.getBackRecommendation.useQuery(
-    {
-      deckId: deck.id,
-      front: card.front,
-    },
-    {
-      refetchOnWindowFocus: false,
-      enabled: false,
-      onSuccess: (data) => {
-        const message = ensure(data[0]?.message?.content);
-
-        setRecommendations([...recommendations, message]);
-        setCard({
-          ...card,
-          back: message,
-        });
-      },
-      onError: () => {
-        toast.error("failed to get recommendation");
-      },
-    }
-  );
+  const { getNewRecommendation, recommendations, isFetching } =
+    useCardRecommendation(deck.id, card.front);
+  const [recI, setRecI] = useState(0);
 
   return (
     <Dialog.Root>
@@ -90,7 +70,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
               <label className="flex flex-col">
                 Card front - Question
                 <textarea
-                  className="textarea mt-2"
+                  className="textarea mt-2 h-32"
                   defaultValue={card.front}
                   onChange={(e) => {
                     return setCard({ ...card, front: e.target.value });
@@ -101,7 +81,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
               <label className="flex flex-col">
                 Card back - Answer
                 <textarea
-                  className="textarea mt-2 h-48"
+                  className="textarea mt-2 h-64"
                   defaultValue={card.back}
                   onChange={(e) => {
                     return setCard({ ...card, back: e.target.value });
@@ -109,24 +89,51 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
                 />
               </label>
 
-              <div className="flex space-x-4">
-                <button className="button hover:bg-slate-700">
+              <div className="flex space-x-2">
+                <button
+                  className="button hover:bg-slate-700 disabled:bg-slate-700"
+                  disabled={recI == 0}
+                  onClick={() => {
+                    setRecI(recI - 1);
+                    setCard({
+                      ...card,
+                      back: recommendations.at(recI) ?? card.back,
+                    });
+                  }}
+                >
                   <ChevronLeftIcon />
                 </button>
 
                 <button
-                  className={`button hover:bg-slate-700 ${
-                    cardRecommendation.isFetching
-                      ? "animate-pulse bg-slate-700"
-                      : ""
-                  }`}
-                  onClick={() => void cardRecommendation.refetch()}
-                  disabled={cardRecommendation.isFetching}
+                  className="button hover:bg-slate-700 disabled:animate-pulse disabled:bg-slate-700"
+                  onClick={() => {
+                    void getNewRecommendation().then((api) => {
+                      setRecI(recI + 1);
+                      setCard({
+                        ...card,
+                        back: api.data ?? card.back,
+                      });
+                    });
+                  }}
+                  disabled={isFetching}
                 >
                   Recommend answer
                 </button>
 
-                <button className="button hover:bg-slate-700">
+                <button
+                  className="button hover:bg-slate-700 disabled:bg-slate-700"
+                  disabled={
+                    recommendations.length === 0 ||
+                    recI == recommendations.length - 1
+                  }
+                  onClick={() => {
+                    setRecI(recI + 1);
+                    setCard({
+                      ...card,
+                      back: recommendations.at(recI) ?? card.back,
+                    });
+                  }}
+                >
                   <ChevronRightIcon />
                 </button>
               </div>
