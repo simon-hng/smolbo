@@ -1,15 +1,22 @@
-import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Cross2Icon,
+  PlusIcon,
+} from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { api } from "~/utils/api";
 import { type Deck } from "@prisma/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { ensure } from "~/utils/ts-utils";
 
 interface CardCreationProps {
   deck: Deck;
 }
 
 export const CardCreation = ({ deck }: CardCreationProps) => {
+  const ctx = api.useContext();
   const [card, setCard] = useState({
     front: "",
     back: "",
@@ -18,11 +25,15 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
   const cardCreateMutation = api.card.create.useMutation({
     onSuccess: () => {
       toast.success("added card");
+      void ctx.deck.invalidate();
     },
     onError: () => {
       toast.error("failed to add card");
     },
   });
+
+  const [recommendations, setRecommendations] = useState<string[]>([]);
+
   const cardRecommendation = api.card.getBackRecommendation.useQuery(
     {
       deckId: deck.id,
@@ -32,11 +43,12 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
       refetchOnWindowFocus: false,
       enabled: false,
       onSuccess: (data) => {
-        if (!(data.length && data[0]?.message)) return;
+        const message = ensure(data[0]?.message?.content);
 
+        setRecommendations([...recommendations, message]);
         setCard({
           ...card,
-          back: data[0].message.content,
+          back: message,
         });
       },
       onError: () => {
@@ -76,7 +88,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
 
             <div className="flex flex-col space-y-4">
               <label className="flex flex-col">
-                Card front
+                Card front - Question
                 <textarea
                   className="textarea mt-2"
                   defaultValue={card.front}
@@ -87,9 +99,9 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
               </label>
 
               <label className="flex flex-col">
-                Card back
+                Card back - Answer
                 <textarea
-                  className="textarea mt-2"
+                  className="textarea mt-2 h-48"
                   defaultValue={card.back}
                   onChange={(e) => {
                     return setCard({ ...card, back: e.target.value });
@@ -97,17 +109,27 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
                 />
               </label>
 
-              <button
-                className={`button hover:bg-slate-700 ${
-                  cardRecommendation.isFetching
-                    ? "animate-pulse bg-slate-700"
-                    : ""
-                }`}
-                onClick={() => void cardRecommendation.refetch()}
-                disabled={cardRecommendation.isFetching}
-              >
-                Recommend
-              </button>
+              <div className="flex space-x-4">
+                <button className="button hover:bg-slate-700">
+                  <ChevronLeftIcon />
+                </button>
+
+                <button
+                  className={`button hover:bg-slate-700 ${
+                    cardRecommendation.isFetching
+                      ? "animate-pulse bg-slate-700"
+                      : ""
+                  }`}
+                  onClick={() => void cardRecommendation.refetch()}
+                  disabled={cardRecommendation.isFetching}
+                >
+                  Recommend answer
+                </button>
+
+                <button className="button hover:bg-slate-700">
+                  <ChevronRightIcon />
+                </button>
+              </div>
             </div>
 
             <Dialog.Close asChild>
@@ -116,6 +138,12 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
                 onClick={() => {
                   cardCreateMutation.mutate({
                     ...card,
+                  });
+
+                  setCard({
+                    ...card,
+                    front: "",
+                    back: "",
                   });
                 }}
               >
