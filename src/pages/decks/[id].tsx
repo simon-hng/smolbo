@@ -11,7 +11,6 @@ const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
 
   const [card, setCard] = useState<Card>();
-  const [open, setOpen] = useState(false);
 
   const learningSetQuery = api.deck.getLearningSet.useQuery(
     {
@@ -91,7 +90,6 @@ const DecksViewPage: NextPage = () => {
     setCard(cards[cardIndex]);
     setCardIndex(cardIndex + 1);
     animateCardExit(info.offset.x);
-    setOpen(false);
   };
 
   if (learningSetQuery.isFetching) {
@@ -110,7 +108,7 @@ const DecksViewPage: NextPage = () => {
       onDragEnd={dragEndHandler}
       animate={controls}
     >
-      <FlashCard card={card} open={open} setOpen={setOpen} />
+      <FlashCard key={card.id} card={card} />
     </motion.div>
   );
 };

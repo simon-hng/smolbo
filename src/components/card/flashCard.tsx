@@ -9,6 +9,7 @@ import {
 import { MarkdownRenderer } from "../markdown";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 interface FlashCardDropdownMenuProps {
   card: Card;
@@ -56,11 +57,11 @@ const FlashCardDropdownMenu = ({ card }: FlashCardDropdownMenuProps) => {
 
 interface FlashCardProps {
   card: Card;
-  open: boolean;
-  setOpen: (open: boolean) => void;
 }
 
-export const FlashCard = ({ card, open, setOpen }: FlashCardProps) => {
+export const FlashCard = ({ card }: FlashCardProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <div key={card.id} className="card relative" onClick={() => setOpen(true)}>
       <FlashCardDropdownMenu card={card} />
