@@ -12,7 +12,7 @@ import { UserAvatar } from "../userAvatar";
 export const Navigation: React.FC = () => {
   return (
     <NavigationMenu.Root>
-      <NavigationMenu.List className="flex items-center border-b-2 border-b-slate-500 px-12 py-4">
+      <NavigationMenu.List className="flex items-center border-b-2 border-b-slate-500 px-6 py-4">
         <NavigationMenu.Item asChild>
           <Link
             href="/decks"
