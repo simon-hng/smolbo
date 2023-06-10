@@ -9,9 +9,9 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   return (
     <Toast.Provider>
-      <div className="min-h-screen bg-slate-900 text-white">
+      <div className="min-h-screen max-w-full overflow-hidden bg-slate-900 text-white">
         <Navigation />
-        <main className="overflow-hidden px-6 py-8 container mx-auto">{children}</main>
+        <main className="container mx-auto px-6 py-8">{children}</main>
         <Footer />
       </div>
     </Toast.Provider>
