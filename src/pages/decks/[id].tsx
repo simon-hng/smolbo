@@ -84,8 +84,9 @@ const DecksViewPage: NextPage = () => {
     });
   };
 
+  const swipeThreshhold = 500;
   const dragEndHandler = (_event: Event, info: PanInfo) => {
-    if (Math.abs(info.offset.x) < 500 || !cards || !card) return;
+    if (Math.abs(info.offset.x) < swipeThreshhold || !cards || !card) return;
 
     const isCorrect = info.offset.x < 0;
 
@@ -96,7 +97,7 @@ const DecksViewPage: NextPage = () => {
   const x = useMotionValue(0);
   const backgroundColor = useTransform(
     x,
-    [-500, 0, 500],
+    [-swipeThreshhold, 0, swipeThreshhold],
     ["#22c55e", "#0000000", "#ef4444"]
   );
 
