@@ -1,7 +1,7 @@
 import type { Card } from "@prisma/client";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FlashCard } from "~/components/card";
 import { api } from "~/utils/api";
@@ -84,7 +84,11 @@ const DecksViewPage: NextPage = () => {
     });
   };
 
-  const swipeThreshhold = 500;
+  const [swipeThreshhold, setSwipeThreshhold] = useState(200);
+  useEffect(() => {
+    setSwipeThreshhold(window.innerWidth / 3);
+  }, []);
+
   const dragEndHandler = (_event: Event, info: PanInfo) => {
     if (Math.abs(info.offset.x) < swipeThreshhold || !cards || !card) return;
 
