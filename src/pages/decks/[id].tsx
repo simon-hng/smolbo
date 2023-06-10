@@ -5,32 +5,35 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { FlashCard } from "~/components/card";
 import { api } from "~/utils/api";
-import { type PanInfo, motion, useAnimation } from "framer-motion";
+import {
+  type PanInfo,
+  motion,
+  useAnimation,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 
 const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
-
-  const [card, setCard] = useState<Card>();
-
   const learningSetQuery = api.deck.getLearningSet.useQuery(
     {
       deckId: query.id as string,
       amount: 10,
     },
     {
+      refetchOnWindowFocus: false,
       enabled: !!query.id,
       onSuccess: (data) => setCard(data[0]),
       onError: () => toast.error("Failed to fetch cards"),
     }
   );
+  const [card, setCard] = useState<Card>();
   const cards = learningSetQuery.data;
-
   const learningSetUpdate = api.deck.updateLearningSet.useMutation();
   const [cardIndex, setCardIndex] = useState(1);
-
   const controls = useAnimation();
 
-  const updateCard = (isCorrect: boolean, card: Card) => {
+  const updateCardScore = (isCorrect: boolean, card: Card) => {
     if (isCorrect) {
       if (card.repetitions === 0) {
         card.interval = 1;
@@ -46,51 +49,65 @@ const DecksViewPage: NextPage = () => {
     }
   };
 
-  const animateCardExit = (offsetX: number, lastCard = false) => {
-    const directionFactor = offsetX < 0 ? 1 : -1;
-    void controls
-      .start({
-        x: -directionFactor * 1.25 * window.innerWidth,
-        scale: 1.2,
-      })
-      .then(() => {
-        if (!lastCard) {
-          controls.set({ x: directionFactor * window.innerWidth });
-        }
-      })
-      .then(() => {
-        if (!lastCard) {
+  const handleNextRound = (isCorrect: boolean, lastCard = false) => {
+    if (!cards) {
+      throw new Error("Function handleNextRouund Should not be callable here");
+    }
+
+    const directionFactor = isCorrect ? 1 : -1;
+
+    const setupNextRound = (prom: Promise<any>) => {
+      if (lastCard) {
+        void prom.then(() => {
+          setCard(undefined);
+          learningSetUpdate.mutate(cards);
+        });
+      }
+
+      void prom
+        .then(() => {
+          setCard(cards[cardIndex]);
+          setCardIndex(cardIndex + 1);
+
+          controls.set({
+            x: directionFactor * window.innerWidth,
+          });
+        })
+        .then(() => {
           void controls.start({
             x: 0,
             scale: 1,
+            backgroundColor: "initial",
           });
-        }
-      });
+        });
+    };
+
+    const swipeOut = controls.start({
+      x: -directionFactor * 1.25 * window.innerWidth,
+      scale: 1.2,
+      backgroundColor: isCorrect ? "green" : "red",
+    });
+
+    setupNextRound(swipeOut);
   };
 
-  const endHandler = () => {
-    if (!cards) return;
-    learningSetUpdate.mutate(cards);
-  };
-
+  const swipeThreshhold = window.innerWidth / 3;
   const dragEndHandler = (_event: Event, info: PanInfo) => {
-    const swipeThreshhold = window.innerWidth / 3;
     if (Math.abs(info.offset.x) < swipeThreshhold || !cards || !card) return;
 
     const isCorrect = info.offset.x < 0;
-    updateCard(isCorrect, card);
+    const lastCard = cardIndex >= cards.length;
 
-    if (cardIndex >= cards.length) {
-      animateCardExit(info.offset.x, true);
-      setCard(undefined);
-      endHandler();
-      return;
-    }
-
-    setCard(cards[cardIndex]);
-    setCardIndex(cardIndex + 1);
-    animateCardExit(info.offset.x);
+    updateCardScore(isCorrect, card);
+    handleNextRound(isCorrect, lastCard);
   };
+
+  const x = useMotionValue(0);
+  const backgroundColor = useTransform(
+    x,
+    [-swipeThreshhold, 0, swipeThreshhold],
+    ["#22c55e", "#0000000", "#ef4444"]
+  );
 
   if (learningSetQuery.isFetching) {
     return <div className="card skeleton h-48"></div>;
@@ -107,6 +124,8 @@ const DecksViewPage: NextPage = () => {
       whileDrag={{ scale: 1.1 }}
       onDragEnd={dragEndHandler}
       animate={controls}
+      style={{ x, backgroundColor }}
+      className="rounded"
     >
       <FlashCard key={card.id} card={card} />
     </motion.div>
