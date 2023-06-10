@@ -49,63 +49,54 @@ const DecksViewPage: NextPage = () => {
     }
   };
 
-  const handleNextRound = (isCorrect: boolean, lastCard = false) => {
+  const handleNextRound = async (isCorrect: boolean) => {
     if (!cards) {
       throw new Error("Function handleNextRouund Should not be callable here");
     }
 
+    const lastCard = cardIndex >= cards.length;
     const directionFactor = isCorrect ? 1 : -1;
 
-    const setupNextRound = (prom: Promise<any>) => {
-      if (lastCard) {
-        void prom.then(() => {
-          setCard(undefined);
-          learningSetUpdate.mutate(cards);
-        });
-      }
-
-      void prom
-        .then(() => {
-          setCard(cards[cardIndex]);
-          setCardIndex(cardIndex + 1);
-
-          controls.set({
-            x: directionFactor * window.innerWidth,
-          });
-        })
-        .then(() => {
-          void controls.start({
-            x: 0,
-            scale: 1,
-            backgroundColor: "initial",
-          });
-        });
-    };
-
-    const swipeOut = controls.start({
+    await controls.start({
       x: -directionFactor * 1.25 * window.innerWidth,
       scale: 1.2,
       backgroundColor: isCorrect ? "green" : "red",
     });
 
-    setupNextRound(swipeOut);
+    if (lastCard) {
+      setCard(undefined);
+      learningSetUpdate.mutate(cards);
+      toast.success("All cards learned, well done!");
+      return;
+    }
+
+    setCard(cards[cardIndex]);
+    setCardIndex(cardIndex + 1);
+
+    controls.set({
+      opacity: 0,
+      x: 0,
+      scale: 1,
+    });
+
+    await controls.start({
+      opacity: 1,
+    });
   };
 
-  const swipeThreshhold = window.innerWidth / 3;
   const dragEndHandler = (_event: Event, info: PanInfo) => {
-    if (Math.abs(info.offset.x) < swipeThreshhold || !cards || !card) return;
+    if (Math.abs(info.offset.x) < 500 || !cards || !card) return;
 
     const isCorrect = info.offset.x < 0;
-    const lastCard = cardIndex >= cards.length;
 
     updateCardScore(isCorrect, card);
-    handleNextRound(isCorrect, lastCard);
+    void handleNextRound(isCorrect);
   };
 
   const x = useMotionValue(0);
   const backgroundColor = useTransform(
     x,
-    [-swipeThreshhold, 0, swipeThreshhold],
+    [-500, 0, 500],
     ["#22c55e", "#0000000", "#ef4444"]
   );
 
