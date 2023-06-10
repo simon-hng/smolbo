@@ -7,8 +7,7 @@ export const DeckCarousel = () => {
   const decksQuery = api.deck.getAllForUser.useQuery();
   const deckDeleteMutation = api.deck.deleteById.useMutation({
     onSuccess: () => {
-      toast.success("Deleted deck");
-      void ctx.deck.invalidate();
+      void ctx.deck.invalidate().then(() => toast.success("Deleted deck"));
     },
     onError: () => {
       toast.error("Failed to delete deck");

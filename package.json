@@ -29,6 +29,7 @@
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
+    "clsx": "^1.2.1",
     "exponential-backoff": "^3.1.1",
     "framer-motion": "^10.12.14",
     "global": "^4.4.0",
