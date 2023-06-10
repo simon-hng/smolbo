@@ -26,7 +26,7 @@ export const DeckCreation = () => {
     <>
       <Dialog.Root>
         <Dialog.Trigger asChild>
-          <button className="button flex items-center hover:bg-slate-700">
+          <button className="button flex w-full items-center hover:bg-slate-700">
             <CardStackPlusIcon aria-hidden className="mr-2" />
             Create Deck
           </button>
