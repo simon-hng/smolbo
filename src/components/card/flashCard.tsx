@@ -74,10 +74,10 @@ interface FlashCardProps {
   card: Card;
 }
 
-export const FlashCard = ({ card }: FlashCardProps) => {
+export const FlashCard = ({ card: initialCard }: FlashCardProps) => {
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [editCard, setEditCard] = useState(card);
+  const [card, setCard] = useState(initialCard);
   const ctx = api.useContext();
 
   const cardUpdateMutation = api.card.update.useMutation({
@@ -90,7 +90,11 @@ export const FlashCard = ({ card }: FlashCardProps) => {
   });
 
   return (
-    <div key={card.id} className="card relative" onClick={() => setOpen(true)}>
+    <div
+      key={initialCard.id}
+      className="card relative"
+      onClick={() => setOpen(true)}
+    >
       <FlashCardDropdownMenu
         card={card}
         isEdit={isEdit}
@@ -99,9 +103,9 @@ export const FlashCard = ({ card }: FlashCardProps) => {
       {isEdit ? (
         <textarea
           className="textarea mt-2 h-32 w-full"
-          defaultValue={editCard.front}
+          defaultValue={card.front}
           onChange={(e) => {
-            return setEditCard({ ...editCard, front: e.target.value });
+            return setCard({ ...card, front: e.target.value });
           }}
         />
       ) : (
@@ -115,13 +119,13 @@ export const FlashCard = ({ card }: FlashCardProps) => {
           {isEdit ? (
             <textarea
               className="textarea mt-2 h-64 w-full"
-              defaultValue={editCard.back}
+              defaultValue={card.back}
               onChange={(e) => {
-                return setEditCard({ ...editCard, back: e.target.value });
+                return setCard({ ...card, back: e.target.value });
               }}
             />
           ) : (
-            <MarkdownRenderer content={editCard.back} />
+            <MarkdownRenderer content={card.back} />
           )}
         </div>
       )}
