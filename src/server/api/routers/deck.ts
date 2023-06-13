@@ -44,8 +44,14 @@ export const deckRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
+      const user = await ctx.prisma.user.findFirst({
+        where: {
+          id: ctx.session.user.id,
+        },
+      });
+
       return await ctx.prisma.card.findMany({
-        take: input.amount,
+        take: user?.maxCardsPerSession,
         orderBy: {
           interval: "asc",
         },
