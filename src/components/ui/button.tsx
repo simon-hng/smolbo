@@ -5,15 +5,13 @@ export const styles = cva(
   "rounded-full px-4 py-1 duration-200 flex items-center",
   {
     variants: {
-      intent: {
-        primary: "bg-slate-900 hover:bg-slate-700",
-        skeleton: "skeleton w-36",
-      },
       border: {
         default: "border-2 border-slate-500",
         none: "border-0",
       },
       color: {
+        skeleton: "skeleton w-36",
+        primary: "bg-slate-900 hover:bg-slate-700",
         red: "bg-red-700 hover:bg-red-500",
       },
       fullWidth: {
@@ -28,10 +26,12 @@ export const styles = cva(
 
 export interface Props
   extends VariantProps<typeof styles>,
-    Omit<ButtonOrLinkProps, "color"> {}
+    Omit<ButtonOrLinkProps, "color"> {
+  className?: string;
+}
 
-export const Button = ({ intent, color, border, ...props }: Props) => {
+export const Button = ({ color, border, className, ...props }: Props) => {
   return (
-    <ButtonOrLink className={styles({ intent, color, border })} {...props} />
+    <ButtonOrLink className={styles({ color, border, className })} {...props} />
   );
 };

@@ -27,7 +27,7 @@ export const DeckCreation = () => {
     <>
       <Dialog.Root>
         <Dialog.Trigger asChild>
-          <Button intent="primary">
+          <Button color="primary">
             <CardStackPlusIcon aria-hidden className="mr-2" />
             Create Deck
           </Button>
@@ -79,7 +79,7 @@ export const DeckCreation = () => {
               </div>
 
               <Dialog.Close asChild>
-                <Button intent="primary" onClick={saveHandler}>
+                <Button color="primary" onClick={saveHandler}>
                   save
                 </Button>
               </Dialog.Close>
@@ -91,4 +91,4 @@ export const DeckCreation = () => {
   );
 };
 
-export const DeckCreationSkeleton = () => <Button intent="skeleton" />;
+export const DeckCreationSkeleton = () => <Button color="skeleton" />;

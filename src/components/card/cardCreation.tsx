@@ -41,7 +41,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <Button intent="primary">
+        <Button color="primary">
           <PlusIcon aria-hidden className="mr-2" />
           Card
         </Button>
@@ -93,7 +93,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
               <div className="flex justify-between">
                 <div className="flex space-x-2">
                   <Button
-                    intent="primary"
+                    color="primary"
                     disabled={recI == 0}
                     onClick={() => {
                       setRecI(recI - 1);
@@ -107,7 +107,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
                   </Button>
 
                   <Button
-                    intent="primary"
+                    color="primary"
                     onClick={() => {
                       void getNewRecommendation().then((api) => {
                         setRecI(recI + 1);
@@ -123,7 +123,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
                   </Button>
 
                   <Button
-                    intent="primary"
+                    color="primary"
                     disabled={
                       recommendations.length === 0 ||
                       recI == recommendations.length - 1
@@ -142,7 +142,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
 
                 <Dialog.Close asChild>
                   <Button
-                    intent="primary"
+                    color="primary"
                     onClick={() => {
                       cardCreateMutation.mutate({
                         ...card,

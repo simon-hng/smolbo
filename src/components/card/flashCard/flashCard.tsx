@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CardView } from "./flashCardView";
 import { CardMenu } from "./flashCardMenu";
 import { CardEdit } from "./flashCardEdit";
+import { Button } from "~/components/ui/button";
 
 interface CardChatProps {
   card: Card;
@@ -14,9 +15,9 @@ const CardChat = ({ card }) => {
     <div>
       <div className="flex space-x-4">
         <input className="w-full rounded-full border-2 border-slate-500 bg-slate-900 px-4 py-2" />
-        <button className="button flex items-center rounded-full">
+        <Button color="primary">
           <PaperPlaneIcon className="mr-2" /> Send
-        </button>
+        </Button>
       </div>
     </div>
   );

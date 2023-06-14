@@ -1,6 +1,7 @@
 import type { Card } from "@prisma/client";
 import * as Separator from "@radix-ui/react-separator";
 import toast from "react-hot-toast";
+import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 
 interface Props {
@@ -39,12 +40,9 @@ export const CardEdit = ({ card, setCard }: Props) => {
         }}
       />
 
-      <button
-        className="button mt-4 hover:bg-slate-700"
-        onClick={() => cardUpdateMutation.mutate(card)}
-      >
+      <Button color="primary" onClick={() => cardUpdateMutation.mutate(card)}>
         Save
-      </button>
+      </Button>
     </>
   );
 };

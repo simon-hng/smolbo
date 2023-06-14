@@ -30,7 +30,7 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
         <div className="flex space-x-2">
           <CardCreation deck={deck} />
 
-          <Button intent="primary" href={`decks/edit/${deck.id}`}>
+          <Button color="primary" href={`decks/edit/${deck.id}`}>
             <Pencil1Icon className="mr-2" aria-hidden />
             Edit
           </Button>

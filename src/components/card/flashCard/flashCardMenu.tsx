@@ -7,6 +7,7 @@ import {
 } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import toast from "react-hot-toast";
+import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 
 interface Props {
@@ -36,26 +37,26 @@ export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
       </div>
 
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className="mt-2 space-y-2 rounded border-2 border-slate-500 bg-slate-900 p-2 text-white">
+        <DropdownMenu.Content className="mt-2 space-y-2 text-white">
           <DropdownMenu.CheckboxItem
             checked={isEdit}
             onCheckedChange={() => setIsEdit(!isEdit)}
-            className={clsx(
-              "button flex cursor-pointer items-center hover:bg-slate-700",
-              isEdit && "bg-slate-700"
-            )}
+            asChild
           >
-            <Pencil1Icon className="mr-2" aria-hidden />
-            Edit
+            <Button color="primary" fullWidth>
+              <Pencil1Icon className="mr-2" aria-hidden />
+              Edit
+            </Button>
           </DropdownMenu.CheckboxItem>
           <DropdownMenu.Item asChild>
-            <button
-              className="button flex cursor-pointer items-center bg-red-700 hover:bg-red-500"
+            <Button
+              color="red"
+              fullWidth
               onClick={() => void deleteCardMutation.mutate(card.id)}
             >
               <TrashIcon className="mr-2" aria-hidden />
               Delete
-            </button>
+            </Button>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
