@@ -11,7 +11,7 @@ export const Layout = ({ children }: LayoutProps) => {
     <Toast.Provider>
       <div className="min-h-screen max-w-full overflow-hidden bg-slate-900 text-white">
         <Navigation />
-        <main className="container mx-auto px-6 py-8">{children}</main>
+        <main>{children}</main>
         <Footer />
       </div>
     </Toast.Provider>

@@ -1,12 +1,17 @@
 import { DeckCreation, DeckCarousel } from "~/components/deck";
+import { Section } from "~/components/ui/section";
 
 export const DecksPage = () => {
   return (
-    <div className="space-y-4">
-      <h1 className="mb-8 text-4xl">Your decks</h1>
+    <div className="pt-20">
+      <Section>
+        <div className="space-y-4">
+          <h1 className="mb-8 text-4xl">Your decks</h1>
 
-      <DeckCarousel />
-      <DeckCreation />
+          <DeckCarousel />
+          <DeckCreation />
+        </div>
+      </Section>
     </div>
   );
 };

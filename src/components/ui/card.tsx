@@ -6,6 +6,7 @@ export const styles = cva(
   {
     variants: {
       color: {
+        primary: "bg-slate-900",
         skeleton: "h-40 skeleton",
       },
     },

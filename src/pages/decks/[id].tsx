@@ -13,6 +13,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { Card as CardComponent } from "~/components/ui/card";
+import { Section } from "~/components/ui/section";
 
 const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
@@ -61,7 +62,6 @@ const DecksViewPage: NextPage = () => {
     await controls.start({
       x: -directionFactor * 1.25 * window.innerWidth,
       scale: 1.2,
-      backgroundColor: isCorrect ? "green" : "red",
     });
 
     if (lastCard) {
@@ -103,28 +103,44 @@ const DecksViewPage: NextPage = () => {
   const backgroundColor = useTransform(
     x,
     [-swipeThreshhold, 0, swipeThreshhold],
-    ["#22c55e", "#0000000", "#ef4444"]
+    ["#064e3b", "#0000000", "#881337"]
   );
 
   if (learningSetQuery.isFetching) {
-    return <CardComponent color="skeleton" />;
+    return (
+      <div className="pt-20">
+        <Section>
+          <CardComponent color="skeleton" />
+        </Section>
+      </div>
+    );
   }
 
   if (!card) {
-    return <h1 className="text-center text-2xl">No more cards</h1>;
+    return (
+      <div className="pt-20">
+        <Section>
+          <h1 className="text-center text-2xl">No more cards</h1>
+        </Section>
+      </div>
+    );
   }
 
   return (
-    <motion.div
-      drag="x"
-      dragSnapToOrigin
-      whileDrag={{ scale: 1.1 }}
-      onDragEnd={dragEndHandler}
-      animate={controls}
-      style={{ x, backgroundColor }}
-      className="rounded"
-    >
-      <FlashCard key={card.id} card={card} />
+    <motion.div style={{ backgroundColor }} className="min-h-screen pt-20">
+      <Section>
+        <motion.div
+          drag="x"
+          dragSnapToOrigin
+          whileDrag={{ scale: 1.1 }}
+          onDragEnd={dragEndHandler}
+          animate={controls}
+          style={{ x }}
+          className="rounded-2xl"
+        >
+          <FlashCard key={card.id} card={card} />
+        </motion.div>
+      </Section>
     </motion.div>
   );
 };

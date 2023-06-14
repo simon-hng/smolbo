@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { CardCarousel, CardCreation } from "~/components/card";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
+import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
 const DecksEditPage: NextPage = () => {
@@ -14,42 +15,48 @@ const DecksEditPage: NextPage = () => {
 
   if (deckQuery.isLoading) {
     return (
-      <div className="space-y-8">
-        <div>
-          <h1 className="skeleton mb-2 w-80 text-4xl" />
-          <p className="skeleton w-80 animate-pulse" />
-        </div>
+      <div className="pt-20">
+        <Section className="space-y-8">
+          <div>
+            <h1 className="skeleton mb-2 w-80 text-4xl" />
+            <p className="skeleton w-80 animate-pulse" />
+          </div>
 
-        <Button color="skeleton" />
+          <Button color="skeleton" />
 
-        <div className="space-y-4">
-          <Card color="skeleton" />
-          <Card color="skeleton" />
-          <Card color="skeleton" />
-        </div>
+          <div className="space-y-4">
+            <Card color="skeleton" />
+            <Card color="skeleton" />
+            <Card color="skeleton" />
+          </div>
+        </Section>
       </div>
     );
   }
 
   if (deckQuery.error || !deckQuery.data) {
     return (
-      <div>
-        <h1 className="skeleton mb-2 w-40 text-4xl">Failed to load deck</h1>
-        <p> Deck with id {query.id} not found</p>
+      <div className="pt-20">
+        <Section>
+          <h1 className="skeleton mb-2 w-40 text-4xl">Failed to load deck</h1>
+          <p> Deck with id {query.id} not found</p>
+        </Section>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="mb-2 text-4xl">{deckQuery.data.title}</h1>
-        <p>{deckQuery.data.description}</p>
-      </div>
+    <div className="pt-20">
+      <Section className="space-y-8">
+        <div>
+          <h1 className="mb-2 text-4xl">{deckQuery.data.title}</h1>
+          <p>{deckQuery.data.description}</p>
+        </div>
 
-      <CardCreation deck={deckQuery.data} />
+        <CardCreation deck={deckQuery.data} />
 
-      <CardCarousel cards={deckQuery.data.cards} />
+        <CardCarousel cards={deckQuery.data.cards} />
+      </Section>
     </div>
   );
 };

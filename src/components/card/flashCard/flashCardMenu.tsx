@@ -38,16 +38,16 @@ export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content className="mt-2 space-y-2 text-white">
-          <DropdownMenu.CheckboxItem
-            checked={isEdit}
-            onCheckedChange={() => setIsEdit(!isEdit)}
-            asChild
-          >
-            <Button color="primary" fullWidth>
+          <DropdownMenu.Item asChild>
+            <Button
+              color="primary"
+              fullWidth
+              onClick={() => setIsEdit(!isEdit)}
+            >
               <Pencil1Icon className="mr-2" aria-hidden />
               Edit
             </Button>
-          </DropdownMenu.CheckboxItem>
+          </DropdownMenu.Item>
           <DropdownMenu.Item asChild>
             <Button
               color="red"
