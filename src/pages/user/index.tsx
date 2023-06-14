@@ -5,6 +5,7 @@ import { api } from "~/utils/api";
 import * as Slider from "@radix-ui/react-slider";
 import type { User } from "@prisma/client";
 import toast from "react-hot-toast";
+import { Button } from "~/components/ui/button";
 
 export const UserPage = () => {
   const { data: session, status } = useSession({ required: true });
@@ -94,23 +95,23 @@ export const UserPage = () => {
         </label>
 
         <div className="flex space-x-2">
-          <button
-            className="button hover:bg-slate-700"
+          <Button
+            intent="primary"
             onClick={() => {
               userMutation.mutate(user);
             }}
           >
             Save
-          </button>
+          </Button>
 
-          <button
-            className="button hover:bg-slate-700"
+          <Button
+            intent="primary"
             onClick={() => {
               void userQuery.refetch();
             }}
           >
             Reset
-          </button>
+          </Button>
         </div>
       </div>
     </div>

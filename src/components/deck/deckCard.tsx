@@ -3,6 +3,7 @@ import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { CardCreation } from "~/components/card";
 import { type RouterInputs } from "~/utils/api";
+import { Button } from "../ui/button";
 
 interface DeckCardProps {
   deck: Deck;
@@ -29,21 +30,15 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
         <div className="flex space-x-2">
           <CardCreation deck={deck} />
 
-          <Link
-            className="button flex w-full items-center text-center hover:bg-slate-700"
-            href={`decks/edit/${deck.id}`}
-          >
+          <Button intent="primary" href={`decks/edit/${deck.id}`}>
             <Pencil1Icon className="mr-2" aria-hidden />
             Edit
-          </Link>
+          </Button>
 
-          <button
-            onClick={() => deleteHandler(deck.id)}
-            className="button flex w-full items-center bg-red-700 hover:bg-red-500"
-          >
+          <Button color="red" fullWidth onClick={() => deleteHandler(deck.id)}>
             <TrashIcon className="mr-2" aria-hidden />
             Delete
-          </button>
+          </Button>
         </div>
       </div>
     </>

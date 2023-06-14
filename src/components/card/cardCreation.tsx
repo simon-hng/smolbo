@@ -10,6 +10,7 @@ import { type Deck } from "@prisma/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useCardRecommendation from "~/hooks/useCardRecommendation";
+import { Button } from "../ui/button";
 
 interface CardCreationProps {
   deck: Deck;
@@ -40,10 +41,10 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <button className="button flex w-full items-center text-center hover:bg-slate-700">
+        <Button intent="primary">
           <PlusIcon aria-hidden className="mr-2" />
           Card
-        </button>
+        </Button>
       </Dialog.Trigger>
 
       <Dialog.Portal>
@@ -89,74 +90,76 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
                 />
               </label>
 
-              <div className="flex space-x-2">
-                <button
-                  className="button hover:bg-slate-700 disabled:bg-slate-700"
-                  disabled={recI == 0}
-                  onClick={() => {
-                    setRecI(recI - 1);
-                    setCard({
-                      ...card,
-                      back: recommendations.at(recI) ?? card.back,
-                    });
-                  }}
-                >
-                  <ChevronLeftIcon />
-                </button>
+              <div className="flex justify-between">
+                <div className="flex space-x-2">
+                  <Button
+                    intent="primary"
+                    disabled={recI == 0}
+                    onClick={() => {
+                      setRecI(recI - 1);
+                      setCard({
+                        ...card,
+                        back: recommendations.at(recI) ?? card.back,
+                      });
+                    }}
+                  >
+                    <ChevronLeftIcon />
+                  </Button>
 
-                <button
-                  className="button hover:bg-slate-700 disabled:animate-pulse disabled:bg-slate-700"
-                  onClick={() => {
-                    void getNewRecommendation().then((api) => {
+                  <Button
+                    intent="primary"
+                    onClick={() => {
+                      void getNewRecommendation().then((api) => {
+                        setRecI(recI + 1);
+                        setCard({
+                          ...card,
+                          back: api.data ?? card.back,
+                        });
+                      });
+                    }}
+                    disabled={isFetching}
+                  >
+                    Recommend answer
+                  </Button>
+
+                  <Button
+                    intent="primary"
+                    disabled={
+                      recommendations.length === 0 ||
+                      recI == recommendations.length - 1
+                    }
+                    onClick={() => {
                       setRecI(recI + 1);
                       setCard({
                         ...card,
-                        back: api.data ?? card.back,
+                        back: recommendations.at(recI) ?? card.back,
                       });
-                    });
-                  }}
-                  disabled={isFetching}
-                >
-                  Recommend answer
-                </button>
+                    }}
+                  >
+                    <ChevronRightIcon />
+                  </Button>
+                </div>
 
-                <button
-                  className="button hover:bg-slate-700 disabled:bg-slate-700"
-                  disabled={
-                    recommendations.length === 0 ||
-                    recI == recommendations.length - 1
-                  }
-                  onClick={() => {
-                    setRecI(recI + 1);
-                    setCard({
-                      ...card,
-                      back: recommendations.at(recI) ?? card.back,
-                    });
-                  }}
-                >
-                  <ChevronRightIcon />
-                </button>
+                <Dialog.Close asChild>
+                  <Button
+                    intent="primary"
+                    onClick={() => {
+                      cardCreateMutation.mutate({
+                        ...card,
+                      });
+
+                      setCard({
+                        ...card,
+                        front: "",
+                        back: "",
+                      });
+                    }}
+                  >
+                    save
+                  </Button>
+                </Dialog.Close>
               </div>
             </div>
-
-            <Dialog.Close asChild>
-              <button
-                className="button hover:bg-slate-700"
-                onClick={() => {
-                  cardCreateMutation.mutate({
-                    ...card,
-                  });
-
-                  setCard({
-                    ...card,
-                    front: "",
-                    back: "",
-                  });
-                }}
-              >
-                save
-              </button>
-            </Dialog.Close>
           </div>
         </Dialog.Content>
       </Dialog.Portal>

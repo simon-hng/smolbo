@@ -2,6 +2,7 @@ import { CardStackPlusIcon, Cross2Icon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { api } from "~/utils/api";
+import { Button } from "../ui/button";
 
 export const DeckCreation = () => {
   const ctx = api.useContext();
@@ -26,10 +27,10 @@ export const DeckCreation = () => {
     <>
       <Dialog.Root>
         <Dialog.Trigger asChild>
-          <button className="button flex w-full items-center hover:bg-slate-700">
+          <Button intent="primary">
             <CardStackPlusIcon aria-hidden className="mr-2" />
             Create Deck
-          </button>
+          </Button>
         </Dialog.Trigger>
 
         <Dialog.Portal>
@@ -78,12 +79,9 @@ export const DeckCreation = () => {
               </div>
 
               <Dialog.Close asChild>
-                <button
-                  className="button hover:bg-slate-700"
-                  onClick={saveHandler}
-                >
+                <Button intent="primary" onClick={saveHandler}>
                   save
-                </button>
+                </Button>
               </Dialog.Close>
             </div>
           </Dialog.Content>
@@ -93,6 +91,4 @@ export const DeckCreation = () => {
   );
 };
 
-export const DeckCreationSkeleton = () => (
-  <button className="button skeleton w-36 border-none" />
-);
+export const DeckCreationSkeleton = () => <Button intent="skeleton" />;
