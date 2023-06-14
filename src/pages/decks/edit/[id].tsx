@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { CardCarousel, CardCreation } from "~/components/card";
+import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 
 const DecksEditPage: NextPage = () => {
@@ -18,7 +19,7 @@ const DecksEditPage: NextPage = () => {
           <p className="skeleton w-80 animate-pulse" />
         </div>
 
-        <div className="skeleton button" />
+        <Button color="skeleton" />
 
         <div className="space-y-4">
           <div className="card skeleton" />

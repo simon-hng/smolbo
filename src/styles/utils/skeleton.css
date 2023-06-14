@@ -1,4 +1,4 @@
-@layer components {
+@layer utilities {
   .skeleton {
     @apply animate-pulse border-none bg-slate-800 after:content-['\00a0'];
 

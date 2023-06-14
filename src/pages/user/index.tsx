@@ -44,9 +44,8 @@ export const UserPage = () => {
           </label>
 
           <div className="flex space-x-2">
-            <button className="button skeleton">Save</button>
-
-            <button className="button skeleton">Reset</button>
+            <Button color="skeleton" />
+            <Button color="skeleton" />
           </div>
         </div>
       </div>

@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -13,10 +12,6 @@ const Home: NextPage = () => {
 
       <div className="flex flex-col">
         <h1 className="mb-8 text-4xl">Home</h1>
-
-        <Link className="button hover:bg-slate-700" href="/decks/">
-          Browse cards
-        </Link>
       </div>
     </>
   );
