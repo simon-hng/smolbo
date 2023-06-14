@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CardCreation } from "~/components/card";
 import { type RouterInputs } from "~/utils/api";
 import { Button } from "../ui/button";
+import { Card } from "../ui/card";
 
 interface DeckCardProps {
   deck: Deck;
@@ -19,7 +20,7 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
 
   return (
     <>
-      <div className="card w-full flex-shrink-0">
+      <Card>
         <Link href={`/decks/${deck.id}`}>
           <div className="mb-4">
             <h2 className="mb-2 text-2xl">{deck.title}</h2>
@@ -40,11 +41,9 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
             Delete
           </Button>
         </div>
-      </div>
+      </Card>
     </>
   );
 };
 
-export const DeckCardSkeleton = () => (
-  <div className="card skeleton h-40 w-full"></div>
-);
+export const DeckCardSkeleton = () => <Card color="skeleton" />;

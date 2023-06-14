@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { CardCarousel, CardCreation } from "~/components/card";
 import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 import { api } from "~/utils/api";
 
 const DecksEditPage: NextPage = () => {
@@ -22,9 +23,9 @@ const DecksEditPage: NextPage = () => {
         <Button color="skeleton" />
 
         <div className="space-y-4">
-          <div className="card skeleton" />
-          <div className="card skeleton" />
-          <div className="card skeleton" />
+          <Card color="skeleton" />
+          <Card color="skeleton" />
+          <Card color="skeleton" />
         </div>
       </div>
     );

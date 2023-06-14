@@ -12,6 +12,7 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
+import { Card as CardComponent } from "~/components/ui/card";
 
 const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
@@ -106,7 +107,7 @@ const DecksViewPage: NextPage = () => {
   );
 
   if (learningSetQuery.isFetching) {
-    return <div className="card skeleton h-48"></div>;
+    return <CardComponent color="skeleton" />;
   }
 
   if (!card) {

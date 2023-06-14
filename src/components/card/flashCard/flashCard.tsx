@@ -5,6 +5,7 @@ import { CardView } from "./flashCardView";
 import { CardMenu } from "./flashCardMenu";
 import { CardEdit } from "./flashCardEdit";
 import { Button } from "~/components/ui/button";
+import { Card as CardComponent } from "~/components/ui/card";
 
 interface CardChatProps {
   card: Card;
@@ -34,7 +35,7 @@ export const FlashCard = ({ card: initialCard }: FlashCardProps) => {
 
   return (
     <div key={initialCard.id} className="space-y-8">
-      <div className="card" onClick={() => setOpen(true)}>
+      <CardComponent onClick={() => setOpen(true)}>
         <CardMenu card={card} isEdit={isEdit} setIsEdit={setIsEdit} />
 
         {isEdit ? (
@@ -42,7 +43,7 @@ export const FlashCard = ({ card: initialCard }: FlashCardProps) => {
         ) : (
           <CardView card={card} open={open} />
         )}
-      </div>
+      </CardComponent>
       {open && <CardChat card={card} />}
     </div>
   );

@@ -1,5 +1,0 @@
-@layer components {
-  .card {
-    @apply rounded border-2 border-slate-500 p-4 duration-200;
-  }
-}
