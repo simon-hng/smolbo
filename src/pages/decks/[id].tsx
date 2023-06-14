@@ -136,7 +136,6 @@ const DecksViewPage: NextPage = () => {
           onDragEnd={dragEndHandler}
           animate={controls}
           style={{ x }}
-          className="rounded-2xl"
         >
           <FlashCard key={card.id} card={card} />
         </motion.div>
