@@ -32,9 +32,9 @@ model Card {
   back        String
   deckId      String
   deck        Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
   interval    Int      @default(1)
   repetitions Int      @default(0)
+  dueDate     DateTime @default(now())
 }
 
 // Necessary for Next auth

@@ -40,7 +40,6 @@ export const deckRouter = createTRPCRouter({
     .input(
       z.object({
         deckId: z.string(),
-        amount: z.number().int(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -52,11 +51,11 @@ export const deckRouter = createTRPCRouter({
 
       return await ctx.prisma.card.findMany({
         take: user?.maxCardsPerSession,
-        orderBy: {
-          interval: "asc",
-        },
         where: {
           deckId: input.deckId,
+          dueDate: {
+            lt: new Date()
+          }
         },
       });
     }),
