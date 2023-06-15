@@ -1,9 +1,7 @@
 import { type Deck } from "@prisma/client";
-import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { CardCreation } from "~/components/card";
 import { type RouterInputs } from "~/utils/api";
-import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 
 interface DeckCardProps {
@@ -22,7 +20,7 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
     <>
       <Card padding="none">
         <Link href={`/decks/${deck.id}`}>
-          <div className="mb-4 p-4">
+          <div className="p-4">
             <h2 className="mb-2 text-2xl">{deck.title}</h2>
             <p>{deck.description}</p>
           </div>
