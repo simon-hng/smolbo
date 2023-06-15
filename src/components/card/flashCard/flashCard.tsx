@@ -11,23 +11,23 @@ interface Props {
 }
 
 export const FlashCard = ({ card: initialCard }: Props) => {
-  const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [card, setCard] = useState(initialCard);
 
   return (
     <div key={initialCard.id}>
-      <CardComponent color="glass" onClick={() => setOpen(true)}>
+      <CardComponent color="glass">
         <CardMenu card={card} isEdit={isEdit} setIsEdit={setIsEdit} />
 
         {isEdit ? (
           <CardEdit card={card} setCard={setCard} />
         ) : (
-          <CardView card={card} open={open} />
+          <CardView card={card} />
         )}
       </CardComponent>
 
-      {open && <CardChat card={card} className="mt-4" />}
+      {isChatOpen && <CardChat card={card} className="mt-4" />}
     </div>
   );
 };
