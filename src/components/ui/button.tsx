@@ -15,7 +15,8 @@ export const styles = cva(
         red: "bg-red-700",
       },
       fullWidth: {
-        true: "w-full bg-green-500",
+        true: "w-full",
+        false: "w-max",
       },
     },
     defaultVariants: {

@@ -12,10 +12,13 @@ import {
 import { Card as CardComponent } from "~/components/ui/card";
 import { Section } from "~/components/ui/section";
 import { useScheduler } from "~/hooks/useScheduler";
+import { Button } from "~/components/ui/button";
 
 const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
-  const { cards, isFetching, reviewCard } = useScheduler(query.id as string);
+  const { cards, isFetching, reviewCard, reviewedCards } = useScheduler(
+    query.id as string
+  );
   const controls = useAnimation();
 
   const handleNextRound = async (isCorrect: boolean) => {
@@ -91,8 +94,18 @@ const DecksViewPage: NextPage = () => {
 
   return (
     <div className="pt-20">
-      <Section>
-        <h1 className="text-center text-2xl">No more cards</h1>
+      <Section className="space-y-4">
+        <h1 className="mb-8 text-4xl">Session Overview</h1>
+
+        <div className="space-y-4">
+          {reviewedCards.map((card) => (
+            <FlashCard key={card.id} card={card} />
+          ))}
+        </div>
+
+        <Button href="/decks" fullWidth={false}>
+          Back to deck overview
+        </Button>
       </Section>
     </div>
   );

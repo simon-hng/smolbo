@@ -5,9 +5,14 @@ import { api } from "~/utils/api";
 
 export const useScheduler = (deckId?: string) => {
   const [cardsToBeReviewed, setCardsToBeReviewed] = useState<Card[]>([]);
-  let reviewedCards: Card[] = [];
+  const [reviewedCards, setReviewedCards] = useState<Card[]>([]);
 
-  const learningSetUpdate = api.deck.updateLearningSet.useMutation();
+  const learningSetUpdate = api.deck.updateLearningSet.useMutation({
+    onError: () => {
+      toast.error("Failed to update card progress");
+    },
+  });
+
   const { isFetching } = api.deck.getLearningSet.useQuery(
     { deckId: deckId as string },
     {
@@ -37,23 +42,21 @@ export const useScheduler = (deckId?: string) => {
         currentDate.getTime() + card.interval * 24 * 60 * 60 * 1000
       );
 
-      reviewedCards = [...reviewedCards, card];
       setCardsToBeReviewed(remainingCards);
+
+      setReviewedCards([...reviewedCards, card]);
+      learningSetUpdate.mutate([card]);
     } else {
       card.interval = 1;
       card.repetitions = 0;
 
       setCardsToBeReviewed([...remainingCards, card]);
     }
-
-    if (!cardsToBeReviewed.length) {
-      toast.success("All cards learned, well done!");
-      learningSetUpdate.mutate(reviewedCards);
-    }
   };
 
   return {
     reviewCard,
+    reviewedCards,
     cards: cardsToBeReviewed,
     isFetching,
   };
