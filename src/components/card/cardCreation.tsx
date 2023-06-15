@@ -14,15 +14,23 @@ import { Button } from "../ui/button";
 
 interface CardCreationProps {
   deck: Deck;
+  children?: React.ReactNode;
 }
 
-export const CardCreation = ({ deck }: CardCreationProps) => {
+export const CardCreation = ({ deck, children }: CardCreationProps) => {
   const ctx = api.useContext();
   const [card, setCard] = useState({
     front: "",
     back: "",
     deckId: deck.id,
   });
+
+  const trigger = children ?? (
+    <Button color="primary">
+      <PlusIcon aria-hidden className="mr-2" />
+      Card
+    </Button>
+  );
 
   const cardCreateMutation = api.card.create.useMutation({
     onSuccess: () => {
@@ -40,12 +48,7 @@ export const CardCreation = ({ deck }: CardCreationProps) => {
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <Button color="primary">
-          <PlusIcon aria-hidden className="mr-2" />
-          Card
-        </Button>
-      </Dialog.Trigger>
+      <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
 
       <Dialog.Portal>
         <Dialog.Overlay className="dialog-overlay" />

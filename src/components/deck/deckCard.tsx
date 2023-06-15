@@ -20,26 +20,32 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
 
   return (
     <>
-      <Card>
+      <Card padding="none">
         <Link href={`/decks/${deck.id}`}>
-          <div className="mb-4">
+          <div className="mb-4 p-4">
             <h2 className="mb-2 text-2xl">{deck.title}</h2>
             <p>{deck.description}</p>
           </div>
         </Link>
 
-        <div className="flex space-x-2">
-          <CardCreation deck={deck} />
+        <div className="flex divide-x divide-slate-500 border-t-2 border-slate-500">
+          <CardCreation deck={deck}>
+            <button className="w-full p-2 text-center">Add card</button>
+          </CardCreation>
 
-          <Button color="primary" href={`decks/edit/${deck.id}`}>
-            <Pencil1Icon className="mr-2" aria-hidden />
+          <Link
+            className="w-full p-2 text-center"
+            href={`decks/edit/${deck.id}`}
+          >
             Edit
-          </Button>
+          </Link>
 
-          <Button color="red" fullWidth onClick={() => deleteHandler(deck.id)}>
-            <TrashIcon className="mr-2" aria-hidden />
+          <button
+            className="w-full bg-red-900 p-2 text-center "
+            onClick={() => deleteHandler(deck.id)}
+          >
             Delete
-          </Button>
+          </button>
         </div>
       </Card>
     </>

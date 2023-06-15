@@ -30,8 +30,17 @@ export interface Props
   className?: string;
 }
 
-export const Button = ({ color, border, className, ...props }: Props) => {
+export const Button = ({
+  color,
+  border,
+  fullWidth,
+  className,
+  ...props
+}: Props) => {
   return (
-    <ButtonOrLink className={styles({ color, border, className })} {...props} />
+    <ButtonOrLink
+      className={styles({ color, border, fullWidth, className })}
+      {...props}
+    />
   );
 };
