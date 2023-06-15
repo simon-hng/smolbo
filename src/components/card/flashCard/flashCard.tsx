@@ -17,7 +17,7 @@ export const FlashCard = ({ card: initialCard }: Props) => {
 
   return (
     <div key={initialCard.id}>
-      <CardComponent color="primary" onClick={() => setOpen(true)}>
+      <CardComponent color="glass" onClick={() => setOpen(true)}>
         <CardMenu card={card} isEdit={isEdit} setIsEdit={setIsEdit} />
 
         {isEdit ? (

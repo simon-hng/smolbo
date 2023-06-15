@@ -8,6 +8,7 @@ export const styles = cva(
       color: {
         primary: "bg-slate-900",
         skeleton: "h-40 skeleton",
+        glass: "backdrop-blur-lg bg-slate-900/50",
       },
     },
   }

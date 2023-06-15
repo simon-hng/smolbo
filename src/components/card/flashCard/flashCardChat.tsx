@@ -17,11 +17,11 @@ export const CardChat = ({ card, className }: Props) => {
         <input
           value={question}
           onChange={(event) => setQuestion(event.target.value)}
-          className="w-full rounded-full border-2 border-slate-500 bg-slate-900 px-4 py-2"
+          className="w-full rounded-full border-2 border-slate-500 bg-slate-900/50 px-4 py-2 backdrop-blur-lg"
           placeholder="Ask me anything!"
         />
 
-        <Button color="primary">
+        <Button className="bg-slate-900/50 backdrop-blur-lg">
           <PaperPlaneIcon className="mr-2" /> Send
         </Button>
       </div>
