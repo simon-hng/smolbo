@@ -13,6 +13,7 @@ import { Card as CardComponent } from "~/components/ui/card";
 import { Section } from "~/components/ui/section";
 import { useScheduler } from "~/hooks/useScheduler";
 import { Button } from "~/components/ui/button";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 
 const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
@@ -104,7 +105,8 @@ const DecksViewPage: NextPage = () => {
         </div>
 
         <Button href="/decks" fullWidth={false}>
-          Back to deck overview
+          <ArrowLeftIcon aria-hidden className="mr-2" />
+          To deck overview
         </Button>
       </Section>
     </div>
