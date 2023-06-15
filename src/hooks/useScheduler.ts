@@ -7,7 +7,7 @@ export const useScheduler = (deckId?: string) => {
   const [cardsToBeReviewed, setCardsToBeReviewed] = useState<Card[]>([]);
   const [reviewedCards, setReviewedCards] = useState<Card[]>([]);
 
-  const learningSetUpdate = api.deck.updateLearningSet.useMutation({
+  const cardMutation = api.card.update.useMutation({
     onError: () => {
       toast.error("Failed to update card progress");
     },
@@ -45,7 +45,7 @@ export const useScheduler = (deckId?: string) => {
       setCardsToBeReviewed(remainingCards);
 
       setReviewedCards([...reviewedCards, card]);
-      learningSetUpdate.mutate([card]);
+      cardMutation.mutate(card);
     } else {
       card.interval = 1;
       card.repetitions = 0;

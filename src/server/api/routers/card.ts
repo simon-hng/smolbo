@@ -25,21 +25,32 @@ export const cardRouter = createTRPCRouter({
       });
     }),
 
-  update: publicProcedure
+  update: protectedProcedure
     .input(
       z.object({
         id: z.string(),
         front: z.string(),
         back: z.string(),
+        interval: z.number(),
+        repetitions: z.number(),
+        dueDate: z.date(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.card.update({
-        where: {
-          id: input.id,
-        },
-        data: input,
-      });
+      await ctx.prisma.card
+        .update({
+          where: {
+            id: input.id,
+          },
+          data: input,
+        })
+        .catch((error) => {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: `Failed to update card ${input.id}`,
+            cause: error,
+          });
+        });
     }),
 
   getById: publicProcedure.input(z.string()).query(({ ctx, input }) => {
@@ -102,7 +113,8 @@ export const cardRouter = createTRPCRouter({
         .catch((e) => {
           throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
-            message: "Failed to get OpenAI response. Maybe the api did some weird shit again",
+            message:
+              "Failed to get OpenAI response. Maybe the api did some weird shit again",
             cause: e,
           });
         });

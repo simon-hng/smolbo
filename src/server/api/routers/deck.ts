@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
-import { TRPCError } from "@trpc/server";
 
 export const deckRouter = createTRPCRouter({
   create: protectedProcedure
@@ -54,38 +53,9 @@ export const deckRouter = createTRPCRouter({
         where: {
           deckId: input.deckId,
           dueDate: {
-            lt: new Date()
-          }
+            lt: new Date(),
+          },
         },
-      });
-    }),
-
-  updateLearningSet: protectedProcedure
-    .input(
-      z.array(
-        z.object({
-          id: z.string(),
-          front: z.string(),
-          back: z.string(),
-          interval: z.number(),
-          repetitions: z.number(),
-        })
-      )
-    )
-    .mutation(({ ctx, input }) => {
-      input.forEach((card) => {
-        ctx.prisma.card
-          .update({
-            where: { id: card.id },
-            data: card,
-          })
-          .catch((error) => {
-            throw new TRPCError({
-              code: "INTERNAL_SERVER_ERROR",
-              message: `Failed to update card ${card.id}`,
-              cause: error,
-            });
-          });
       });
     }),
 
