@@ -5,7 +5,6 @@ import {
   Pencil1Icon,
   TrashIcon,
 } from "@radix-ui/react-icons";
-import clsx from "clsx";
 import toast from "react-hot-toast";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
