@@ -3,6 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { Button } from "../ui/button";
+import { Card } from "../ui/card";
 
 export const DeckCreation = () => {
   const ctx = api.useContext();
@@ -34,16 +35,16 @@ export const DeckCreation = () => {
         </Dialog.Trigger>
 
         <Dialog.Portal>
-          <Dialog.Overlay className="dialog-overlay" />
-          <Dialog.Content className="dialog-content">
-            <div className="dialog-content-wrapper">
+          <Dialog.Overlay className="fixed inset-0 bg-slate-900/50 backdrop-blur-lg" />
+          <Dialog.Content className="fixed-center container mx-auto">
+            <Card color="primary">
               <div>
                 <div className="flex flex-row justify-between">
                   <Dialog.Title className="mb-2 text-2xl">
                     Create a new deck
                   </Dialog.Title>
 
-                  <Dialog.Close className="dialog-close">
+                  <Dialog.Close className="flex h-8 w-8 items-center justify-center rounded-full p-1 duration-200 hover:bg-slate-800">
                     <Cross2Icon />
                   </Dialog.Close>
                 </div>
@@ -83,7 +84,7 @@ export const DeckCreation = () => {
                   save
                 </Button>
               </Dialog.Close>
-            </div>
+            </Card>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
