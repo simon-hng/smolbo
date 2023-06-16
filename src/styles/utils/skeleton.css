@@ -1,9 +1,5 @@
 @layer utilities {
   .skeleton {
-    @apply animate-pulse border-none bg-slate-800 after:content-['\00a0'];
-
-    &:hover {
-      @apply border-none;
-    }
+    @apply animate-pulse bg-slate-800 after:content-['\00a0'];
   }
 }

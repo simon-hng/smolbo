@@ -93,6 +93,7 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
               <label className="flex flex-col">
                 Card front
                 <Editor
+                  options={{ wordWrap: "on" }}
                   height="10rem"
                   defaultLanguage="Markdown"
                   theme="default"
@@ -106,6 +107,7 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
               <label className="flex flex-col">
                 Card back - Answer
                 <Editor
+                  options={{ wordWrap: "on" }}
                   height="10rem"
                   defaultLanguage="markdown"
                   theme="default"
