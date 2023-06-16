@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 
 const useCardRecommendation = (deckId: string, front: string) => {
+  const [index, setIndex] = useState(0);
   const [recommendations, setRecommendations] = useState<string[]>([]);
   const cardRecommendation = api.card.getBackRecommendation.useQuery(
     { deckId, front },
@@ -12,7 +13,7 @@ const useCardRecommendation = (deckId: string, front: string) => {
       onSuccess: (data) => {
         const message = data;
 
-        setRecommendations([...recommendations, message]);
+        setRecommendations([message, ...recommendations]);
       },
       onError: () => {
         toast.error("failed to get recommendation");
@@ -20,9 +21,29 @@ const useCardRecommendation = (deckId: string, front: string) => {
     }
   );
 
+  const nextRecommendation = () => {
+    let next = index - 1;
+    if (next < 0) {
+      next = recommendations.length - 1;
+    }
+    setIndex(next);
+    return recommendations[next];
+  };
+
+  const prevRecommendation = () => {
+    let prev = index + 1;
+    if (prev >= recommendations.length) {
+      prev = 0;
+    }
+    setIndex(prev);
+    return recommendations[prev];
+  };
+
   return {
     getNewRecommendation: cardRecommendation.refetch,
-    recommendations: recommendations,
+    recommendation: recommendations[index],
+    nextRecommendation,
+    prevRecommendation,
     isFetching: cardRecommendation.isFetching,
   };
 };

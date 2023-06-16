@@ -45,9 +45,12 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
     },
   });
 
-  const { getNewRecommendation, recommendations, isFetching } =
-    useCardRecommendation(deck.id, card.front);
-  const [recI, setRecI] = useState(0);
+  const {
+    getNewRecommendation,
+    prevRecommendation,
+    nextRecommendation,
+    isFetching,
+  } = useCardRecommendation(deck.id, card.front);
 
   const fullConfig = resolveConfig(tailwindConfig);
 
@@ -91,9 +94,9 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                 Card front
                 <Editor
                   height="10rem"
-                  defaultLanguage="markdown"
+                  defaultLanguage="Markdown"
                   theme="default"
-                  defaultValue={card.front}
+                  value={card.front}
                   onChange={(value) => {
                     return setCard({ ...card, front: value ?? "" });
                   }}
@@ -106,7 +109,7 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                   height="10rem"
                   defaultLanguage="markdown"
                   theme="default"
-                  defaultValue={card.back}
+                  value={card.back}
                   onChange={(value) => {
                     return setCard({ ...card, back: value ?? "" });
                   }}
@@ -119,12 +122,10 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                     border="none"
                     color="primary"
                     className="rounded-none pr-2"
-                    disabled={recI == 0}
                     onClick={() => {
-                      setRecI(recI - 1);
                       setCard({
                         ...card,
-                        back: recommendations.at(recI) ?? card.back,
+                        back: prevRecommendation() ?? card.back,
                       });
                     }}
                   >
@@ -134,13 +135,12 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                   <Button
                     border="none"
                     color="primary"
-                    className="rounded-none"
+                    className={`rounded-none ${isFetching ? "skeleton" : ""}`}
                     onClick={() => {
-                      void getNewRecommendation().then((api) => {
-                        setRecI(recI + 1);
+                      void getNewRecommendation().then((message) => {
                         setCard({
                           ...card,
-                          back: api.data ?? card.back,
+                          back: message.data ?? card.back,
                         });
                       });
                     }}
@@ -153,15 +153,10 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                     border="none"
                     color="primary"
                     className="rounded-none pl-2"
-                    disabled={
-                      recommendations.length === 0 ||
-                      recI == recommendations.length - 1
-                    }
                     onClick={() => {
-                      setRecI(recI + 1);
                       setCard({
                         ...card,
-                        back: recommendations.at(recI) ?? card.back,
+                        back: nextRecommendation() ?? card.back,
                       });
                     }}
                   >
