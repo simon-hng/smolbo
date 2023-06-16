@@ -6,7 +6,7 @@ export const styles = cva(
   {
     variants: {
       color: {
-        primary: "bg-slate-900",
+        primary: "bg-slate-900 text-white",
         skeleton: "h-40 skeleton",
         glass: "backdrop-blur-lg bg-slate-900/50",
       },

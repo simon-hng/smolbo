@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import { Editor, useMonaco } from "@monaco-editor/react";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "tailwind.config";
+import { Card } from "@ui/card";
 
 interface CardCreationProps {
   deck: Deck;
@@ -70,16 +71,16 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
       <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="dialog-overlay" />
-        <Dialog.Content className="dialog-content">
-          <div className="dialog-content-wrapper">
-            <div>
+        <Dialog.Overlay className="fixed inset-0 bg-slate-900/50 backdrop-blur-lg" />
+        <Dialog.Content className="fixed-center container mx-auto">
+          <Card color="primary">
+            <div className="mb-4">
               <div className="flex flex-row justify-between">
                 <Dialog.Title className="mb-2 text-2xl">
                   Create a new card
                 </Dialog.Title>
 
-                <Dialog.Close className="dialog-close">
+                <Dialog.Close className="flex h-8 w-8 items-center justify-center rounded-full p-1 duration-200 hover:bg-slate-800">
                   <Cross2Icon />
                 </Dialog.Close>
               </div>
@@ -93,7 +94,7 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
               <label className="flex flex-col">
                 Card front
                 <Editor
-                  options={{ wordWrap: "on" }}
+                  options={{ wordWrap: "on", minimap: { autohide: true } }}
                   height="10rem"
                   defaultLanguage="Markdown"
                   theme="default"
@@ -107,7 +108,7 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
               <label className="flex flex-col">
                 Card back - Answer
                 <Editor
-                  options={{ wordWrap: "on" }}
+                  options={{ wordWrap: "on", minimap: { autohide: true } }}
                   height="10rem"
                   defaultLanguage="markdown"
                   theme="default"
@@ -186,7 +187,7 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                 </Dialog.Close>
               </div>
             </div>
-          </div>
+          </Card>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
