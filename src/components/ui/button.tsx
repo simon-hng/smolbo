@@ -2,7 +2,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { ButtonOrLink, type Props as ButtonOrLinkProps } from "./buttonOrLink";
 
 export const styles = cva(
-  "rounded-full px-4 py-1 duration-500 flex items-center hover:scale-110",
+  "rounded-full px-4 py-1 duration-500 flex items-center",
   {
     variants: {
       border: {

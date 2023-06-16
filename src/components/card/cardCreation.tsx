@@ -6,11 +6,14 @@ import {
 } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { api } from "~/utils/api";
-import { type Deck } from "@prisma/client";
+import type { Deck } from "@prisma/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useCardRecommendation from "~/hooks/useCardRecommendation";
 import { Button } from "../ui/button";
+import { Editor, useMonaco } from "@monaco-editor/react";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "tailwind.config";
 
 interface CardCreationProps {
   deck: Deck;
@@ -46,6 +49,19 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
     useCardRecommendation(deck.id, card.front);
   const [recI, setRecI] = useState(0);
 
+  const fullConfig = resolveConfig(tailwindConfig);
+
+  const monaco = useMonaco();
+  monaco?.editor.defineTheme("default", {
+    base: "vs-dark",
+    inherit: false,
+    rules: [],
+    colors: {
+      "editor.foreground": fullConfig.theme.color.foreground,
+      "editor.background": fullConfig.theme.color.background,
+    },
+  });
+
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
@@ -72,31 +88,37 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
 
             <div className="flex flex-col space-y-4">
               <label className="flex flex-col">
-                Card front - Question
-                <textarea
-                  className="textarea mt-2 h-32"
+                Card front
+                <Editor
+                  height="10rem"
+                  defaultLanguage="markdown"
+                  theme="default"
                   defaultValue={card.front}
-                  onChange={(e) => {
-                    return setCard({ ...card, front: e.target.value });
+                  onChange={(value) => {
+                    return setCard({ ...card, front: value ?? "" });
                   }}
                 />
               </label>
 
               <label className="flex flex-col">
                 Card back - Answer
-                <textarea
-                  className="textarea mt-2 h-64"
+                <Editor
+                  height="10rem"
+                  defaultLanguage="markdown"
+                  theme="default"
                   defaultValue={card.back}
-                  onChange={(e) => {
-                    return setCard({ ...card, back: e.target.value });
+                  onChange={(value) => {
+                    return setCard({ ...card, back: value ?? "" });
                   }}
                 />
               </label>
 
               <div className="flex justify-between">
-                <div className="flex space-x-2">
+                <div className="flex divide-x-2 divide-slate-500 overflow-hidden rounded-full border-2 border-slate-500">
                   <Button
+                    border="none"
                     color="primary"
+                    className="rounded-none pr-2"
                     disabled={recI == 0}
                     onClick={() => {
                       setRecI(recI - 1);
@@ -110,7 +132,9 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                   </Button>
 
                   <Button
+                    border="none"
                     color="primary"
+                    className="rounded-none"
                     onClick={() => {
                       void getNewRecommendation().then((api) => {
                         setRecI(recI + 1);
@@ -126,7 +150,9 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                   </Button>
 
                   <Button
+                    border="none"
                     color="primary"
+                    className="rounded-none pl-2"
                     disabled={
                       recommendations.length === 0 ||
                       recI == recommendations.length - 1
