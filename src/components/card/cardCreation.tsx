@@ -11,10 +11,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import useCardRecommendation from "~/hooks/useCardRecommendation";
 import { Button } from "../ui/button";
-import { Editor, useMonaco } from "@monaco-editor/react";
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "tailwind.config";
 import { Card } from "@ui/card";
+import { Editor } from "../ui/editor";
 
 interface CardCreationProps {
   deck: Deck;
@@ -53,19 +51,6 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
     isFetching,
   } = useCardRecommendation(deck.id, card.front);
 
-  const fullConfig = resolveConfig(tailwindConfig);
-
-  const monaco = useMonaco();
-  monaco?.editor.defineTheme("default", {
-    base: "vs-dark",
-    inherit: false,
-    rules: [],
-    colors: {
-      "editor.foreground": fullConfig.theme.color.foreground,
-      "editor.background": fullConfig.theme.color.background,
-    },
-  });
-
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
@@ -96,8 +81,6 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                 <Editor
                   options={{ wordWrap: "on", minimap: { autohide: true } }}
                   height="10rem"
-                  defaultLanguage="Markdown"
-                  theme="default"
                   value={card.front}
                   onChange={(value) => {
                     return setCard({ ...card, front: value ?? "" });
@@ -111,8 +94,6 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                   options={{ wordWrap: "on", minimap: { autohide: true } }}
                   height="10rem"
                   defaultLanguage="markdown"
-                  theme="default"
-                  value={card.back}
                   onChange={(value) => {
                     return setCard({ ...card, back: value ?? "" });
                   }}

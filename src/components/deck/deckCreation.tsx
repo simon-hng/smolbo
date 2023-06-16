@@ -4,6 +4,7 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
+import { Editor } from "../ui/editor";
 
 export const DeckCreation = () => {
   const ctx = api.useContext();
@@ -57,33 +58,39 @@ export const DeckCreation = () => {
               <div className="flex flex-col space-y-4">
                 <label className="flex flex-col">
                   Deck title
-                  <input
-                    type="text"
-                    className="textarea mt-2"
+                  <Editor
+                    options={{ wordWrap: "on", minimap: { autohide: true } }}
+                    height="10rem"
                     value={deck.title}
-                    onChange={(e) => {
-                      return setDeck({ ...deck, title: e.target.value });
+                    onChange={(value) => {
+                      return setDeck({ ...deck, title: value ?? deck.title });
                     }}
                   />
                 </label>
 
                 <label className="flex flex-col">
                   Deck description
-                  <textarea
-                    className="textarea mt-2"
-                    defaultValue={deck.description}
-                    onChange={(e) => {
-                      return setDeck({ ...deck, description: e.target.value });
+                  <Editor
+                    options={{ wordWrap: "on", minimap: { autohide: true } }}
+                    height="10rem"
+                    value={deck.description}
+                    onChange={(value) => {
+                      return setDeck({
+                        ...deck,
+                        description: value ?? deck.description,
+                      });
                     }}
                   />
                 </label>
-              </div>
 
-              <Dialog.Close asChild>
-                <Button color="primary" onClick={saveHandler}>
-                  save
-                </Button>
-              </Dialog.Close>
+                <div>
+                  <Dialog.Close asChild>
+                    <Button color="primary" onClick={saveHandler}>
+                      save
+                    </Button>
+                  </Dialog.Close>
+                </div>
+              </div>
             </Card>
           </Dialog.Content>
         </Dialog.Portal>
