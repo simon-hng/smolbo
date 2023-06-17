@@ -26,7 +26,7 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
           </div>
         </Link>
 
-        <div className="flex divide-x divide-slate-500 border-t-2 border-slate-500">
+        <div className="flex divide-x-2 divide-slate-500 border-t-2 border-slate-500">
           <CardCreation deck={deck}>
             <button className="w-full p-2 text-center">Add card</button>
           </CardCreation>
