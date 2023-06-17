@@ -130,7 +130,7 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                     }}
                     disabled={isFetching}
                   >
-                    Recommend answer
+                    Recommend
                   </Button>
 
                   <Button

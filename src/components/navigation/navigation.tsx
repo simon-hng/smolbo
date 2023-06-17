@@ -12,7 +12,7 @@ import { Button } from "@ui/button";
 export const Navigation: React.FC = () => {
   return (
     <NavigationMenu.Root>
-      <NavigationMenu.List className="absolute z-50 flex w-full items-center px-6 py-4 backdrop-blur-lg">
+      <NavigationMenu.List className="absolute z-50 flex w-full items-center px-6 py-4">
         <NavigationMenu.Item asChild>
           <Button href="/decks" border="none">
             <CardStackIcon className="mr-2" aria-hidden />
