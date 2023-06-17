@@ -37,7 +37,7 @@ export const DeckCreation = () => {
 
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-slate-900/50 backdrop-blur-lg" />
-          <Dialog.Content className="fixed-center container mx-auto">
+          <Dialog.Content className="fixed-center container mx-auto p-8">
             <Card color="primary">
               <div>
                 <div className="flex flex-row justify-between">
