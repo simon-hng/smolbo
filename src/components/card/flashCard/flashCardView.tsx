@@ -1,18 +1,19 @@
 import type { Card } from "@prisma/client";
 import * as Separator from "@radix-ui/react-separator";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { MarkdownRenderer } from "~/components/markdown";
 
 export interface Props {
   card: Card;
+  openState?: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
-export const CardView = ({ card }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const CardView = ({ card, openState }: Props) => {
+  const [isOpen, setIsOpen] = openState ?? useState(false);
 
   return (
-    <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer h-full">
+    <div onClick={() => setIsOpen(!isOpen)} className="h-full cursor-pointer">
       <MarkdownRenderer content={card.front} />
 
       {isOpen && (

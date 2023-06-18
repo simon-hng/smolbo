@@ -1,5 +1,5 @@
 import type { Card } from "@prisma/client";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { CardView } from "./flashCardView";
 import { CardMenu } from "./flashCardMenu";
 import { CardEdit } from "./flashCardEdit";
@@ -8,9 +8,14 @@ import { Card as CardComponent } from "~/components/ui/card";
 interface Props {
   card: Card;
   className?: string;
+  openState?: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
-export const FlashCard = ({ className, card: initialCard }: Props) => {
+export const FlashCard = ({
+  className,
+  openState,
+  card: initialCard,
+}: Props) => {
   const [isEdit, setIsEdit] = useState(false);
   const [card, setCard] = useState(initialCard);
 
@@ -21,7 +26,7 @@ export const FlashCard = ({ className, card: initialCard }: Props) => {
       {isEdit ? (
         <CardEdit card={card} setCard={setCard} />
       ) : (
-        <CardView card={card} />
+        <CardView card={card} openState={openState} />
       )}
     </CardComponent>
   );
