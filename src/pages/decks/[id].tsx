@@ -20,9 +20,11 @@ const DecksViewPage: NextPage = () => {
   const { cards, isFetching, reviewCard, reviewedCards } = useScheduler(
     query.id as string
   );
-  const controls = useAnimation();
+  const [open, setOpen] = useState(false);
 
+  const controls = useAnimation();
   const handleNextRound = async (isCorrect: boolean) => {
+    setOpen(false);
     const directionFactor = isCorrect ? 1 : -1;
 
     await controls.start({
@@ -67,7 +69,7 @@ const DecksViewPage: NextPage = () => {
     return (
       <div className="pt-20">
         <Section>
-          <CardComponent color="skeleton" />
+          <CardComponent color="skeleton" className="min-h-[50vh]" />
         </Section>
       </div>
     );
@@ -86,8 +88,45 @@ const DecksViewPage: NextPage = () => {
             animate={controls}
             style={{ x }}
           >
-            <FlashCard key={card.id} card={card} />
+            <FlashCard
+              key={card.id}
+              card={card}
+              className="min-h-[50vh]"
+              openState={[open, setOpen]}
+            />
           </motion.div>
+        </Section>
+
+        <Section className="fixed bottom-0 w-full">
+          <div className="flex w-full divide-x-2 divide-slate-500 overflow-hidden rounded-full border-2 border-slate-500 bg-slate-900/50 backdrop-blur-lg">
+            {!open && (
+              <button
+                className="w-full p-2 text-center"
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                Show answer
+              </button>
+            )}
+            {!!open && (
+              <>
+                <button
+                  className="w-full bg-[#064e3b] p-2 text-center"
+                  onClick={() => void handleNextRound(true)}
+                >
+                  Easy
+                </button>
+
+                <button
+                  className="w-full bg-[#881337] p-2 text-center"
+                  onClick={() => void handleNextRound(false)}
+                >
+                  Hard
+                </button>
+              </>
+            )}
+          </div>
         </Section>
       </motion.div>
     );
