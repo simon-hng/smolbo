@@ -12,7 +12,7 @@ export const CardView = ({ card }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer">
+    <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer h-full">
       <MarkdownRenderer content={card.front} />
 
       {isOpen && (
@@ -22,7 +22,7 @@ export const CardView = ({ card }: Props) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <Separator.Root className="my-4 h-[1px] bg-white" />
+            <Separator.Root className="my-4 h-[2px] bg-slate-500" />
 
             <MarkdownRenderer content={card.back} />
           </motion.div>

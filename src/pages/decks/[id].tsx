@@ -67,7 +67,7 @@ const DecksViewPage: NextPage = () => {
     return (
       <div className="pt-20">
         <Section>
-          <CardComponent color="skeleton" />
+          <CardComponent color="skeleton" className="min-h-[50vh]"/>
         </Section>
       </div>
     );
@@ -86,7 +86,7 @@ const DecksViewPage: NextPage = () => {
             animate={controls}
             style={{ x }}
           >
-            <FlashCard key={card.id} card={card} />
+            <FlashCard key={card.id} card={card} className="min-h-[50vh]" />
           </motion.div>
         </Section>
       </motion.div>
