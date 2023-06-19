@@ -5687,10 +5687,10 @@ js-sdsl@^4.1.4:
   resolved "https://registry.yarnpkg.com/js-sdsl/-/js-sdsl-4.4.0.tgz#8b437dbe642daa95760400b602378ed8ffea8430"
   integrity sha512-FfVSdx6pJ41Oa+CF7RDaFmTnCaFhua+SNYQX74riGOpl96x+2jQCqEfQ2bnXu/5DPCqlRuiqyvTJM0Qjz26IVg==
 
-js-tiktoken@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/js-tiktoken/-/js-tiktoken-1.0.6.tgz#f32f4b9b3c33d11f12b5cf016b3c729370817ee9"
-  integrity sha512-lxHntEupgjWvSh37WxpAW4XN6UBXBtFJOpZZq5HN5oNjDfN7L/iJhHOKjyL/DFtuYXUwn5jfTciLtOWpgQmHjQ==
+js-tiktoken@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/js-tiktoken/-/js-tiktoken-1.0.7.tgz#56933fcd2093e8304060dfde3071bda91812e6f5"
+  integrity sha512-biba8u/clw7iesNEWLOLwrNGoBP2lA+hTaBLs/D45pJdUPFXyxD6nhcDVtADChghv4GgyAiMKYMiRx7x6h7Biw==
   dependencies:
     base64-js "^1.5.1"
 
@@ -5819,10 +5819,10 @@ kleur@^4.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
-langchain@^0.0.95:
-  version "0.0.95"
-  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.0.95.tgz#500238ae9312f43a5f9dd6c20bf02c2c826ade80"
-  integrity sha512-UjOr1XArTTSZB4uCayKzQs69pCahHCq/CVTc66fAymCD5uKerh8AvcemPxgRpTi8tgcdhY76j//c0e06l5aFdA==
+langchain@^0.0.96:
+  version "0.0.96"
+  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.0.96.tgz#13ebdc76397a473b054e091e061de6f531bdaf57"
+  integrity sha512-m1d0IWjwZK+D19uBfgmfp5sUTxJXcjJb/YuIyn2cGNmXGqOH2r2cl0TUnhuFKxTXpMTXgTywd7MYF5U5/qkNTQ==
   dependencies:
     "@anthropic-ai/sdk" "^0.4.3"
     ansi-styles "^5.0.0"
@@ -5831,7 +5831,7 @@ langchain@^0.0.95:
     decamelize "5"
     expr-eval "^2.0.2"
     flat "^5.0.2"
-    js-tiktoken "^1.0.6"
+    js-tiktoken "^1.0.7"
     jsonpointer "^5.0.1"
     langchainplus-sdk "^0.0.11"
     ml-distance "^4.0.0"
