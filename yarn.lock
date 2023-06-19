@@ -2155,17 +2155,17 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
-"@t3-oss/env-core@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@t3-oss/env-core/-/env-core-0.2.2.tgz#e216ce44d4618d6f69c240efc02bd9e15221035b"
-  integrity sha512-Jiuph14/L3L9EDaU0O0YiLeaKUcWA9c3mWYuKem8+L64i3Iwz+IbKdl5Jp4cx+JbOsS/aptwGZplnxSHhm2gMQ==
+"@t3-oss/env-core@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@t3-oss/env-core/-/env-core-0.4.1.tgz#3f863904c5647679c52400df3c79653c994a4cbc"
+  integrity sha512-JZI8vxlHwtiZO7OYS3qSX9Ngt7UcdqsugLwhBwx7UVi5wp1PtRo2tzMyNoBEGbfHdmkd2QU9IbvYjqtaLUA7TQ==
 
-"@t3-oss/env-nextjs@^0.2.1":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@t3-oss/env-nextjs/-/env-nextjs-0.2.2.tgz#e638e22563cb1782a3c8f5d837caa00714de22a2"
-  integrity sha512-9LnVpTkf/8WkggyVN6Liz9Ma9a7fLzV00b5BngWj3HI3iWDfddsWaqCf/H0f46Bgu29NubP3Bwajf1JieVrxFA==
+"@t3-oss/env-nextjs@^0.4.0":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@t3-oss/env-nextjs/-/env-nextjs-0.4.1.tgz#06fc6c67c2e38eb8fcf145b3eda468c62ba34373"
+  integrity sha512-lDbewJvZwOW7bFwHzdKtAH4+YcVTvGU7UEJfHwlb1RqVe9ejPrKn6ax2OGv/nFji1JXGKecKYHz3Xkpru6TFbw==
   dependencies:
-    "@t3-oss/env-core" "0.2.2"
+    "@t3-oss/env-core" "0.4.1"
 
 "@tailwindcss/typography@^0.5.9":
   version "0.5.9"
