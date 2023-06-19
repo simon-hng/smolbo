@@ -1,7 +1,7 @@
 import type { Card } from "@prisma/client";
 import * as Separator from "@radix-ui/react-separator";
 import { AnimatePresence, motion } from "framer-motion";
-import { Dispatch, SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { MarkdownRenderer } from "~/components/markdown";
 
 export interface Props {
@@ -10,7 +10,8 @@ export interface Props {
 }
 
 export const CardView = ({ card, openState }: Props) => {
-  const [isOpen, setIsOpen] = openState ?? useState(false);
+  const newOpenState = useState(false);
+  const [isOpen, setIsOpen] = openState ?? newOpenState;
 
   return (
     <div onClick={() => setIsOpen(!isOpen)} className="h-full cursor-pointer">
