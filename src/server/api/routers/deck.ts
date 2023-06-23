@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const deckRouter = createTRPCRouter({
   create: protectedProcedure
@@ -18,7 +18,7 @@ export const deckRouter = createTRPCRouter({
       });
     }),
 
-  update: publicProcedure
+  update: protectedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -59,7 +59,7 @@ export const deckRouter = createTRPCRouter({
       });
     }),
 
-  getById: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+  getById: protectedProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.prisma.deck.findFirst({
       include: {
         cards: true,
@@ -78,7 +78,7 @@ export const deckRouter = createTRPCRouter({
     });
   }),
 
-  deleteById: publicProcedure
+  deleteById: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.deck.delete({
