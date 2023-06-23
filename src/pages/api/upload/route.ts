@@ -49,15 +49,19 @@ export default async function handler(
 ) {
   const form = formidable({});
 
-  const formParse = form.parse(req) as unknown as Promise<[Fields, Files, any]>;
+  const formParse = form.parse(req) as unknown as Promise<[Fields, Files]>;
   const [_fields, files] = await formParse;
 
-  for (const file of Object.values(files)) {
-    if (Array.isArray(file)) {
-      const filePath: string = file.at(0)?.filepath ?? "";
-      await createEmbeddings(filePath);
-    }
+  if (!Array.isArray(files.file)) {
+    throw new Error("You need to send one single file");
   }
+
+  const file = files.file.at(0);
+  if (!file || file.mimetype !== "application/pdf") {
+    throw new Error("Wrong usage of api. You need to send a single pdf");
+  }
+
+  await createEmbeddings(file.filepath);
 
   res.status(200).json({ success: "true" });
 }
