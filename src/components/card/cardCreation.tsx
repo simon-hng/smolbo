@@ -1,15 +1,9 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  Cross2Icon,
-  PlusIcon,
-} from "@radix-ui/react-icons";
+import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { api } from "~/utils/api";
 import type { Deck } from "@prisma/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import useCardRecommendation from "~/hooks/useCardRecommendation";
 import { Button } from "../ui/button";
 import { Card } from "@ui/card";
 import { Editor } from "../ui/editor";
@@ -43,13 +37,6 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
       toast.error("failed to add card");
     },
   });
-
-  const {
-    getNewRecommendation,
-    prevRecommendation,
-    nextRecommendation,
-    isFetching,
-  } = useCardRecommendation(deck.id, card.front);
 
   return (
     <Dialog.Root>
@@ -100,73 +87,24 @@ export const CardCreation = ({ deck, children }: CardCreationProps) => {
                 />
               </label>
 
-              <div className="flex justify-between">
-                <div className="flex divide-x-2 divide-slate-500 overflow-hidden rounded-full border-2 border-slate-500">
-                  <Button
-                    border="none"
-                    color="primary"
-                    className="rounded-none pr-2"
-                    onClick={() => {
-                      setCard({
-                        ...card,
-                        back: prevRecommendation() ?? card.back,
-                      });
-                    }}
-                  >
-                    <ChevronLeftIcon />
-                  </Button>
+              <Dialog.Close asChild>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    cardCreateMutation.mutate({
+                      ...card,
+                    });
 
-                  <Button
-                    border="none"
-                    color="primary"
-                    className={`rounded-none ${isFetching ? "skeleton" : ""}`}
-                    onClick={() => {
-                      void getNewRecommendation().then((message) => {
-                        setCard({
-                          ...card,
-                          back: message.data ?? card.back,
-                        });
-                      });
-                    }}
-                    disabled={isFetching}
-                  >
-                    Recommend
-                  </Button>
-
-                  <Button
-                    border="none"
-                    color="primary"
-                    className="rounded-none pl-2"
-                    onClick={() => {
-                      setCard({
-                        ...card,
-                        back: nextRecommendation() ?? card.back,
-                      });
-                    }}
-                  >
-                    <ChevronRightIcon />
-                  </Button>
-                </div>
-
-                <Dialog.Close asChild>
-                  <Button
-                    color="primary"
-                    onClick={() => {
-                      cardCreateMutation.mutate({
-                        ...card,
-                      });
-
-                      setCard({
-                        ...card,
-                        front: "",
-                        back: "",
-                      });
-                    }}
-                  >
-                    save
-                  </Button>
-                </Dialog.Close>
-              </div>
+                    setCard({
+                      ...card,
+                      front: "",
+                      back: "",
+                    });
+                  }}
+                >
+                  save
+                </Button>
+              </Dialog.Close>
             </div>
           </Card>
         </Dialog.Content>
