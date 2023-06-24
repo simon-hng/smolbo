@@ -83,5 +83,3 @@ export const UploadDialog = ({ deckid }: Props) => {
     </>
   );
 };
-
-export const DeckCreationSkeleton = () => <Button color="skeleton" />;

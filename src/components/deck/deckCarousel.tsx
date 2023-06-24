@@ -1,43 +1,23 @@
 import { api } from "~/utils/api";
-import { DeckCard, DeckCardSkeleton } from "./deckCard";
-import toast from "react-hot-toast";
+import { DeckCard } from "./deckCard";
 
 export const DeckCarousel = () => {
-  const ctx = api.useContext();
   const decksQuery = api.deck.getAllForUser.useQuery();
-  const deckDeleteMutation = api.deck.deleteById.useMutation({
-    onSuccess: () => {
-      void ctx.deck.invalidate().then(() => toast.success("Deleted deck"));
-    },
-    onError: () => {
-      toast.error("Failed to delete deck");
-    },
-  });
-
   const decks = decksQuery.data;
 
   if (decksQuery.isLoading) {
-    return <DeckCarouselSkeleton />;
+    return (
+      <div className="flex flex-col space-y-4">
+        <div className="skeleton h-36 w-full rounded-2xl" />
+        <div className="skeleton h-36 w-full rounded-2xl" />
+        <div className="skeleton h-36 w-full rounded-2xl" />
+      </div>
+    );
   }
 
   return (
     <div className="flex flex-col space-y-4">
-      {decks &&
-        decks.map((deck) => (
-          <DeckCard
-            key={deck.id}
-            deck={deck}
-            deckDeleteMutation={deckDeleteMutation}
-          />
-        ))}
+      {decks && decks.map((deck) => <DeckCard key={deck.id} deck={deck} />)}
     </div>
   );
 };
-
-export const DeckCarouselSkeleton = () => (
-  <div className="flex flex-col space-y-4">
-    <DeckCardSkeleton />
-    <DeckCardSkeleton />
-    <DeckCardSkeleton />
-  </div>
-);
