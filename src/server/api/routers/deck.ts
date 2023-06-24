@@ -3,8 +3,9 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
-import type { VectorOperationsApi } from "@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch";
 import { OpenAI } from "langchain";
+import { PineconeClient } from "@pinecone-database/pinecone";
+import { env } from "~/env.mjs";
 
 const CONDENSE_PROMPT = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 
@@ -136,12 +137,18 @@ export const deckRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      const pineconeIndex = input.deckId;
+      const pinecone = new PineconeClient();
+      await pinecone.init({
+        environment: env.PINECONE_ENVIRONMENT,
+        apiKey: env.PINECONE_API_KEY,
+      });
 
+      // TODO: use deckID as index
+      const pineconeIndex = pinecone.Index(env.PINECONE_INDEX);
       const vectorStore = await PineconeStore.fromExistingIndex(
         new OpenAIEmbeddings({}),
         {
-          pineconeIndex: pineconeIndex as unknown as VectorOperationsApi,
+          pineconeIndex,
           textKey: "text",
           namespace: "flashcards",
         }

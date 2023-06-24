@@ -1,15 +1,16 @@
-import type { Card } from "@prisma/client";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
+import useChat from "~/hooks/useChat";
 
 export interface Props {
-  card: Card;
+  deckId: string;
   className?: string;
 }
 
-export const CardChat = ({ card, className }: Props) => {
+export const Chat = ({ deckId, className }: Props) => {
   const [question, setQuestion] = useState("");
+  const { sendChat } = useChat("flashcards", question);
 
   return (
     <div className={className}>
@@ -21,7 +22,10 @@ export const CardChat = ({ card, className }: Props) => {
           placeholder="Ask me anything!"
         />
 
-        <Button className="bg-slate-900/50 backdrop-blur-lg">
+        <Button
+          className="bg-slate-900/50 backdrop-blur-lg"
+          onClick={() => void sendChat()}
+        >
           <PaperPlaneIcon className="mr-2" /> Send
         </Button>
       </div>
