@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Editor } from "../ui/editor";
 
-export const DeckCreation = () => {
+export const DeckCreationDialog = () => {
   const ctx = api.useContext();
   const deckCreateMutation = api.deck.create.useMutation({
     onSuccess: () => {
@@ -98,5 +98,3 @@ export const DeckCreation = () => {
     </>
   );
 };
-
-export const DeckCreationSkeleton = () => <Button color="skeleton" />;

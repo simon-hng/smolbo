@@ -1,4 +1,4 @@
-import { DeckCreation, DeckCarousel } from "~/components/deck";
+import { DeckCreationDialog, DeckCarousel } from "~/components/deck";
 import { Section } from "~/components/ui/section";
 
 export const DecksPage = () => {
@@ -8,7 +8,7 @@ export const DecksPage = () => {
         <h1 className="mb-8 text-4xl">Your decks</h1>
 
         <DeckCarousel />
-        <DeckCreation />
+        <DeckCreationDialog />
       </Section>
     </div>
   );

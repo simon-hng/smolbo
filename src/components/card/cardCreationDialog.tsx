@@ -8,12 +8,12 @@ import { Button } from "../ui/button";
 import { Card } from "@ui/card";
 import { Editor } from "../ui/editor";
 
-interface CardCreationProps {
+interface CardCreationDialogProps {
   deck: Deck;
   children?: React.ReactNode;
 }
 
-export const CardCreation = ({ deck, children }: CardCreationProps) => {
+export const CardCreationDialog = ({ deck, children }: CardCreationDialogProps) => {
   const ctx = api.useContext();
   const [card, setCard] = useState({
     front: "",

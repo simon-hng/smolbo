@@ -1,6 +1,6 @@
 import { type Deck } from "@prisma/client";
 import Link from "next/link";
-import { CardCreation } from "~/components/card";
+import { CardCreationDialog } from "~/components/card";
 import { Card } from "../ui/card";
 
 interface DeckCardProps {
@@ -19,9 +19,9 @@ export const DeckCard = ({ deck }: DeckCardProps) => {
         </Link>
 
         <div className="flex divide-x-2 divide-slate-500 border-t-2 border-slate-500">
-          <CardCreation deck={deck}>
+          <CardCreationDialog deck={deck}>
             <button className="w-full p-2 text-center">Add card</button>
-          </CardCreation>
+          </CardCreationDialog>
 
           <Link
             className="w-full p-2 text-center"
@@ -36,5 +36,3 @@ export const DeckCard = ({ deck }: DeckCardProps) => {
     </>
   );
 };
-
-export const DeckCardSkeleton = () => <Card color="skeleton" />;
