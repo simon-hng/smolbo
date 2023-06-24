@@ -1,5 +1,5 @@
 import type { Card } from "@prisma/client";
-import { Dispatch, SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { CardView } from "./flashCardView";
 import { CardMenu } from "./flashCardMenu";
 import { CardEdit } from "./flashCardEdit";
