@@ -5,7 +5,7 @@ import { type Dispatch, type SetStateAction, useState } from "react";
 import { MarkdownRenderer } from "~/components/markdown";
 
 export interface Props {
-  card: Card;
+  card: Pick<Card, "front" | "back">;
   openState?: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 

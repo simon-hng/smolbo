@@ -1,21 +1,13 @@
 import { type Deck } from "@prisma/client";
 import Link from "next/link";
 import { CardCreation } from "~/components/card";
-import { type RouterInputs } from "~/utils/api";
 import { Card } from "../ui/card";
 
 interface DeckCardProps {
   deck: Deck;
-  deckDeleteMutation: {
-    mutate: (input: RouterInputs["deck"]["deleteById"]) => void;
-  };
 }
 
-export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
-  const deleteHandler = (deckId: string) => {
-    deckDeleteMutation.mutate(deckId);
-  };
-
+export const DeckCard = ({ deck }: DeckCardProps) => {
   return (
     <>
       <Card padding="none">
@@ -38,12 +30,7 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
             Edit
           </Link>
 
-          <button
-            className="w-full bg-red-900 p-2 text-center "
-            onClick={() => deleteHandler(deck.id)}
-          >
-            Delete
-          </button>
+          <button className="w-full bg-red-900 p-2 text-center ">Delete</button>
         </div>
       </Card>
     </>
