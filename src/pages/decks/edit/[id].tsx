@@ -61,7 +61,7 @@ const DecksEditPage: NextPage = () => {
         <div className="flex flex-row space-x-2">
           <CardCreationDialog deck={deckQuery.data} />
 
-          <UploadDialog deck={deckQuery.data}/>
+          <UploadDialog deckId={deckQuery.data.id} />
         </div>
 
         <Chat deckId={query.id} />

@@ -6,9 +6,9 @@ import { Card } from "../ui/card";
 import toast from "react-hot-toast";
 
 interface Props {
-  deckid: string;
+  deckId: string;
 }
-export const UploadDialog = ({ deckid }: Props) => {
+export const UploadDialog = ({ deckId }: Props) => {
   const [file, setFile] = useState<File>();
 
   const handleUpload: MouseEventHandler<HTMLButtonElement> &
