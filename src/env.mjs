@@ -25,6 +25,10 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: z.string(),
 
     OPENAI_API_KEY: z.string(),
+
+    PINECONE_ENVIRONMENT: z.string(),
+    PINECONE_API_KEY: z.string(),
+    PINECONE_INDEX: z.string(),
   },
 
   /**
@@ -48,5 +52,8 @@ export const env = createEnv({
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    PINECONE_ENVIRONMENT: process.env.PINECONE_ENVIRONMENT,
+    PINECONE_API_KEY: process.env.PINECONE_API_KEY,
+    PINECONE_INDEX: process.env.PINECONE_INDEX,
   },
 });

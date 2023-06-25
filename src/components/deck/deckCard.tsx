@@ -1,21 +1,13 @@
 import { type Deck } from "@prisma/client";
 import Link from "next/link";
-import { CardCreation } from "~/components/card";
-import { type RouterInputs } from "~/utils/api";
+import { CardCreationDialog } from "~/components/card";
 import { Card } from "../ui/card";
 
 interface DeckCardProps {
   deck: Deck;
-  deckDeleteMutation: {
-    mutate: (input: RouterInputs["deck"]["deleteById"]) => void;
-  };
 }
 
-export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
-  const deleteHandler = (deckId: string) => {
-    deckDeleteMutation.mutate(deckId);
-  };
-
+export const DeckCard = ({ deck }: DeckCardProps) => {
   return (
     <>
       <Card padding="none">
@@ -27,27 +19,28 @@ export const DeckCard = ({ deck, deckDeleteMutation }: DeckCardProps) => {
         </Link>
 
         <div className="flex divide-x-2 divide-slate-500 border-t-2 border-slate-500">
-          <CardCreation deck={deck}>
-            <button className="w-full p-2 text-center">Add card</button>
-          </CardCreation>
+          <Link
+            href={`decks/${deck.id}`}
+            className="w-full p-2 text-center duration-500 hover:bg-slate-500"
+          >
+            Review
+          </Link>
 
           <Link
-            className="w-full p-2 text-center"
-            href={`decks/edit/${deck.id}`}
+            href={`decks/${deck.id}/edit`}
+            className="w-full p-2 text-center duration-500 hover:bg-slate-500"
           >
             Edit
           </Link>
 
-          <button
-            className="w-full bg-red-900 p-2 text-center "
-            onClick={() => deleteHandler(deck.id)}
+          <Link
+            href={`decks/${deck.id}/chat`}
+            className="w-full p-2 text-center duration-500 hover:bg-slate-500"
           >
-            Delete
-          </button>
+            Chat
+          </Link>
         </div>
       </Card>
     </>
   );
 };
-
-export const DeckCardSkeleton = () => <Card color="skeleton" />;

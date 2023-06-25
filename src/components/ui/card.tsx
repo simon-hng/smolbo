@@ -5,7 +5,7 @@ export const styles = cva(
   "rounded-2xl border-2 border-slate-500 duration-200 overflow-hidden shadow-md",
   {
     variants: {
-      color: {
+      variant: {
         primary: "bg-slate-900 text-white",
         skeleton: "h-40 skeleton",
         glass: "backdrop-blur-lg bg-slate-900/50",
@@ -23,10 +23,10 @@ export const styles = cva(
 
 export interface Props
   extends VariantProps<typeof styles>,
-    Omit<ComponentProps<"div">, "color"> {
+    ComponentProps<"div"> {
   className?: string;
 }
 
-export const Card = ({ color, className, padding, ...props }: Props) => {
-  return <div className={styles({ color, className, padding })} {...props} />;
+export const Card = ({ variant, className, padding, ...props }: Props) => {
+  return <div className={styles({ variant, className, padding })} {...props} />;
 };

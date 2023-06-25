@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Editor } from "../ui/editor";
 
-export const DeckCreation = () => {
+export const DeckCreationDialog = () => {
   const ctx = api.useContext();
   const deckCreateMutation = api.deck.create.useMutation({
     onSuccess: () => {
@@ -29,7 +29,7 @@ export const DeckCreation = () => {
     <>
       <Dialog.Root>
         <Dialog.Trigger asChild>
-          <Button color="primary">
+          <Button variant="primary">
             <CardStackPlusIcon aria-hidden className="mr-2" />
             Create Deck
           </Button>
@@ -38,8 +38,8 @@ export const DeckCreation = () => {
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-slate-900/50 backdrop-blur-lg" />
           <Dialog.Content className="fixed-center container mx-auto p-8">
-            <Card color="primary">
-              <div>
+            <Card variant="primary">
+              <div className="mb-4">
                 <div className="flex flex-row justify-between">
                   <Dialog.Title className="mb-2 text-2xl">
                     Create a new deck
@@ -85,7 +85,7 @@ export const DeckCreation = () => {
 
                 <div>
                   <Dialog.Close asChild>
-                    <Button color="primary" onClick={saveHandler}>
+                    <Button variant="primary" onClick={saveHandler}>
                       save
                     </Button>
                   </Dialog.Close>
@@ -98,5 +98,3 @@ export const DeckCreation = () => {
     </>
   );
 };
-
-export const DeckCreationSkeleton = () => <Button color="skeleton" />;

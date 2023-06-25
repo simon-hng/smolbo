@@ -1,3 +1,3 @@
-export { DeckCard, DeckCardSkeleton } from "./deckCard";
-export { DeckCreation, DeckCreationSkeleton } from "./deckCreation";
-export { DeckCarousel, DeckCarouselSkeleton } from "./deckCarousel";
+export { DeckCard } from "./deckCard";
+export { DeckCreationDialog } from "./deckCreationDialog";
+export { DeckCarousel } from "./deckCarousel";

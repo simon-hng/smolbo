@@ -1,5 +1,5 @@
 import type { Card } from "@prisma/client";
-import { Dispatch, SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { CardView } from "./flashCardView";
 import { CardMenu } from "./flashCardMenu";
 import { CardEdit } from "./flashCardEdit";
@@ -20,7 +20,7 @@ export const FlashCard = ({
   const [card, setCard] = useState(initialCard);
 
   return (
-    <CardComponent color="glass" key={card.id} className={className}>
+    <CardComponent variant="glass" key={card.id} className={className}>
       <CardMenu card={card} isEdit={isEdit} setIsEdit={setIsEdit} />
 
       {isEdit ? (

@@ -40,7 +40,7 @@ export const CardEdit = ({ card, setCard }: Props) => {
         }}
       />
 
-      <Button color="primary" onClick={() => cardUpdateMutation.mutate(card)}>
+      <Button variant="primary" onClick={() => cardUpdateMutation.mutate(card)}>
         Save
       </Button>
     </>

@@ -14,6 +14,7 @@ import { Section } from "~/components/ui/section";
 import { useScheduler } from "~/hooks/useScheduler";
 import { Button } from "~/components/ui/button";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 const DecksViewPage: NextPage = () => {
   const { query } = useRouter();
@@ -69,7 +70,7 @@ const DecksViewPage: NextPage = () => {
     return (
       <div className="pt-20">
         <Section>
-          <CardComponent color="skeleton" className="min-h-[50vh]" />
+          <CardComponent variant="skeleton" className="min-h-[50vh]" />
         </Section>
       </div>
     );
@@ -143,9 +144,11 @@ const DecksViewPage: NextPage = () => {
           ))}
         </div>
 
-        <Button href="/decks" fullWidth={false}>
-          <ArrowLeftIcon aria-hidden className="mr-2" />
-          To deck overview
+        <Button asChild>
+          <Link href="/decks">
+            <ArrowLeftIcon aria-hidden className="mr-2" />
+            To deck overview
+          </Link>
         </Button>
       </Section>
     </div>
