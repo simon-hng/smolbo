@@ -132,7 +132,7 @@ export const deckRouter = createTRPCRouter({
     .input(
       z.object({
         question: z.string(),
-        history: z.array(z.string()),
+        history: z.array(z.tuple([z.string(), z.string()])),
         deckId: z.string(),
       })
     )
@@ -156,9 +156,10 @@ export const deckRouter = createTRPCRouter({
 
       const chain = makeChain(vectorStore);
 
+      // TODO: Fix history not working
       const response = await chain.call({
         question: input.question.trim().replaceAll("\n", ""),
-        chat_history: input.history,
+        chat_history: [],
       });
 
       return response;
