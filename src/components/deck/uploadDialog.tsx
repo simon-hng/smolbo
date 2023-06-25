@@ -38,7 +38,7 @@ export const UploadDialog = ({ deckId }: Props) => {
     <>
       <Dialog.Root>
         <Dialog.Trigger asChild>
-          <Button color="primary">
+          <Button variant="primary">
             <FilePlusIcon aria-hidden className="mr-2" />
             Upload PDF
           </Button>

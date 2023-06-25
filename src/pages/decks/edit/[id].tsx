@@ -25,8 +25,8 @@ const DecksEditPage: NextPage = () => {
           </div>
 
           <div className="flex flex-row space-x-2">
-            <Button color="skeleton" />
-            <Button color="skeleton" />
+            <Button variant="skeleton" />
+            <Button variant="skeleton" />
           </div>
 
           <div className="space-y-4">

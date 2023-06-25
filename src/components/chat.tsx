@@ -50,10 +50,7 @@ export const Chat = ({ deckId, className }: Props) => {
           placeholder="Ask me anything!"
         />
 
-        <Button
-          className="bg-slate-900/50 backdrop-blur-lg"
-          onClick={() => void sendChat()}
-        >
+        <Button variant="primary" onClick={() => void sendChat()}>
           <PaperPlaneIcon className="mr-2" /> Send
         </Button>
       </div>

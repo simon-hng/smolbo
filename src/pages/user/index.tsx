@@ -46,8 +46,8 @@ export const UserPage = () => {
             </label>
 
             <div className="flex space-x-2">
-              <Button color="skeleton" />
-              <Button color="skeleton" />
+              <Button variant="skeleton" />
+              <Button variant="skeleton" />
             </div>
           </div>
         </Section>

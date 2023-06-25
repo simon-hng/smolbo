@@ -1,5 +1,6 @@
+import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
-import { ButtonOrLink, type Props as ButtonOrLinkProps } from "./buttonOrLink";
+import { ComponentPropsWithRef } from "react";
 
 export const styles = cva(
   "rounded-full px-4 py-1 duration-500 flex items-center",
@@ -9,9 +10,9 @@ export const styles = cva(
         default: "border-2 border-slate-500",
         none: "border-0",
       },
-      color: {
+      variant: {
         skeleton: "skeleton w-36",
-        primary: "bg-slate-900",
+        primary: "bg-slate-900 hover:bg-slate-500",
         red: "bg-red-700",
       },
       fullWidth: {
@@ -19,6 +20,13 @@ export const styles = cva(
         false: "w-max",
       },
     },
+    compoundVariants: [
+      {
+        border: "default",
+        variant: "skeleton",
+        className: "border-none",
+      },
+    ],
     defaultVariants: {
       border: "default",
     },
@@ -27,20 +35,23 @@ export const styles = cva(
 
 export interface Props
   extends VariantProps<typeof styles>,
-    Omit<ButtonOrLinkProps, "color"> {
+    ComponentPropsWithRef<"button"> {
+  asChild?: boolean;
   className?: string;
 }
 
 export const Button = ({
-  color,
+  variant,
   border,
   fullWidth,
+  asChild,
   className,
   ...props
 }: Props) => {
+  const Comp = asChild ? Slot : "button";
   return (
-    <ButtonOrLink
-      className={styles({ color, border, fullWidth, className })}
+    <Comp
+      className={styles({ variant, border, fullWidth, className })}
       {...props}
     />
   );

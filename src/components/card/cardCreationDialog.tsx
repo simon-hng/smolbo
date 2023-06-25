@@ -22,7 +22,7 @@ export const CardCreationDialog = ({ deck, children }: CardCreationDialogProps) 
   });
 
   const trigger = children ?? (
-    <Button color="primary">
+    <Button variant="primary">
       <PlusIcon aria-hidden className="mr-2" />
       Card
     </Button>
