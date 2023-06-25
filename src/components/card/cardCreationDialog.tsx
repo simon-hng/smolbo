@@ -13,7 +13,10 @@ interface CardCreationDialogProps {
   children?: React.ReactNode;
 }
 
-export const CardCreationDialog = ({ deck, children }: CardCreationDialogProps) => {
+export const CardCreationDialog = ({
+  deck,
+  children,
+}: CardCreationDialogProps) => {
   const ctx = api.useContext();
   const [card, setCard] = useState({
     front: "",
@@ -37,6 +40,18 @@ export const CardCreationDialog = ({ deck, children }: CardCreationDialogProps) 
       toast.error("failed to add card");
     },
   });
+
+  const saveHandler = () => {
+    cardCreateMutation.mutate({
+      ...card,
+    });
+
+    setCard({
+      ...card,
+      front: "",
+      back: "",
+    });
+  };
 
   return (
     <Dialog.Root>
@@ -87,24 +102,13 @@ export const CardCreationDialog = ({ deck, children }: CardCreationDialogProps) 
                 />
               </label>
 
-              <Dialog.Close asChild>
-                <Button
-                  color="primary"
-                  onClick={() => {
-                    cardCreateMutation.mutate({
-                      ...card,
-                    });
-
-                    setCard({
-                      ...card,
-                      front: "",
-                      back: "",
-                    });
-                  }}
-                >
-                  save
-                </Button>
-              </Dialog.Close>
+              <div>
+                <Dialog.Close asChild>
+                  <Button variant="primary" onClick={saveHandler}>
+                    save
+                  </Button>
+                </Dialog.Close>
+              </div>
             </div>
           </Card>
         </Dialog.Content>

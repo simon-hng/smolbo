@@ -99,7 +99,7 @@ export const UserPage = () => {
 
           <div className="flex space-x-2">
             <Button
-              color="primary"
+              variant="primary"
               onClick={() => {
                 userMutation.mutate(user);
               }}
@@ -108,7 +108,7 @@ export const UserPage = () => {
             </Button>
 
             <Button
-              color="primary"
+              variant="primary"
               onClick={() => {
                 void userQuery.refetch();
               }}
