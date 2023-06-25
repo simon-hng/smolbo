@@ -45,7 +45,7 @@ export const CardCreationDialog = ({ deck, children }: CardCreationDialogProps) 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-slate-900/50 backdrop-blur-lg" />
         <Dialog.Content className="fixed-center container mx-auto p-8">
-          <Card color="primary">
+          <Card variant="primary">
             <div className="mb-4">
               <div className="flex flex-row justify-between">
                 <Dialog.Title className="mb-2 text-2xl">

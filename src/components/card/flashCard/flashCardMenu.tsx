@@ -34,7 +34,7 @@ export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
       <DropdownMenu.Portal>
         <DropdownMenu.Content asChild>
           <CardComponent
-            color="glass"
+            variant="glass"
             padding="none"
             className="mt-4 flex flex-col divide-y divide-slate-500 text-white"
           >

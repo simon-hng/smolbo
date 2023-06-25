@@ -20,7 +20,7 @@ export const FlashCard = ({
   const [card, setCard] = useState(initialCard);
 
   return (
-    <CardComponent color="glass" key={card.id} className={className}>
+    <CardComponent variant="glass" key={card.id} className={className}>
       <CardMenu card={card} isEdit={isEdit} setIsEdit={setIsEdit} />
 
       {isEdit ? (

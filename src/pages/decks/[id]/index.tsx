@@ -70,7 +70,7 @@ const DecksViewPage: NextPage = () => {
     return (
       <div className="pt-20">
         <Section>
-          <CardComponent color="skeleton" className="min-h-[50vh]" />
+          <CardComponent variant="skeleton" className="min-h-[50vh]" />
         </Section>
       </div>
     );

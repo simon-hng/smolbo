@@ -1,8 +1,6 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
-import { CardCarousel, CardCreationDialog } from "~/components/card";
 import { Chat } from "~/components/chat";
-import { UploadDialog } from "~/components/deck/uploadDialog";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { Section } from "~/components/ui/section";
@@ -22,17 +20,6 @@ const DecksEditPage: NextPage = () => {
           <div>
             <h1 className="skeleton mb-2 w-80 text-4xl" />
             <p className="skeleton w-80 animate-pulse" />
-          </div>
-
-          <div className="flex flex-row space-x-2">
-            <Button variant="skeleton" />
-            <Button variant="skeleton" />
-          </div>
-
-          <div className="space-y-4">
-            <Card color="skeleton" />
-            <Card color="skeleton" />
-            <Card color="skeleton" />
           </div>
         </Section>
       </div>
@@ -58,15 +45,7 @@ const DecksEditPage: NextPage = () => {
           <p>{deckQuery.data.description}</p>
         </div>
 
-        <div className="flex flex-row space-x-2">
-          <CardCreationDialog deck={deckQuery.data} />
-
-          <UploadDialog deckId={deckQuery.data.id} />
-        </div>
-
         <Chat deckId={query.id} />
-
-        <CardCarousel cards={deckQuery.data.cards} />
       </Section>
     </div>
   );

@@ -19,18 +19,26 @@ export const DeckCard = ({ deck }: DeckCardProps) => {
         </Link>
 
         <div className="flex divide-x-2 divide-slate-500 border-t-2 border-slate-500">
-          <CardCreationDialog deck={deck}>
-            <button className="w-full p-2 text-center">Add card</button>
-          </CardCreationDialog>
+          <Link
+            href={`decks/${deck.id}`}
+            className="w-full p-2 text-center duration-500 hover:bg-slate-500"
+          >
+            Review
+          </Link>
 
           <Link
-            className="w-full p-2 text-center"
-            href={`decks/edit/${deck.id}`}
+            href={`decks/${deck.id}/edit`}
+            className="w-full p-2 text-center duration-500 hover:bg-slate-500"
           >
             Edit
           </Link>
 
-          <button className="w-full bg-red-900 p-2 text-center ">Delete</button>
+          <Link
+            href={`decks/${deck.id}/chat`}
+            className="w-full p-2 text-center duration-500 hover:bg-slate-500"
+          >
+            Chat
+          </Link>
         </div>
       </Card>
     </>
