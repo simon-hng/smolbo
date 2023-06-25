@@ -4,21 +4,51 @@ import { Button } from "~/components/ui/button";
 import useChat from "~/hooks/useChat";
 import { Card } from "./ui/card";
 import { CardView } from "./card/flashCard/flashCardView";
+import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
 export interface ChatBubbleProps {
   question: string;
   answer: string;
+  deckId: string;
 }
 
-const ChatBubble = ({ question, answer }: ChatBubbleProps) => {
+const ChatBubble = ({ question, answer, deckId }: ChatBubbleProps) => {
   const openState = useState(true);
+  const ctx = api.useContext();
+
+  const { mutate, isLoading } = api.card.create.useMutation({
+    onSuccess: () => {
+      toast.success("added card");
+      void ctx.deck.invalidate();
+    },
+    onError: () => {
+      toast.error("failed to add card");
+    },
+  });
+
+  const saveHandler = () => {
+    mutate({
+      front: question,
+      back: answer,
+      deckId,
+    });
+  };
 
   return (
-    <Card>
+    <Card variant="glass">
       <CardView
         card={{ front: question, back: answer }}
         openState={openState}
       />
+      <Button
+        className="mt-8"
+        variant="primary"
+        onClick={saveHandler}
+        disabled={isLoading}
+      >
+        save to deck
+      </Button>
     </Card>
   );
 };
@@ -39,7 +69,12 @@ export const Chat = ({ deckId, className }: Props) => {
     <div className={className}>
       <div className="mb-4 space-y-4">
         {history.map(([q, a]) => (
-          <ChatBubble key={q} question={q} answer={a} />
+          <ChatBubble
+            key={deckId + q}
+            question={q}
+            answer={a}
+            deckId={deckId}
+          />
         ))}
       </div>
 
