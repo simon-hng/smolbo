@@ -12,7 +12,7 @@ export const styles = cva(
       },
       variant: {
         skeleton: "skeleton w-36",
-        primary: "bg-slate-900 hover:bg-slate-500",
+        primary: "bg-slate-900 hover:bg-slate-500 disabled:bg-slate-800 disabled:text-slate-500",
         red: "bg-red-700",
       },
       fullWidth: {

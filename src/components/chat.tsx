@@ -30,15 +30,16 @@ export interface Props {
 
 export const Chat = ({ deckId, className }: Props) => {
   const [question, setQuestion] = useState("");
-  const { sendChat, history } = useChat("flashcards", question);
+  const { sendChat, history, isFetching } = useChat("flashcards", question);
+  const sendHandler = () => {
+    void sendChat().then(() => setQuestion(""));
+  };
 
   return (
     <div className={className}>
       <div className="mb-4 space-y-4">
         {history.map(([q, a]) => (
-          <>
-            <ChatBubble question={q} answer={a} />
-          </>
+          <ChatBubble key={q} question={q} answer={a} />
         ))}
       </div>
 
@@ -46,11 +47,17 @@ export const Chat = ({ deckId, className }: Props) => {
         <input
           value={question}
           onChange={(event) => setQuestion(event.target.value)}
-          className="w-full rounded-full border-2 border-slate-500 bg-slate-900/50 px-4 py-2 backdrop-blur-lg"
+          className="w-full rounded-full border-2 border-slate-500 bg-slate-900/50 px-4 py-2 backdrop-blur-lg disabled:bg-slate-800 disabled:text-slate-500"
           placeholder="Ask me anything!"
+          disabled={isFetching}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") sendHandler();
+          }}
         />
 
-        <Button variant="primary" onClick={() => void sendChat()}>
+        {isFetching}
+
+        <Button variant="primary" onClick={sendHandler} disabled={isFetching}>
           <PaperPlaneIcon className="mr-2" /> Send
         </Button>
       </div>
