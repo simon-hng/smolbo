@@ -2,6 +2,7 @@ import type { Card } from "@prisma/client";
 import * as Separator from "@radix-ui/react-separator";
 import toast from "react-hot-toast";
 import { Button } from "~/components/ui/button";
+import { Editor } from "~/components/ui/editor";
 import { api } from "~/utils/api";
 
 interface Props {
@@ -22,21 +23,23 @@ export const CardEdit = ({ card, setCard }: Props) => {
 
   return (
     <>
-      <textarea
-        className="textarea mt-2 h-32 w-full"
-        defaultValue={card.front}
-        onChange={(e) => {
-          return setCard({ ...card, front: e.target.value });
+      <Editor
+        options={{ wordWrap: "on", minimap: { autohide: true } }}
+        height="10rem"
+        value={card.front}
+        onChange={(value) => {
+          return setCard({ ...card, front: value ?? "" });
         }}
       />
 
       <Separator.Root className="my-4 h-[1px] bg-white" />
 
-      <textarea
-        className="textarea mt-2 h-64 w-full"
-        defaultValue={card.back}
-        onChange={(e) => {
-          return setCard({ ...card, back: e.target.value });
+      <Editor
+        options={{ wordWrap: "on", minimap: { autohide: true } }}
+        height="10rem"
+        value={card.back}
+        onChange={(value) => {
+          return setCard({ ...card, back: value ?? "" });
         }}
       />
 
