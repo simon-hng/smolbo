@@ -65,7 +65,7 @@ export interface Props {
 
 export const Chat = ({ deckId, className }: Props) => {
   const [question, setQuestion] = useState("");
-  const { sendChat, history, isFetching } = useChat("flashcards", question);
+  const { sendChat, history, isFetching } = useChat(deckId, question);
   const sendHandler = () => {
     void sendChat().then(() => setQuestion(""));
   };

@@ -144,14 +144,13 @@ export const deckRouter = createTRPCRouter({
         apiKey: env.PINECONE_API_KEY,
       });
 
-      // TODO: use deckID as index
       const pineconeIndex = pinecone.Index(env.PINECONE_INDEX);
       const vectorStore = await PineconeStore.fromExistingIndex(
         new OpenAIEmbeddings({}),
         {
           pineconeIndex,
           textKey: "text",
-          namespace: "flashcards",
+          namespace: input.deckId,
         }
       );
 
