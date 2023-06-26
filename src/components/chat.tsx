@@ -15,7 +15,7 @@ export interface ChatBubbleProps {
 
 const ChatBubble = ({ question, answer, deckId }: ChatBubbleProps) => {
   const openState = useState(true);
-  const saved = useState(false);
+  const [saved, setSaved] = useState(false);
   const ctx = api.useContext();
 
   const { mutate, isLoading } = api.card.create.useMutation({
@@ -29,6 +29,7 @@ const ChatBubble = ({ question, answer, deckId }: ChatBubbleProps) => {
   });
 
   const saveHandler = () => {
+    setSaved(true);
     mutate({
       front: question,
       back: answer,
