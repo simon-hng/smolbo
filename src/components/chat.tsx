@@ -44,7 +44,7 @@ const ChatBubble = ({ question, answer, deckId }: ChatBubbleProps) => {
         openState={openState}
       />
 
-      {!!saved && (
+      {!saved && (
         <Button
           className="mt-8"
           variant="primary"
