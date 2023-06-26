@@ -14,7 +14,7 @@ export const config = {
   },
 };
 
-const createEmbeddings = async (filePath: string) => {
+const createEmbeddings = async (filePath: string, deckId: string) => {
   const pinecone = new PineconeClient();
   await pinecone.init({
     environment: env.PINECONE_ENVIRONMENT,
@@ -23,8 +23,6 @@ const createEmbeddings = async (filePath: string) => {
 
   const loader = new PDFLoader(filePath);
   const rawData = await loader.load();
-
-  console.log(rawData);
 
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
@@ -38,7 +36,7 @@ const createEmbeddings = async (filePath: string) => {
 
   await PineconeStore.fromDocuments(chunkedData, embeddings, {
     pineconeIndex,
-    namespace: "flashcards",
+    namespace: deckId,
     textKey: "text",
   });
 };
@@ -50,18 +48,21 @@ export default async function handler(
   const form = formidable({});
 
   const formParse = form.parse(req) as unknown as Promise<[Fields, Files]>;
-  const [_fields, files] = await formParse;
+  const [fields, data] = await formParse;
 
-  if (!Array.isArray(files.file)) {
+  if (!Array.isArray(data.file)) {
     throw new Error("You need to send one single file");
   }
 
-  const file = files.file.at(0);
-  if (!file || file.mimetype !== "application/pdf") {
-    throw new Error("Wrong usage of api. You need to send a single pdf");
+  const deckId = fields.deckId?.at(0);
+  const file = data.file.at(0);
+  if (!deckId || !file || file.mimetype !== "application/pdf") {
+    throw new Error(
+      "Wrong usage of api. You need to send a single pdf and provide a deckId"
+    );
   }
 
-  await createEmbeddings(file.filepath);
+  await createEmbeddings(file.filepath, deckId);
 
   res.status(200).json({ success: "true" });
 }

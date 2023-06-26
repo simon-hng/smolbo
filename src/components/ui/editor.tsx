@@ -1,3 +1,7 @@
+// TODO tailwind type is bugged here
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Editor as MonacoEditor,
   type EditorProps,
@@ -12,7 +16,7 @@ export const styles = cva();
 export interface Props extends VariantProps<typeof styles>, EditorProps {}
 
 export const Editor = ({ ...props }: Props) => {
-  const fullConfig = resolveConfig(tailwindConfig);
+  const fullConfig: any = resolveConfig(tailwindConfig);
 
   const monaco = useMonaco();
   monaco?.editor.defineTheme("default", {
@@ -20,8 +24,8 @@ export const Editor = ({ ...props }: Props) => {
     inherit: false,
     rules: [],
     colors: {
-      "editor.foreground": fullConfig.theme.color.foreground,
-      "editor.background": fullConfig.theme.color.background,
+      "editor.foreground": fullConfig.theme.colors.foreground,
+      "editor.background": fullConfig.theme.colors.background,
     },
   });
 

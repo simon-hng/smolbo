@@ -18,9 +18,10 @@ export const UploadDialog = ({ deckId }: Props) => {
 
     const data = new FormData();
     data.set("file", file);
+    data.set("deckId", deckId);
 
     // TODO add deckid index to api query and pass to pinecone
-    fetch("/api/upload/route", {
+    fetch("/api/upload/", {
       method: "POST",
       body: data,
     })
@@ -73,7 +74,9 @@ export const UploadDialog = ({ deckId }: Props) => {
 
               <div>
                 <Dialog.Close asChild>
-                  <Button onClick={handleUpload}>Upload</Button>
+                  <Button onClick={handleUpload} variant="primary">
+                    Upload
+                  </Button>
                 </Dialog.Close>
               </div>
             </Card>
