@@ -50,19 +50,17 @@ export default async function handler(
   const formParse = form.parse(req) as unknown as Promise<[Fields, Files]>;
   const [fields, data] = await formParse;
 
-  if (!Array.isArray(data.file)) {
-    throw new Error("You need to send one single file");
-  }
-
   const deckId = fields.deckId?.at(0);
-  const file = data.file.at(0);
-  if (!deckId || !file || file.mimetype !== "application/pdf") {
-    throw new Error(
-      "Wrong usage of api. You need to send a single pdf and provide a deckId"
-    );
+  if (!deckId) {
+    res.status(405).json({ success: "false", message: "No deck id provided" });
+    return
   }
 
-  await createEmbeddings(file.filepath, deckId);
+  // TODO: Refactor so that embeddings are not created one file at a time
+  for (const file of Object.values(data)) {
+    if (Array.isArray(file)) return;
+    createEmbeddings(file.filepath, deckId)
+  }
 
   res.status(200).json({ success: "true" });
 }

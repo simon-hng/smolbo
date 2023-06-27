@@ -1,6 +1,6 @@
 import { Cross2Icon, FilePlusIcon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
-import { type MouseEventHandler, useState } from "react";
+import { type MouseEventHandler, useState, ChangeEventHandler } from "react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import toast from "react-hot-toast";
@@ -9,31 +9,36 @@ interface Props {
   deckId: string;
 }
 export const UploadDialog = ({ deckId }: Props) => {
-  const [file, setFile] = useState<File>();
+  const [files, setFiles] = useState<FileList>();
+
+  const handleFileInput: ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (!e.target.files) return;
+    setFiles(e.target.files)
+  }
 
   const handleUpload: MouseEventHandler<HTMLButtonElement> &
     MouseEventHandler<HTMLAnchorElement> = (e) => {
-    e.preventDefault();
-    if (!file) return;
+      e.preventDefault();
+      if (!files) return;
 
-    const data = new FormData();
-    data.set("file", file);
-    data.set("deckId", deckId);
+      const data = new FormData();
+      data.set("deckId", deckId);
 
-    // TODO add deckid index to api query and pass to pinecone
-    fetch("/api/upload/", {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => {
-        console.log(res);
-        toast.success(`upload success`);
+      for (const file of files) {
+        data.set(file.name, file)
+      }
+
+      fetch("/api/upload/", {
+        method: "POST",
+        body: data,
       })
-      .catch((e) => {
-        console.log(e);
-        toast.error("failed");
-      });
-  };
+        .then(() => {
+          toast.success(`upload success`);
+        })
+        .catch(() => {
+          toast.error("failed");
+        });
+    };
 
   return (
     <>
@@ -69,7 +74,8 @@ export const UploadDialog = ({ deckId }: Props) => {
                 className="mb-4"
                 type="file"
                 name="file"
-                onChange={(e) => setFile(e.target.files?.[0])}
+                multiple
+                onChange={handleFileInput}
               />
 
               <div>
