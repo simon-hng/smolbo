@@ -19,7 +19,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const form = formidable({});
-
   const formParse = form.parse(req) as unknown as Promise<[Fields, Files]>;
   const [fields, data] = await formParse;
 
@@ -36,7 +35,9 @@ export default async function handler(
   });
 
   const files = await Promise.all(
-    Object.values(data).filter((file): file is File => !Array.isArray(file))
+    Object.values(data).filter((file): file is File[] => Array.isArray(file))
+      .map(files => files.at(0))
+      .filter((file): file is File => file !== undefined)
       .map((file) => new PDFLoader(file.filepath).load())
   ).then(files => files.flat())
 
