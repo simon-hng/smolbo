@@ -5834,10 +5834,10 @@ kleur@^4.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
-langchain@^0.0.97:
-  version "0.0.97"
-  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.0.97.tgz#c3600357dd825d2dd505325ea1d271ae4a17825b"
-  integrity sha512-NpbbimcWjoQ2+KSoQ31goyW8Fix02+AeTmrlAWIgPP2q0S+RRAYpHVcdWUkQzFQSeTZHcAZiYufmkpwKTEJS6w==
+langchain@^0.0.98:
+  version "0.0.98"
+  resolved "https://registry.yarnpkg.com/langchain/-/langchain-0.0.98.tgz#ca8f6ad46136c8d1708f8cdf94966640286db037"
+  integrity sha512-2VHLReMeN9MCgk7nU7/GGLIYbZgUwLP2BHaGRETA3uGn6L9Un2rtqZBiBtrZcjaQy+XarpAMKiO/DUfRdpNGRg==
   dependencies:
     "@anthropic-ai/sdk" "^0.4.3"
     ansi-styles "^5.0.0"
