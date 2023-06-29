@@ -4716,9 +4716,9 @@ format@^0.2.0:
   integrity sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww==
 
 formidable@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/formidable/-/formidable-3.4.0.tgz#8ffc50dabdae819f0e9ea720dfc425f5edca046d"
-  integrity sha512-jVj65eK/bVBpImERgvY64oLf2yP7YKsyGj/u0P25k58G8B1SmpCLmAbh0Gld3J92M7J6oX5H1KnJJM8iDYiUtQ==
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/formidable/-/formidable-3.5.0.tgz#3605a9325130d05c550d57be8e81d1757baa12d6"
+  integrity sha512-WwsMWvPmY+Kv37C3+KP3A+2Ym1aZoac4nz4ZEe5z0UPBoCg0O/wHay3eeYkZr4KJIbCzpSUeno+STMhde+KCfw==
   dependencies:
     dezalgo "^1.0.4"
     hexoid "^1.0.0"
