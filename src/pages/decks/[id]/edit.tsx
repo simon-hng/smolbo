@@ -1,4 +1,6 @@
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { type NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { CardList, CardCreationDialog } from "~/components/card";
 import { UploadDialog } from "~/components/deck/uploadDialog";
@@ -58,9 +60,16 @@ const DecksEditPage: NextPage = () => {
         </div>
 
         <div className="flex flex-row space-x-2">
-          <CardCreationDialog deck={deckQuery.data} />
+          <Button variant="primary" asChild>
+            <Link href={`/decks/${deckQuery.data.id}/chat`}>
+              <ChatBubbleIcon aria-hidden className="mr-2" />
+              Chat
+            </Link>
+          </Button>
 
           <UploadDialog deckId={deckQuery.data.id} />
+
+          <CardCreationDialog deck={deckQuery.data} />
         </div>
 
         <CardList cards={deckQuery.data.cards} />
