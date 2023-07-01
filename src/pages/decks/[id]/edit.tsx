@@ -1,3 +1,4 @@
+import type { Card } from "@prisma/client";
 import { ChatBubbleIcon, RocketIcon } from "@radix-ui/react-icons";
 import { type NextPage } from "next";
 import Link from "next/link";
@@ -5,7 +6,7 @@ import { useRouter } from "next/router";
 import { CardList, CardCreationDialog } from "~/components/card";
 import { UploadDialog } from "~/components/deck/uploadDialog";
 import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
+import { Card as CardComponent } from "~/components/ui/card";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
@@ -15,6 +16,11 @@ const DecksEditPage: NextPage = () => {
   const deckQuery = api.deck.getById.useQuery(query.id as string, {
     enabled: !!query.id,
   });
+
+  const countCardsDue = (cards: Card[]) => {
+    const now = new Date();
+    return cards.filter((card) => card.dueDate < now).length;
+  };
 
   if (deckQuery.isLoading) {
     return (
@@ -31,9 +37,9 @@ const DecksEditPage: NextPage = () => {
           </div>
 
           <div className="space-y-4">
-            <Card variant="skeleton" />
-            <Card variant="skeleton" />
-            <Card variant="skeleton" />
+            <CardComponent variant="skeleton" />
+            <CardComponent variant="skeleton" />
+            <CardComponent variant="skeleton" />
           </div>
         </Section>
       </div>
@@ -61,6 +67,24 @@ const DecksEditPage: NextPage = () => {
             {deckQuery.data.title}
           </h1>
           <p>{deckQuery.data.description}</p>
+        </div>
+
+        <div>
+          <p>This deck contains {deckQuery.data.cards.length} cards</p>
+          {!!countCardsDue(deckQuery.data.cards) && (
+            <p>
+              <span className="text-red-500">
+                {countCardsDue(deckQuery.data.cards)} cards
+              </span>{" "}
+              are due for review,{" "}
+              <span className="text-blue-500">
+                {deckQuery.data.cards.length -
+                  countCardsDue(deckQuery.data.cards)}{" "}
+                cards
+              </span>{" "}
+              are good
+            </p>
+          )}
         </div>
 
         <div className="flex flex-row space-x-2">
