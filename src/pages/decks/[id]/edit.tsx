@@ -1,4 +1,4 @@
-import { ChatBubbleIcon } from "@radix-ui/react-icons";
+import { ChatBubbleIcon, RocketIcon } from "@radix-ui/react-icons";
 import { type NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -68,6 +68,13 @@ const DecksEditPage: NextPage = () => {
             <Link href={`/decks/${deckQuery.data.id}/chat`}>
               <ChatBubbleIcon aria-hidden className="mr-2" />
               Chat
+            </Link>
+          </Button>
+
+          <Button variant="primary" asChild>
+            <Link href={`/decks/${deckQuery.data.id}`}>
+              <RocketIcon aria-hidden className="mr-2" />
+              Review
             </Link>
           </Button>
 
