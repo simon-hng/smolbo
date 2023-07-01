@@ -39,10 +39,12 @@ const DecksEditPage: NextPage = () => {
             <Button variant="skeleton" />
           </div>
 
-          <div className="space-y-4">
-            <CardComponent variant="skeleton" />
-            <CardComponent variant="skeleton" />
-            <CardComponent variant="skeleton" />
+          <div className="flex space-x-4 overflow-auto">
+            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
+            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
+            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
+            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
+            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
           </div>
         </Section>
       </div>

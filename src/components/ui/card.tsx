@@ -2,9 +2,13 @@ import { type VariantProps, cva } from "class-variance-authority";
 import type { ComponentProps } from "react";
 
 export const styles = cva(
-  "rounded-2xl border-2 border-slate-500 duration-200 overflow-hidden shadow-md",
+  "rounded-2xl border-2 duration-200 overflow-hidden shadow-md",
   {
     variants: {
+      border: {
+        default: "border-slate-500",
+        none: "border-transparent",
+      },
       variant: {
         primary: "bg-slate-900 text-white",
         skeleton: "h-40 skeleton",
@@ -15,7 +19,15 @@ export const styles = cva(
         md: "p-4",
       },
     },
+    compoundVariants: [
+      {
+        variant: "skeleton",
+        border: "default",
+        className: "border-none",
+      },
+    ],
     defaultVariants: {
+      border: "default",
       padding: "md",
     },
   }

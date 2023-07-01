@@ -25,7 +25,7 @@ export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
 
   return (
     <DropdownMenu.Root>
-      <div className="dialog-close float-right">
+      <div className="dialog-close float-right pl-4">
         <DropdownMenu.Trigger>
           <HamburgerMenuIcon />
         </DropdownMenu.Trigger>

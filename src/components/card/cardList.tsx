@@ -6,8 +6,11 @@ interface Props {
 }
 export const CardList = ({ cards }: Props) => {
   return (
-    <div className="flex flex-col space-y-4">
-      {cards && cards.map((card) => <FlashCard key={card.id} card={card} />)}
+    <div className="flex min-h-[50vh] space-x-4 overflow-auto">
+      {cards &&
+        cards.map((card) => (
+          <FlashCard key={card.id} card={card} className="w-64 shrink-0" />
+        ))}
     </div>
   );
 };
