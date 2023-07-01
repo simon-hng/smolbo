@@ -6,6 +6,7 @@ import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { OpenAI } from "langchain";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { env } from "~/env.mjs";
+import { AIChatMessage, HumanChatMessage } from "langchain/schema";
 
 const CONDENSE_PROMPT = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 
@@ -156,10 +157,12 @@ export const deckRouter = createTRPCRouter({
 
       const chain = makeChain(vectorStore);
 
-      // TODO: Fix history not working
+      const history = input.history.flatMap(([q, a]) =>
+        [new HumanChatMessage(q), new AIChatMessage(a)]
+      )
       const response = await chain.call({
         question: input.question.trim().replaceAll("\n", ""),
-        chat_history: [],
+        chat_history: history,
       });
 
       return response;
