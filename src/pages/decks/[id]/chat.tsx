@@ -30,7 +30,9 @@ const DecksEditPage: NextPage = () => {
     return (
       <div className="pt-20">
         <Section>
-          <h1 className="skeleton mb-2 w-40 text-4xl">Failed to load deck</h1>
+          <h1 className="skeleton mb-2 w-40 text-4xl font-semibold">
+            Failed to load deck
+          </h1>
           <p> Deck with id {query.id} not found</p>
         </Section>
       </div>
@@ -41,7 +43,9 @@ const DecksEditPage: NextPage = () => {
     <div className="pt-20">
       <Section className="space-y-8">
         <div>
-          <h1 className="mb-2 text-4xl">{deckQuery.data.title}</h1>
+          <h1 className="mb-2 text-4xl font-semibold">
+            {deckQuery.data.title}
+          </h1>
           <p>{deckQuery.data.description}</p>
         </div>
 

@@ -1,5 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
+import { Button } from "~/components/ui/button";
+import { Section } from "~/components/ui/section";
 
 const Home: NextPage = () => {
   return (
@@ -10,8 +13,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex flex-col">
-        <h1 className="mb-8 text-4xl">Home</h1>
+      <div className="pt-20">
+        <Section className="space-y-4">
+          <h1 className="mb-8 text-4xl font-semibold">Home</h1>
+
+          <p>Nothing here yet. Start learning with your decks</p>
+          <Button asChild variant="primary">
+            <Link href="/decks">Decks</Link>
+          </Button>
+        </Section>
       </div>
     </>
   );

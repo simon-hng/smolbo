@@ -18,14 +18,5 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/decks",
-        permanent: true,
-      },
-    ];
-  },
 };
 export default config;

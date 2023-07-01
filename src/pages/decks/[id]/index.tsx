@@ -136,7 +136,7 @@ const DecksViewPage: NextPage = () => {
   return (
     <div className="pt-20">
       <Section className="space-y-4">
-        <h1 className="mb-8 text-4xl">Session Overview</h1>
+        <h1 className="mb-8 text-4xl font-semibold">Session Overview</h1>
 
         <div className="space-y-4">
           {reviewedCards.map((card) => (

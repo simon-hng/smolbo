@@ -30,7 +30,7 @@ export const UserPage = () => {
     return (
       <div className="pt-20">
         <Section>
-          <h1 className="mb-8 text-4xl">General Settings</h1>
+          <h1 className="mb-8 text-4xl font-semibold">General Settings</h1>
 
           <div className="space-y-4">
             <div className="skeleton h-32 w-32 rounded-full" />
@@ -58,7 +58,7 @@ export const UserPage = () => {
   return (
     <div className="pt-20">
       <Section>
-        <h1 className="mb-8 text-4xl">General Settings</h1>
+        <h1 className="mb-8 text-4xl font-semibold">General Settings</h1>
 
         <div className="space-y-4">
           <UserAvatar />

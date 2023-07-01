@@ -5,7 +5,7 @@ export const DecksPage = () => {
   return (
     <div className="pt-20">
       <Section className="space-y-4">
-        <h1 className="mb-8 text-4xl">Your decks</h1>
+        <h1 className="mb-8 text-4xl font-semibold">Your decks</h1>
 
         <DeckList />
         <DeckCreationDialog />
