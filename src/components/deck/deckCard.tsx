@@ -26,10 +26,10 @@ export const DeckCard = ({ deck }: DeckCardProps) => {
           </Link>
 
           <Link
-            href={`decks/${deck.id}/edit`}
+            href={`decks/${deck.id}/overview`}
             className="w-full p-2 text-center duration-500 hover:bg-slate-500"
           >
-            Edit
+            Overview
           </Link>
 
           <Link
