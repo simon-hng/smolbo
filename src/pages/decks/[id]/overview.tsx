@@ -28,10 +28,13 @@ const DecksEditPage: NextPage = () => {
         <Section className="space-y-8">
           <div>
             <h1 className="skeleton mb-2 w-80 text-4xl" />
-            <p className="skeleton w-80 animate-pulse" />
+            <p className="skeleton w-96 animate-pulse" />
+            <p className="skeleton w-96 animate-pulse" />
           </div>
 
           <div className="flex flex-row space-x-2">
+            <Button variant="skeleton" />
+            <Button variant="skeleton" />
             <Button variant="skeleton" />
             <Button variant="skeleton" />
           </div>
@@ -87,7 +90,7 @@ const DecksEditPage: NextPage = () => {
           )}
         </div>
 
-        <div className="flex flex-row space-x-2">
+        <div className="flex flex-row space-x-2 overflow-auto">
           <Button variant="primary" asChild>
             <Link href={`/decks/${deckQuery.data.id}/chat`}>
               <ChatBubbleIcon aria-hidden className="mr-2" />
