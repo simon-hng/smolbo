@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
 import { DeckCard } from "./deckCard";
 
-export const DeckCarousel = () => {
+export const DeckList = () => {
   const decksQuery = api.deck.getAllForUser.useQuery();
   const decks = decksQuery.data;
 

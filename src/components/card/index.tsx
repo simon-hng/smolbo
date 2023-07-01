@@ -1,3 +1,3 @@
 export { CardCreationDialog } from "./cardCreationDialog";
-export { CardCarousel } from "./cardCarousel";
+export { CardList } from "./cardList";
 export { FlashCard } from "./flashCard";

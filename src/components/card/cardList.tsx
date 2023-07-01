@@ -1,10 +1,10 @@
 import { type Card } from "@prisma/client";
 import { FlashCard } from ".";
 
-interface CardCarouselProps {
+interface Props {
   cards: Card[];
 }
-export const CardCarousel = ({ cards }: CardCarouselProps) => {
+export const CardList = ({ cards }: Props) => {
   return (
     <div className="flex flex-col space-y-4">
       {cards && cards.map((card) => <FlashCard key={card.id} card={card} />)}

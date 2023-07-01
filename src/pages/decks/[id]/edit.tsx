@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
-import { CardCarousel, CardCreationDialog } from "~/components/card";
+import { CardList, CardCreationDialog } from "~/components/card";
 import { UploadDialog } from "~/components/deck/uploadDialog";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
@@ -63,7 +63,7 @@ const DecksEditPage: NextPage = () => {
           <UploadDialog deckId={deckQuery.data.id} />
         </div>
 
-        <CardCarousel cards={deckQuery.data.cards} />
+        <CardList cards={deckQuery.data.cards} />
       </Section>
     </div>
   );
