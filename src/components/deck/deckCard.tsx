@@ -1,6 +1,5 @@
 import { type Deck } from "@prisma/client";
 import Link from "next/link";
-import { CardCreationDialog } from "~/components/card";
 import { Card } from "../ui/card";
 
 interface DeckCardProps {
@@ -10,7 +9,7 @@ interface DeckCardProps {
 export const DeckCard = ({ deck }: DeckCardProps) => {
   return (
     <>
-      <Card padding="none">
+      <Card padding="none" className="flex flex-col">
         <Link href={`/decks/${deck.id}`}>
           <div className="p-4">
             <h2 className="mb-2 text-2xl">{deck.title}</h2>
@@ -18,7 +17,7 @@ export const DeckCard = ({ deck }: DeckCardProps) => {
           </div>
         </Link>
 
-        <div className="flex divide-x-2 divide-slate-500 border-t-2 border-slate-500">
+        <div className="mt-auto flex divide-x-2 divide-slate-500 border-t-2 border-slate-500">
           <Link
             href={`decks/${deck.id}`}
             className="w-full p-2 text-center duration-500 hover:bg-slate-500"

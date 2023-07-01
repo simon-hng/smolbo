@@ -16,7 +16,7 @@ export const DeckList = () => {
   }
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="grid gap-4 md:grid-cols-2">
       {decks && decks.map((deck) => <DeckCard key={deck.id} deck={deck} />)}
     </div>
   );
