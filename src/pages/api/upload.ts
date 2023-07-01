@@ -25,7 +25,7 @@ export default async function handler(
   const deckId = fields.deckId?.at(0);
   if (!deckId) {
     res.status(405).json({ success: "false", message: "No deck id provided" });
-    return
+    return;
   }
 
   const pinecone = new PineconeClient();
@@ -35,11 +35,12 @@ export default async function handler(
   });
 
   const files = await Promise.all(
-    Object.values(data).filter((file): file is File[] => Array.isArray(file))
-      .map(files => files.at(0))
+    Object.values(data)
+      .filter((file): file is File[] => Array.isArray(file))
+      .map((files) => files.at(0))
       .filter((file): file is File => file !== undefined)
       .map((file) => new PDFLoader(file.filepath).load())
-  ).then(files => files.flat())
+  ).then((files) => files.flat());
 
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,

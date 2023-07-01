@@ -10,10 +10,10 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <style jsx global>{`
-      html {
-        font-family: ${inter.style.fontFamily};
-      }
-    `}</style>
+        html {
+          font-family: ${inter.style.fontFamily};
+        }
+      `}</style>
       <div className="min-h-screen max-w-full overflow-hidden bg-slate-900 text-white">
         <Navigation />
         <main>{children}</main>

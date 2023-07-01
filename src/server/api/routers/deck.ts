@@ -157,9 +157,10 @@ export const deckRouter = createTRPCRouter({
 
       const chain = makeChain(vectorStore);
 
-      const history = input.history.flatMap(([q, a]) =>
-        [new HumanChatMessage(q), new AIChatMessage(a)]
-      )
+      const history = input.history.flatMap(([q, a]) => [
+        new HumanChatMessage(q),
+        new AIChatMessage(a),
+      ]);
       const response = await chain.call({
         question: input.question.trim().replaceAll("\n", ""),
         chat_history: history,

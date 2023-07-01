@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
-import { ComponentPropsWithRef } from "react";
+import { type ComponentPropsWithRef } from "react";
 
 export const styles = cva(
   "rounded-full px-4 py-1 duration-500 flex items-center",
@@ -12,7 +12,8 @@ export const styles = cva(
       },
       variant: {
         skeleton: "skeleton w-36",
-        primary: "bg-slate-900 hover:bg-slate-500 disabled:bg-slate-800 disabled:text-slate-500",
+        primary:
+          "bg-slate-900 hover:bg-slate-500 disabled:bg-slate-800 disabled:text-slate-500",
         red: "bg-red-700",
       },
       fullWidth: {

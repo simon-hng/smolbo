@@ -1,6 +1,6 @@
 import { Cross2Icon, FilePlusIcon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
-import { type MouseEventHandler, useState, ChangeEventHandler } from "react";
+import { type MouseEventHandler, useState, type ChangeEventHandler } from "react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import toast from "react-hot-toast";
@@ -13,32 +13,32 @@ export const UploadDialog = ({ deckId }: Props) => {
 
   const handleFileInput: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (!e.target.files) return;
-    setFiles(e.target.files)
-  }
+    setFiles(e.target.files);
+  };
 
   const handleUpload: MouseEventHandler<HTMLButtonElement> &
     MouseEventHandler<HTMLAnchorElement> = (e) => {
-      e.preventDefault();
-      if (!files) return;
+    e.preventDefault();
+    if (!files) return;
 
-      const data = new FormData();
-      data.set("deckId", deckId);
+    const data = new FormData();
+    data.set("deckId", deckId);
 
-      for (const file of files) {
-        data.set(file.name, file)
-      }
+    for (const file of files) {
+      data.set(file.name, file);
+    }
 
-      fetch("/api/upload/", {
-        method: "POST",
-        body: data,
+    fetch("/api/upload/", {
+      method: "POST",
+      body: data,
+    })
+      .then(() => {
+        toast.success(`upload success`);
       })
-        .then(() => {
-          toast.success(`upload success`);
-        })
-        .catch(() => {
-          toast.error("failed");
-        });
-    };
+      .catch(() => {
+        toast.error("failed");
+      });
+  };
 
   return (
     <>
