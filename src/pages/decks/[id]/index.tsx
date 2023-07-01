@@ -98,37 +98,39 @@ const DecksViewPage: NextPage = () => {
           </motion.div>
         </Section>
 
-        <Section className="fixed bottom-0 w-full">
-          <div className="flex w-full divide-x-2 divide-slate-500 overflow-hidden rounded-full border-2 border-slate-500 bg-slate-900/50 backdrop-blur-lg">
-            {!open && (
-              <button
-                className="w-full p-2 text-center"
-                onClick={() => {
-                  setOpen(true);
-                }}
-              >
-                Show answer
-              </button>
-            )}
-            {!!open && (
-              <>
+        <div className="fixed bottom-0 w-full">
+          <div className="container mx-auto p-8 lg:p-16">
+            <div className="flex w-full divide-x-2 divide-slate-500 overflow-hidden rounded-full border-2 border-slate-500 bg-slate-900/50 backdrop-blur-lg">
+              {!open && (
                 <button
-                  className="w-full bg-[#064e3b] p-2 text-center"
-                  onClick={() => void handleNextRound(true)}
+                  className="w-full p-2 text-center duration-500 hover:bg-slate-500"
+                  onClick={() => {
+                    setOpen(true);
+                  }}
                 >
-                  Easy
+                  Show answer
                 </button>
+              )}
+              {!!open && (
+                <>
+                  <button
+                    className="w-full bg-[#064e3b] p-2 text-center"
+                    onClick={() => void handleNextRound(true)}
+                  >
+                    Easy
+                  </button>
 
-                <button
-                  className="w-full bg-[#881337] p-2 text-center"
-                  onClick={() => void handleNextRound(false)}
-                >
-                  Hard
-                </button>
-              </>
-            )}
+                  <button
+                    className="w-full bg-[#881337] p-2 text-center"
+                    onClick={() => void handleNextRound(false)}
+                  >
+                    Hard
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-        </Section>
+        </div>
       </motion.div>
     );
   }
