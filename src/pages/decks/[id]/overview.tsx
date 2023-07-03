@@ -1,5 +1,5 @@
 import type { Card } from "@prisma/client";
-import { ChatBubbleIcon, RocketIcon } from "@radix-ui/react-icons";
+import { ChatBubbleIcon, Pencil1Icon, RocketIcon } from "@radix-ui/react-icons";
 import { type NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -99,17 +99,20 @@ const DecksEditPage: NextPage = () => {
               Chat
             </Link>
           </Button>
-
           <Button variant="primary" asChild>
             <Link href={`/decks/${deckQuery.data.id}`}>
               <RocketIcon aria-hidden className="mr-2" />
               Review
             </Link>
           </Button>
-
           <UploadDialog deckId={deckQuery.data.id} />
-
           <CardCreationDialog deck={deckQuery.data} />
+          <Button variant="primary" asChild>
+            <Link href={`/decks/${deckQuery.data.id}/edit`}>
+              <Pencil1Icon aria-hidden className="mr-2" />
+              Edit
+            </Link>
+          </Button>
         </div>
 
         <CardList cards={deckQuery.data.cards} />

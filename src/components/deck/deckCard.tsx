@@ -19,24 +19,22 @@ export const DeckCard = ({ deck }: DeckCardProps) => {
 
         <div className="mt-auto flex divide-x-2 divide-slate-500 border-t-2 border-slate-500">
           <Link
-            href={`decks/${deck.id}`}
+            href={`decks/${deck.id}/chat`}
             className="w-full p-2 text-center duration-500 hover:bg-slate-500"
           >
-            Review
+            Chat
           </Link>
-
           <Link
             href={`decks/${deck.id}/overview`}
             className="w-full p-2 text-center duration-500 hover:bg-slate-500"
           >
             Overview
           </Link>
-
           <Link
-            href={`decks/${deck.id}/chat`}
+            href={`decks/${deck.id}/edit`}
             className="w-full p-2 text-center duration-500 hover:bg-slate-500"
           >
-            Chat
+            Edit
           </Link>
         </div>
       </Card>
