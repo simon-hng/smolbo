@@ -13,7 +13,11 @@ import { Card as CardComponent } from "~/components/ui/card";
 import { Section } from "~/components/ui/section";
 import { useScheduler } from "~/hooks/useScheduler";
 import { Button } from "~/components/ui/button";
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import {
+  ArrowLeftIcon,
+  CardStackIcon,
+  ChatBubbleIcon,
+} from "@radix-ui/react-icons";
 import Link from "next/link";
 
 const DecksViewPage: NextPage = () => {
@@ -135,6 +139,39 @@ const DecksViewPage: NextPage = () => {
     );
   }
 
+  if (reviewedCards.length === 0 && !card) {
+    return (
+      <div className="pt-20">
+        <Section className="space-y-4">
+          <h1 className="mb-8 text-4xl font-semibold">
+            No cards due for review
+          </h1>
+
+          <div className="flex flex-row space-x-2 overflow-auto">
+            <Button variant="primary" asChild>
+              <Link href={`/decks/${query.id as string}/chat`}>
+                <ChatBubbleIcon aria-hidden className="mr-2" />
+                Chat
+              </Link>
+            </Button>
+            <Button variant="primary" asChild>
+              <Link href={`/decks/${query.id as string}/overview`}>
+                <CardStackIcon aria-hidden className="mr-2" />
+                Deck Overview
+              </Link>
+            </Button>
+            <Button asChild>
+              <Link href="/decks">
+                <ArrowLeftIcon aria-hidden className="mr-2" />
+                View all decks
+              </Link>
+            </Button>
+          </div>
+        </Section>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-20">
       <Section className="space-y-4">
@@ -149,7 +186,7 @@ const DecksViewPage: NextPage = () => {
         <Button asChild>
           <Link href="/decks">
             <ArrowLeftIcon aria-hidden className="mr-2" />
-            To deck overview
+            View all decks
           </Link>
         </Button>
       </Section>
