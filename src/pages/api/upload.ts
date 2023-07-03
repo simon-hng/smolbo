@@ -1,7 +1,7 @@
 import formidable, { type Fields, type Files, type File } from "formidable";
 import { type IncomingMessage } from "http";
 import type { NextApiResponse } from "next/types";
-import { DirectoryLoader, PDFLoader } from "langchain/document_loaders";
+import { PDFLoader } from "langchain/document_loaders";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";

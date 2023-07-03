@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 
 const useChat = (deckId: string, question: string) => {
   const [history, setHistory] = useState<[string, string][]>([]);
-  const cardRecommendation = api.deck.chatWithSlides.useQuery(
+  const cardRecommendation = api.chat.chatWithDeck.useQuery(
     { deckId, question, history },
     {
       refetchOnWindowFocus: false,

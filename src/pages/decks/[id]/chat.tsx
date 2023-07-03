@@ -1,8 +1,6 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { Chat } from "~/components/chat";
-import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
