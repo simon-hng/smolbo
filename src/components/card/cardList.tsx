@@ -6,13 +6,13 @@ interface Props {
 }
 export const CardList = ({ cards }: Props) => {
   return (
-    <div className="flex min-h-[50vh] space-x-4 overflow-auto">
+    <div className="flex min-h-[50vh] snap-x space-x-4 overflow-x-auto">
       {cards &&
         cards.map((card) => (
           <FlashCard
             key={card.id}
             card={card}
-            className="w-3/4 shrink-0 md:w-1/3"
+            className="w-3/4 shrink-0 snap-start snap-normal md:w-1/3"
           />
         ))}
     </div>
