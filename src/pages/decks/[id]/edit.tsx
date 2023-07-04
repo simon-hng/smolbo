@@ -9,13 +9,10 @@ import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
 const DecksEditPage: NextPage = () => {
-  const { query } = useRouter();
+  const router = useRouter();
 
-  const { mutate } = api.deck.update.useMutation({
-    onSuccess: () => {
-      toast.success("Updated deck information");
-    },
-  });
+  const updateMutation = api.deck.update.useMutation();
+  const deleteMutation = api.deck.deleteById.useMutation();
 
   const formik = useFormik<Pick<Deck, "id" | "title" | "description">>({
     initialValues: {
@@ -23,13 +20,16 @@ const DecksEditPage: NextPage = () => {
       title: "",
       description: "",
     },
-    onSubmit: (values) => {
-      mutate(values);
-    },
+    onSubmit: (values) =>
+      void toast.promise(updateMutation.mutateAsync(values), {
+        loading: "Updating deck values",
+        success: "Successfully updated deck",
+        error: "Failed to update deck",
+      }),
   });
 
-  const deckQuery = api.deck.getById.useQuery(query.id as string, {
-    enabled: !!query.id,
+  const deckQuery = api.deck.getById.useQuery(router.query.id as string, {
+    enabled: !!router.query.id,
     refetchOnWindowFocus: false,
     onSuccess: (data) => void formik.setValues(data as Deck),
   });
@@ -42,14 +42,18 @@ const DecksEditPage: NextPage = () => {
     );
   }
 
-  if (deckQuery.error || !deckQuery.data || typeof query.id !== "string") {
+  if (
+    deckQuery.error ||
+    !deckQuery.data ||
+    typeof router.query.id !== "string"
+  ) {
     return (
       <div className="pt-20">
         <Section>
           <h1 className="skeleton mb-2 w-40 text-4xl font-semibold">
             Failed to load deck
           </h1>
-          <p> Deck with id {query.id} not found</p>
+          <p> Deck with id {router.query.id} not found</p>
         </Section>
       </div>
     );
@@ -77,6 +81,24 @@ const DecksEditPage: NextPage = () => {
             />
 
             <div className="flex justify-end gap-2">
+              <Button
+                variant="red"
+                type="button"
+                onClick={() => {
+                  void toast.promise(
+                    deleteMutation
+                      .mutateAsync(router.query.id as string)
+                      .then(() => router.push("/decks")),
+                    {
+                      success: "Successfully deleted deck with id",
+                      loading: "Deleting deck",
+                      error: "Failed to delete deck",
+                    }
+                  );
+                }}
+              >
+                Delete deck
+              </Button>
               <Button variant="primary" type="submit">
                 Save changes
               </Button>
