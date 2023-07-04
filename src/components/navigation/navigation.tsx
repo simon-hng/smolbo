@@ -3,6 +3,7 @@ import {
   CaretDownIcon,
   ExitIcon,
   PersonIcon,
+  SunIcon,
 } from "@radix-ui/react-icons";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { signOut } from "next-auth/react";
@@ -29,21 +30,31 @@ export const Navigation: React.FC = () => {
             <CaretDownIcon className="ml-2" aria-hidden />
           </NavigationMenu.Trigger>
 
-          <NavigationMenu.Content className="absolute right-2 z-50 mt-2 ">
+          <NavigationMenu.Content className="absolute right-2 z-50 mt-2 min-w-[12rem] rounded-2xl border-2 border-slate-500 bg-slate-900">
             <ul className="space-y-2 py-2">
               <li>
-                <Button variant="primary" asChild>
-                  <Link href="/user">
-                    <PersonIcon aria-hidden className="mr-2" />
-                    Account
-                  </Link>
-                </Button>
+                <Link
+                  className="flex w-full items-center px-4 py-2 hover:bg-slate-500"
+                  href="/user"
+                >
+                  <PersonIcon aria-hidden className="mr-2" />
+                  Account
+                </Link>
               </li>
               <li>
-                <Button variant="primary" onClick={() => void signOut()}>
+                <button className="flex w-full items-center px-4 py-2 hover:bg-slate-500">
+                  <SunIcon aria-hidden className="mr-2" />
+                  Theme
+                </button>
+              </li>
+              <li>
+                <button
+                  className="flex w-full items-center px-4 py-2 hover:bg-slate-500"
+                  onClick={() => void signOut()}
+                >
                   <ExitIcon aria-hidden className="mr-2" />
                   Logout
-                </Button>
+                </button>
               </li>
             </ul>
           </NavigationMenu.Content>
