@@ -92,7 +92,7 @@ const DecksEditPage: NextPage = () => {
           )}
         </div>
 
-        <div className="flex flex-row space-x-2 overflow-auto">
+        <div className="scrollbar flex flex-row space-x-2 overflow-x-auto">
           <Button variant="primary" asChild>
             <Link href={`/decks/${deckQuery.data.id}/chat`}>
               <ChatBubbleIcon aria-hidden className="mr-2" />
