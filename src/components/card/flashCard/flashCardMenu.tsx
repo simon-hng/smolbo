@@ -14,13 +14,7 @@ interface Props {
 export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
   const ctx = api.useContext();
   const deleteCardMutation = api.card.deleteById.useMutation({
-    onSuccess: () => {
-      toast.success("deleted card");
-      void ctx.deck.invalidate();
-    },
-    onError: () => {
-      toast.error("failed to delete card");
-    },
+    onSuccess: () => ctx.deck.invalidate(),
   });
 
   return (
@@ -46,7 +40,13 @@ export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
             <DropdownMenu.Item asChild>
               <button
                 className="bg-red-900 px-4 py-2"
-                onClick={() => void deleteCardMutation.mutate(card.id)}
+                onClick={() =>
+                  void toast.promise(deleteCardMutation.mutateAsync(card.id), {
+                    loading: "Deleting card",
+                    success: "Successfully deleted card",
+                    error: "Failed to delete card",
+                  })
+                }
               >
                 Delete
               </button>

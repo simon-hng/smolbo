@@ -18,23 +18,24 @@ const ChatBubble = ({ question, answer, deckId }: ChatBubbleProps) => {
   const [saved, setSaved] = useState(false);
   const ctx = api.useContext();
 
-  const { mutate, isLoading } = api.card.create.useMutation({
-    onSuccess: () => {
-      toast.success("added card");
-      void ctx.deck.invalidate();
-    },
-    onError: () => {
-      toast.error("failed to add card");
-    },
+  const { mutateAsync, isLoading } = api.card.create.useMutation({
+    onSuccess: () => void ctx.deck.invalidate(),
   });
 
   const saveHandler = () => {
     setSaved(true);
-    mutate({
-      front: question,
-      back: answer,
-      deckId,
-    });
+    void toast.promise(
+      mutateAsync({
+        front: question,
+        back: answer,
+        deckId,
+      }),
+      {
+        loading: "Adding card",
+        success: "Successfully added card",
+        error: "Failed to add card",
+      }
+    );
   };
 
   return (

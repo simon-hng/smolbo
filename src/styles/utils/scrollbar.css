@@ -1,0 +1,11 @@
+@layer utilities {
+  .scrollbar {
+    &::-webkit-scrollbar {
+      @apply bg-slate-800;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      @apply w-16 rounded-2xl bg-slate-500;
+    }
+  }
+}

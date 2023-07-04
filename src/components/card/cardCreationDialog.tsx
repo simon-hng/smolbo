@@ -32,19 +32,20 @@ export const CardCreationDialog = ({
   );
 
   const cardCreateMutation = api.card.create.useMutation({
-    onSuccess: () => {
-      toast.success("added card");
-      void ctx.deck.invalidate();
-    },
-    onError: () => {
-      toast.error("failed to add card");
-    },
+    onSuccess: () => ctx.deck.invalidate(),
   });
 
   const saveHandler = () => {
-    cardCreateMutation.mutate({
-      ...card,
-    });
+    void toast.promise(
+      cardCreateMutation.mutateAsync({
+        ...card,
+      }),
+      {
+        loading: "Adding card",
+        success: "Successfully added card",
+        error: "Failed to add card",
+      }
+    );
 
     setCard({
       ...card,

@@ -24,7 +24,7 @@ export const FlashCard = ({
       <CardMenu card={card} isEdit={isEdit} setIsEdit={setIsEdit} />
 
       {isEdit ? (
-        <CardEdit card={card} setCard={setCard} />
+        <CardEdit card={card} setCard={setCard} setIsEdit={setIsEdit} />
       ) : (
         <CardView card={card} openState={openState} />
       )}
