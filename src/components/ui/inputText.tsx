@@ -2,17 +2,20 @@ import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
 import type { ComponentPropsWithRef } from "react";
 
-export const styles = cva("border-2 rounded-full bg-transparent px-6 py-2 outline-none", {
-  variants: {
-    state: {
-      default: "border-slate-500",
-      error: "border-red-800 text-red-800 bg-red-800/20",
+export const styles = cva(
+  "border-2 rounded-full bg-transparent px-6 py-2 outline-none",
+  {
+    variants: {
+      state: {
+        default: "border-slate-500",
+        error: "border-red-800 text-red-800 bg-red-800/20",
+      },
     },
-  },
-  defaultVariants: {
-    state: "default",
-  },
-});
+    defaultVariants: {
+      state: "default",
+    },
+  }
+);
 
 export interface Props
   extends VariantProps<typeof styles>,
