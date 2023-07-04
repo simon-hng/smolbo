@@ -1,5 +1,3 @@
-import { useSession } from "next-auth/react";
-import { useState } from "react";
 import { UserAvatar } from "~/components/userAvatar";
 import { api } from "~/utils/api";
 import * as Slider from "@radix-ui/react-slider";
@@ -7,22 +5,36 @@ import type { User } from "@prisma/client";
 import toast from "react-hot-toast";
 import { Button } from "~/components/ui/button";
 import { Section } from "~/components/ui/section";
+import { InputText } from "~/components/ui/inputText";
+import { useFormik } from "formik";
 
 export const UserPage = () => {
-  const { data: session, status } = useSession({ required: true });
-  const [user, setUser] = useState<User | null>();
+  const userMutation = api.user.updateUser.useMutation();
+  const formik = useFormik<
+    Pick<User, "id" | "name" | "email" | "maxCardsPerSession">
+  >({
+    initialValues: {
+      id: "",
+      name: null,
+      email: null,
+      maxCardsPerSession: 0,
+    },
+    onSubmit: (values) =>
+      void toast.promise(userMutation.mutateAsync(values), {
+        loading: "Updating user information",
+        success: "Successfully updated user information",
+        error: "Failed to update user information",
+      }),
+  });
   const userQuery = api.user.getUser.useQuery(undefined, {
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setUser(data);
-    },
+    onSuccess: (data) => void formik.setValues(data as User),
     onError: () => {
       toast.error("Failed to get user");
     },
   });
-  const userMutation = api.user.updateUser.useMutation();
 
-  if (userQuery.isLoading || status === "loading" || !user) {
+  if (userQuery.isLoading) {
     return (
       <div className="pt-20">
         <Section>
@@ -56,67 +68,73 @@ export const UserPage = () => {
       <Section>
         <h1 className="mb-8 text-4xl font-semibold">General Settings</h1>
 
-        <div className="space-y-4">
-          <UserAvatar />
+        <form onSubmit={formik.handleSubmit}>
+          <div className="space-y-4">
+            <UserAvatar />
 
-          <label className="flex flex-col">
-            Name
-            <input className="textarea" value={session.user.name ?? "err"} />
-          </label>
+            <InputText
+              label="Name"
+              name="name"
+              value={formik.values.name ?? ""}
+              onChange={formik.handleChange}
+              className="w-full"
+            />
 
-          <label className="flex flex-col">
-            Email
-            <input className="textarea" value={session.user.email ?? "err"} />
-          </label>
+            <InputText
+              label="Email"
+              name="email"
+              value={formik.values.email ?? ""}
+              onChange={formik.handleChange}
+              className="w-full"
+            />
 
-          <label className="flex flex-col">
-            Max cards per session: {user.maxCardsPerSession}
-            <Slider.Root
-              className="relative flex h-5 w-full touch-none select-none items-center"
-              value={[user.maxCardsPerSession]}
-              onValueChange={(value: number[]) =>
-                setUser({
-                  ...user,
-                  maxCardsPerSession: value.at(0) as number,
-                })
-              }
-              max={80}
-              step={1}
-            >
-              <Slider.Track className="bg-blackA10 relative h-[3px] grow rounded-full">
-                <Slider.Range className="absolute h-full rounded-full bg-white" />
-              </Slider.Track>
-              <Slider.Thumb
-                className="hover:bg-violet3 block h-5 w-5 rounded-full bg-white"
-                aria-label="Volume"
-              />
-            </Slider.Root>
-          </label>
+            <label className="flex flex-col">
+              <span className="mb-2 ml-6">
+                Max cards per session: {formik.values.maxCardsPerSession}
+              </span>
+              <Slider.Root
+                className="relative flex h-5 w-full touch-none select-none items-center"
+                value={[formik.values.maxCardsPerSession]}
+                onValueChange={(values: number[]) =>
+                  void formik.setFieldValue(
+                    "maxCardsPerSession",
+                    values.at(0) as number
+                  )
+                }
+                max={80}
+                step={1}
+              >
+                <Slider.Track className="bg-blackA10 relative h-[3px] grow rounded-full">
+                  <Slider.Range className="absolute h-full rounded-full bg-white" />
+                </Slider.Track>
+                <Slider.Thumb
+                  className="hover:bg-violet3 block h-5 w-5 rounded-full bg-white"
+                  aria-label="Volume"
+                />
+              </Slider.Root>
+            </label>
 
-          <div className="flex space-x-2">
-            <Button
-              variant="primary"
-              onClick={() =>
-                void toast.promise(userMutation.mutateAsync(user), {
-                  loading: "Updating user information",
-                  success: "Successfully updated user information",
-                  error: "Failed to update user information",
-                })
-              }
-            >
-              Save
-            </Button>
+            <div className="flex justify-end space-x-2">
+              <Button variant="primary" type="submit">
+                Save
+              </Button>
 
-            <Button
-              variant="primary"
-              onClick={() => {
-                void userQuery.refetch();
-              }}
-            >
-              Reset
-            </Button>
+              <Button
+                variant="primary"
+                type="button"
+                onClick={() =>
+                  void toast.promise(userQuery.refetch(), {
+                    loading: "Resetting user information",
+                    success: "Reset user information to previous",
+                    error: "Failed to reset user information",
+                  })
+                }
+              >
+                Reset
+              </Button>
+            </div>
           </div>
-        </div>
+        </form>
       </Section>
     </div>
   );
