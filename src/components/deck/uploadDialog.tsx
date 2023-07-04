@@ -32,16 +32,17 @@ export const UploadDialog = ({ deckId }: Props) => {
       data.set(file.name, file);
     }
 
-    fetch("/api/upload/", {
-      method: "POST",
-      body: data,
-    })
-      .then(() => {
-        toast.success(`upload success`);
-      })
-      .catch(() => {
-        toast.error("failed");
-      });
+    void toast.promise(
+      fetch("/api/upload/", {
+        method: "POST",
+        body: data,
+      }),
+      {
+        loading: "Uploading and processing files. This might take some time",
+        success: "Successfully uploaded and processed all files",
+        error: "Failed to process all files",
+      }
+    );
   };
 
   return (

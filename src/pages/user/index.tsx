@@ -20,11 +20,7 @@ export const UserPage = () => {
       toast.error("Failed to get user");
     },
   });
-  const userMutation = api.user.updateUser.useMutation({
-    onSuccess: () => {
-      toast.success("Updated user information");
-    },
-  });
+  const userMutation = api.user.updateUser.useMutation();
 
   if (userQuery.isLoading || status === "loading" || !user) {
     return (
@@ -100,9 +96,13 @@ export const UserPage = () => {
           <div className="flex space-x-2">
             <Button
               variant="primary"
-              onClick={() => {
-                userMutation.mutate(user);
-              }}
+              onClick={() =>
+                void toast.promise(userMutation.mutateAsync(user), {
+                  loading: "Updating user information",
+                  success: "Successfully updated user information",
+                  error: "Failed to update user information",
+                })
+              }
             >
               Save
             </Button>
