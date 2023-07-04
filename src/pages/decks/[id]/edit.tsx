@@ -1,8 +1,8 @@
 import type { Deck } from "@prisma/client";
 import { useFormik } from "formik";
-import Link from "next/link";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 import { Button } from "~/components/ui/button";
 import { InputText } from "~/components/ui/inputText";
 import { Section } from "~/components/ui/section";
@@ -11,16 +11,27 @@ import { api } from "~/utils/api";
 const DecksEditPage: NextPage = () => {
   const { query } = useRouter();
 
-  const formik = useFormik<Partial<Deck>>({
-    initialValues: {},
+  const { mutate } = api.deck.update.useMutation({
+    onSuccess: () => {
+      toast.success("Updated deck information");
+    },
+  });
+
+  const formik = useFormik<Pick<Deck, "id" | "title" | "description">>({
+    initialValues: {
+      id: "",
+      title: "",
+      description: "",
+    },
     onSubmit: (values) => {
-      console.log(JSON.stringify(values));
+      mutate(values);
     },
   });
 
   const deckQuery = api.deck.getById.useQuery(query.id as string, {
     enabled: !!query.id,
-    onSuccess: (data) => void formik.setValues(data ?? {}),
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => void formik.setValues(data as Deck),
   });
 
   if (deckQuery.isLoading) {
@@ -44,7 +55,6 @@ const DecksEditPage: NextPage = () => {
     );
   }
 
-  const deck = deckQuery.data;
   return (
     <div className="pt-20">
       <Section className="space-y-8">
@@ -65,14 +75,14 @@ const DecksEditPage: NextPage = () => {
               onChange={formik.handleChange}
               className="w-full"
             />
+
+            <div className="flex justify-end gap-2">
+              <Button variant="primary" type="submit">
+                Save changes
+              </Button>
+            </div>
           </fieldset>
         </form>
-
-        <div className="flex justify-end gap-2">
-          <Button variant="primary" type="submit">
-            Save changes
-          </Button>
-        </div>
       </Section>
     </div>
   );
