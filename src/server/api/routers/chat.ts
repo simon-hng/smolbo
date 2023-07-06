@@ -7,7 +7,6 @@ import { AIChatMessage, HumanChatMessage } from "langchain/schema";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { makeConversationalRetrievalQAChain } from "~/server/chains/embeddingsQAChain";
 
-
 export const chatRouter = createTRPCRouter({
   chatWithModule: protectedProcedure
     .input(

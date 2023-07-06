@@ -63,7 +63,10 @@ export const ModuleCreationDialog = () => {
                     height="10rem"
                     value={module.title}
                     onChange={(value) => {
-                      return setModule({ ...module, title: value ?? module.title });
+                      return setModule({
+                        ...module,
+                        title: value ?? module.title,
+                      });
                     }}
                   />
                 </label>
