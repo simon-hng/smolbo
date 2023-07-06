@@ -8,18 +8,18 @@ interface Props {
 export const CardList = ({ cards }: Props) => {
   if (!cards) {
     return (
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <CardComponent variant="skeleton" className="h-16" />
-        <CardComponent variant="skeleton" className="h-16" />
-        <CardComponent variant="skeleton" className="h-16" />
+      <div className="columns-sm gap-8">
+        <CardComponent variant="skeleton" className="mb-4 h-16" />
+        <CardComponent variant="skeleton" className="mb-4 h-16" />
+        <CardComponent variant="skeleton" className="mb-4 h-16" />
       </div>
     );
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div className="columns-sm gap-8">
       {cards.map((card) => (
-        <FlashCard key={card.id} card={card} className="w-full" />
+        <FlashCard key={card.id} card={card} className="mb-4 w-full" />
       ))}
     </div>
   );
