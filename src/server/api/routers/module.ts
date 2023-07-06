@@ -3,6 +3,8 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { getModuleTheme } from "~/server/chains/getModuleTheme";
 import { getPineconeIndex } from "~/server/pinecone";
 import { TRPCError } from "@trpc/server";
+import { prisma } from "~/server/db";
+import { NamespaceSummary } from "@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch";
 
 export const moduleRouter = createTRPCRouter({
   create: protectedProcedure
@@ -76,16 +78,32 @@ export const moduleRouter = createTRPCRouter({
       });
     }),
 
-  getById: protectedProcedure.input(z.string()).query(({ ctx, input }) => {
-    return ctx.prisma.module.findFirst({
-      include: {
-        cards: true,
-      },
-      where: {
-        id: input,
-      },
-    });
-  }),
+  getById: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const pineconeIndex = await getPineconeIndex();
+      const namespaces = (await pineconeIndex
+        .describeIndexStats({
+          describeIndexStatsRequest: {},
+        })
+        .then((res) => res.namespaces)) as {
+        [key: string]: NamespaceSummary;
+      };
+
+      return await ctx.prisma.module
+        .findFirst({
+          include: {
+            cards: true,
+          },
+          where: {
+            id: input,
+          },
+        })
+        .then((data) => ({
+          ...data,
+          vectorCount: namespaces[input]?.vectorCount,
+        }));
+    }),
 
   getAllForUser: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.module.findMany({

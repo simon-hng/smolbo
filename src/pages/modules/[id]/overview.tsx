@@ -9,12 +9,12 @@ import { Button } from "~/components/ui/button";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
+interface ModuleInformation extends Module {
+  cards: Card[];
+  vectorCount: number;
+}
 interface ModuleSummaryProps {
-  module?:
-    | (Module & {
-        cards: Card[];
-      })
-    | null;
+  module?: ModuleInformation;
 }
 const ModuleSummary = ({ module }: ModuleSummaryProps) => {
   if (!module) {
@@ -39,7 +39,10 @@ const ModuleSummary = ({ module }: ModuleSummaryProps) => {
         <p>{module.description}</p>
       </div>
       <div>
-        <p>This module contains {module.cards.length} cards</p>
+        <p>
+          This module contains {module.cards.length} cards and{" "}
+          {module.vectorCount} vectors
+        </p>
         {!!countCardsDue(module.cards) && (
           <p>
             <span className="text-red-500">
@@ -89,7 +92,7 @@ const ModulesEditPage: NextPage = () => {
   return (
     <div className="pt-20">
       <Section>
-        <ModuleSummary module={moduleQuery.data} />
+        <ModuleSummary module={moduleQuery.data as ModuleInformation} />
         <div>
           <h2 className="mb-4 text-2xl font-semibold">Your Flashcards</h2>
           <CardList cards={moduleQuery.data?.cards} />
