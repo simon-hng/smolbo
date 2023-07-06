@@ -1,4 +1,4 @@
-import type { Card } from "@prisma/client";
+import type { Card, Module } from "@prisma/client";
 import { ChatBubbleIcon, Pencil1Icon, RocketIcon } from "@radix-ui/react-icons";
 import { type NextPage } from "next";
 import Link from "next/link";
@@ -6,9 +6,78 @@ import { useRouter } from "next/router";
 import { CardList, CardCreationDialog } from "~/components/card";
 import { UploadDialog } from "~/components/module/uploadDialog";
 import { Button } from "~/components/ui/button";
-import { Card as CardComponent } from "~/components/ui/card";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
+
+interface ModuleSummaryProps {
+  module?:
+    | (Module & {
+        cards: Card[];
+      })
+    | null;
+}
+const ModuleSummary = ({ module }: ModuleSummaryProps) => {
+  if (!module) {
+    return (
+      <div className="mb-12 space-y-4">
+        <div className="skeleton mb-2 text-4xl" />
+        <div className="skeleton mb-4" />
+        <div className="skeleton h-16" />
+      </div>
+    );
+  }
+
+  const countCardsDue = (cards: Card[]) => {
+    const now = new Date();
+    return cards.filter((card) => card.dueDate < now).length;
+  };
+
+  return (
+    <div className="mb-12 space-y-4">
+      <div>
+        <h1 className="mb-2 text-4xl font-semibold">{module.title}</h1>
+        <p>{module.description}</p>
+      </div>
+      <div>
+        <p>This module contains {module.cards.length} cards</p>
+        {!!countCardsDue(module.cards) && (
+          <p>
+            <span className="text-red-500">
+              {countCardsDue(module.cards)} cards
+            </span>{" "}
+            are due for review,{" "}
+            <span className="text-blue-500">
+              {module.cards.length - countCardsDue(module.cards)} cards
+            </span>{" "}
+            are good
+          </p>
+        )}
+      </div>
+      <div className="scrollbar mb-12 flex flex-row space-x-2 overflow-x-auto">
+        <Button variant="primary" asChild>
+          <Link href={`/modules/${module.id}/chat`}>
+            <ChatBubbleIcon aria-hidden className="mr-2" />
+            Chat
+          </Link>
+        </Button>
+        <Button variant="primary" asChild>
+          <Link href={`/modules/${module.id}`}>
+            <RocketIcon aria-hidden className="mr-2" />
+            Review
+          </Link>
+        </Button>
+        <UploadDialog moduleId={module.id} />
+        <CardCreationDialog module={module} />
+        <Button variant="primary" asChild>
+          <Link href={`/modules/${module.id}/edit`}>
+            <Pencil1Icon aria-hidden className="mr-2" />
+            Edit
+          </Link>
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const ModulesEditPage: NextPage = () => {
   const { query } = useRouter();
@@ -17,107 +86,13 @@ const ModulesEditPage: NextPage = () => {
     enabled: !!query.id,
   });
 
-  const countCardsDue = (cards: Card[]) => {
-    const now = new Date();
-    return cards.filter((card) => card.dueDate < now).length;
-  };
-
-  if (moduleQuery.isLoading) {
-    return (
-      <div className="pt-20">
-        <Section className="space-y-8">
-          <div>
-            <h1 className="skeleton mb-2 w-80 text-4xl" />
-            <p className="skeleton w-96 animate-pulse" />
-            <p className="skeleton w-96 animate-pulse" />
-          </div>
-
-          <div className="flex flex-row space-x-2">
-            <Button variant="skeleton" />
-            <Button variant="skeleton" />
-            <Button variant="skeleton" />
-            <Button variant="skeleton" />
-          </div>
-
-          <div className="flex space-x-4 overflow-auto">
-            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
-            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
-            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
-            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
-            <CardComponent variant="skeleton" className="h-80 w-64 shrink-0" />
-          </div>
-        </Section>
-      </div>
-    );
-  }
-
-  if (moduleQuery.error || !moduleQuery.data || typeof query.id !== "string") {
-    return (
-      <div className="pt-20">
-        <Section>
-          <h1 className="skeleton mb-2 w-40 text-4xl font-semibold">
-            Failed to load module
-          </h1>
-          <p> Module with id {query.id} not found</p>
-        </Section>
-      </div>
-    );
-  }
-
   return (
     <div className="pt-20">
       <Section>
-        <div className="space-y-4 mb-12">
-          <div>
-            <h1 className="mb-2 text-4xl font-semibold">
-              {moduleQuery.data.title}
-            </h1>
-            <p>{moduleQuery.data.description}</p>
-          </div>
-          <div>
-            <p>This module contains {moduleQuery.data.cards.length} cards</p>
-            {!!countCardsDue(moduleQuery.data.cards) && (
-              <p>
-                <span className="text-red-500">
-                  {countCardsDue(moduleQuery.data.cards)} cards
-                </span>{" "}
-                are due for review,{" "}
-                <span className="text-blue-500">
-                  {moduleQuery.data.cards.length -
-                    countCardsDue(moduleQuery.data.cards)}{" "}
-                  cards
-                </span>{" "}
-                are good
-              </p>
-            )}
-          </div>
-          <div className="scrollbar mb-12 flex flex-row space-x-2 overflow-x-auto">
-            <Button variant="primary" asChild>
-              <Link href={`/modules/${moduleQuery.data.id}/chat`}>
-                <ChatBubbleIcon aria-hidden className="mr-2" />
-                Chat
-              </Link>
-            </Button>
-            <Button variant="primary" asChild>
-              <Link href={`/modules/${moduleQuery.data.id}`}>
-                <RocketIcon aria-hidden className="mr-2" />
-                Review
-              </Link>
-            </Button>
-            <UploadDialog moduleId={moduleQuery.data.id} />
-            <CardCreationDialog module={moduleQuery.data} />
-            <Button variant="primary" asChild>
-              <Link href={`/modules/${moduleQuery.data.id}/edit`}>
-                <Pencil1Icon aria-hidden className="mr-2" />
-                Edit
-              </Link>
-            </Button>
-          </div>
-        </div>
-
+        <ModuleSummary module={moduleQuery.data} />
         <div>
           <h2 className="mb-4 text-2xl font-semibold">Your Flashcards</h2>
-          <CardList cards={moduleQuery.data.cards} />
+          <CardList cards={moduleQuery.data?.cards} />
         </div>
       </Section>
     </div>

@@ -7,7 +7,7 @@ export const ModuleList = () => {
 
   if (modulesQuery.isLoading) {
     return (
-      <div className="flex flex-col space-y-4">
+      <div className="grid gap-4 md:grid-cols-2">
         <div className="skeleton h-36 w-full rounded-2xl" />
         <div className="skeleton h-36 w-full rounded-2xl" />
         <div className="skeleton h-36 w-full rounded-2xl" />

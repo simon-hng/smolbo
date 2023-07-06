@@ -1,9 +1,7 @@
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import toast from "react-hot-toast";
 import { ModuleList } from "~/components/module";
-import { Button } from "~/components/ui/button";
 import { Section } from "~/components/ui/section";
 
 const Home: NextPage = () => {
@@ -27,15 +25,6 @@ const Home: NextPage = () => {
               {`"Look up in the sky It's a bird, it's a plane - Roseanne Park"`}
             </p>
           </div>
-          <Button
-            onClick={() => {
-              toast.success("succ", { duration: 5000 });
-              toast.loading("succ", { duration: 5000 });
-              toast.error("succ", { duration: 5000 });
-            }}
-          >
-            Toasts
-          </Button>
 
           <div>
             <h2 className="mb-4 text-2xl font-semibold">Your Modules</h2>
