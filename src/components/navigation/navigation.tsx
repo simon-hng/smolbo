@@ -40,7 +40,7 @@ export const Navigation: React.FC = () => {
             <CaretDownIcon className="ml-2" aria-hidden />
           </NavigationMenu.Trigger>
 
-          <NavigationMenu.Content className="absolute right-2 z-50 mt-2 min-w-[12rem] rounded-2xl border-2 border-slate-500 bg-slate-900">
+          <NavigationMenu.Content className="absolute right-2 z-50 mt-2 min-w-[12rem] rounded-xl border-2 border-slate-500 bg-slate-900">
             <ul className="space-y-2 py-2">
               <li>
                 <Link

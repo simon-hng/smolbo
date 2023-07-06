@@ -2,7 +2,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import type { ComponentProps } from "react";
 
 export const styles = cva(
-  "rounded-2xl border-2 duration-200 overflow-hidden shadow-md",
+  "rounded-xl border-2 duration-200 overflow-hidden shadow-md",
   {
     variants: {
       border: {

@@ -47,7 +47,7 @@ export const UserPage = () => {
 
             <InputText label="Email" state="skeleton" />
 
-            <div className="flex space-x-2">
+            <div className="flex justify-end space-x-2">
               <Button variant="skeleton" />
               <Button variant="skeleton" />
             </div>

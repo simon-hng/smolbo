@@ -5,6 +5,10 @@ import { api } from "~/utils/api";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Editor } from "../ui/editor";
+import { useFormik } from "formik";
+import { type Module } from "@prisma/client";
+import toast from "react-hot-toast";
+import { InputText } from "../ui/inputText";
 
 export const ModuleCreationDialog = () => {
   const ctx = api.useContext();
@@ -14,16 +18,18 @@ export const ModuleCreationDialog = () => {
     },
   });
 
-  const [module, setModule] = useState({
-    title: "",
-    description: "",
+  const formik = useFormik<Pick<Module, "title" | "description">>({
+    initialValues: {
+      title: "",
+      description: "",
+    },
+    onSubmit: (values) =>
+      void toast.promise(moduleCreateMutation.mutateAsync(values), {
+        loading: null,
+        success: null,
+        error: null,
+      }),
   });
-
-  const saveHandler = () => {
-    moduleCreateMutation.mutate({
-      ...module,
-    });
-  };
 
   return (
     <>
@@ -39,7 +45,7 @@ export const ModuleCreationDialog = () => {
           <Dialog.Overlay className="fixed inset-0 bg-slate-900/50 backdrop-blur-lg" />
           <Dialog.Content className="fixed-center container mx-auto p-8">
             <Card variant="primary">
-              <div className="mb-4">
+              <div className="mb-8">
                 <div className="flex flex-row justify-between">
                   <Dialog.Title className="mb-2 text-2xl">
                     Create a new module
@@ -51,49 +57,37 @@ export const ModuleCreationDialog = () => {
                 </div>
 
                 <Dialog.Description>
-                  Modules offer offer a way of grouping cards
+                  Create modules to keep track of all your course work,
+                  knowledge sources and notes
                 </Dialog.Description>
               </div>
 
-              <div className="flex flex-col space-y-4">
-                <label className="flex flex-col">
-                  Module title
-                  <Editor
-                    options={{ wordWrap: "on", minimap: { autohide: true } }}
-                    height="10rem"
-                    value={module.title}
-                    onChange={(value) => {
-                      return setModule({
-                        ...module,
-                        title: value ?? module.title,
-                      });
-                    }}
-                  />
-                </label>
+              <form className="flex flex-col space-y-4">
+                <InputText
+                  label="Title"
+                  name="title"
+                  value={formik.values.title}
+                  onChange={formik.handleChange}
+                />
 
-                <label className="flex flex-col">
-                  Module description
-                  <Editor
-                    options={{ wordWrap: "on", minimap: { autohide: true } }}
-                    height="10rem"
-                    value={module.description}
-                    onChange={(value) => {
-                      return setModule({
-                        ...module,
-                        description: value ?? module.description,
-                      });
-                    }}
-                  />
-                </label>
+                <InputText
+                  label="Description"
+                  name="description"
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                  asChild
+                >
+                  <textarea className="h-32" />
+                </InputText>
 
                 <div>
                   <Dialog.Close asChild>
-                    <Button variant="primary" onClick={saveHandler}>
+                    <Button variant="primary" type="submit">
                       save
                     </Button>
                   </Dialog.Close>
                 </div>
-              </div>
+              </form>
             </Card>
           </Dialog.Content>
         </Dialog.Portal>

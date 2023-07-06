@@ -3,7 +3,7 @@ import { type VariantProps, cva, cx } from "class-variance-authority";
 import type { ComponentPropsWithRef } from "react";
 
 const inputStyles = cva(
-  "border-2 rounded-full bg-transparent px-6 py-2 outline-none",
+  "border-2 rounded-xl bg-transparent px-4 py-2 outline-none",
   {
     variants: {
       state: {
@@ -41,7 +41,7 @@ export const InputText = ({
 
   return (
     <label className={cx("flex flex-col", fullWidth && "w-full")}>
-      {!!label && <span className="mb-2 ml-6 inline-block">{label}</span>}
+      {!!label && <span className="mb-2 ml-2 inline-block">{label}</span>}
       <Comp
         className={inputStyles({ state, fullWidth, className })}
         {...props}
