@@ -6,14 +6,10 @@ interface Props {
 }
 export const CardList = ({ cards }: Props) => {
   return (
-    <div className="scrollbar flex min-h-[50vh] snap-x space-x-4 overflow-x-auto">
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       {cards &&
         cards.map((card) => (
-          <FlashCard
-            key={card.id}
-            card={card}
-            className="w-3/4 shrink-0 snap-start snap-normal md:w-1/3"
-          />
+          <FlashCard key={card.id} card={card} className="w-full" />
         ))}
     </div>
   );

@@ -66,56 +66,59 @@ const ModulesEditPage: NextPage = () => {
 
   return (
     <div className="pt-20">
-      <Section className="space-y-8">
-        <div>
-          <h1 className="mb-2 text-4xl font-semibold">
-            {moduleQuery.data.title}
-          </h1>
-          <p>{moduleQuery.data.description}</p>
+      <Section>
+        <div className="space-y-4 mb-12">
+          <div>
+            <h1 className="mb-2 text-4xl font-semibold">
+              {moduleQuery.data.title}
+            </h1>
+            <p>{moduleQuery.data.description}</p>
+          </div>
+          <div>
+            <p>This module contains {moduleQuery.data.cards.length} cards</p>
+            {!!countCardsDue(moduleQuery.data.cards) && (
+              <p>
+                <span className="text-red-500">
+                  {countCardsDue(moduleQuery.data.cards)} cards
+                </span>{" "}
+                are due for review,{" "}
+                <span className="text-blue-500">
+                  {moduleQuery.data.cards.length -
+                    countCardsDue(moduleQuery.data.cards)}{" "}
+                  cards
+                </span>{" "}
+                are good
+              </p>
+            )}
+          </div>
+          <div className="scrollbar mb-12 flex flex-row space-x-2 overflow-x-auto">
+            <Button variant="primary" asChild>
+              <Link href={`/modules/${moduleQuery.data.id}/chat`}>
+                <ChatBubbleIcon aria-hidden className="mr-2" />
+                Chat
+              </Link>
+            </Button>
+            <Button variant="primary" asChild>
+              <Link href={`/modules/${moduleQuery.data.id}`}>
+                <RocketIcon aria-hidden className="mr-2" />
+                Review
+              </Link>
+            </Button>
+            <UploadDialog moduleId={moduleQuery.data.id} />
+            <CardCreationDialog module={moduleQuery.data} />
+            <Button variant="primary" asChild>
+              <Link href={`/modules/${moduleQuery.data.id}/edit`}>
+                <Pencil1Icon aria-hidden className="mr-2" />
+                Edit
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div>
-          <p>This module contains {moduleQuery.data.cards.length} cards</p>
-          {!!countCardsDue(moduleQuery.data.cards) && (
-            <p>
-              <span className="text-red-500">
-                {countCardsDue(moduleQuery.data.cards)} cards
-              </span>{" "}
-              are due for review,{" "}
-              <span className="text-blue-500">
-                {moduleQuery.data.cards.length -
-                  countCardsDue(moduleQuery.data.cards)}{" "}
-                cards
-              </span>{" "}
-              are good
-            </p>
-          )}
+          <h2 className="mb-4 text-2xl font-semibold">Your Flashcards</h2>
+          <CardList cards={moduleQuery.data.cards} />
         </div>
-
-        <div className="scrollbar flex flex-row space-x-2 overflow-x-auto">
-          <Button variant="primary" asChild>
-            <Link href={`/modules/${moduleQuery.data.id}/chat`}>
-              <ChatBubbleIcon aria-hidden className="mr-2" />
-              Chat
-            </Link>
-          </Button>
-          <Button variant="primary" asChild>
-            <Link href={`/modules/${moduleQuery.data.id}`}>
-              <RocketIcon aria-hidden className="mr-2" />
-              Review
-            </Link>
-          </Button>
-          <UploadDialog moduleId={moduleQuery.data.id} />
-          <CardCreationDialog module={moduleQuery.data} />
-          <Button variant="primary" asChild>
-            <Link href={`/modules/${moduleQuery.data.id}/edit`}>
-              <Pencil1Icon aria-hidden className="mr-2" />
-              Edit
-            </Link>
-          </Button>
-        </div>
-
-        <CardList cards={moduleQuery.data.cards} />
       </Section>
     </div>
   );
