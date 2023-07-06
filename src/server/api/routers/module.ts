@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { getModuleTheme } from "~/server/chains/getModuleTheme";
+import { error } from "console";
 
 export const moduleRouter = createTRPCRouter({
   create: protectedProcedure
@@ -10,9 +12,23 @@ export const moduleRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      let theme = {
+        emoji: "📚",
+        color: "blue",
+      };
+
+      theme = await getModuleTheme(input.title, input.description).catch(
+        (error) => {
+          console.error(error);
+          return theme;
+        }
+      );
+
       await ctx.prisma.module.create({
         data: {
           ...input,
+          emoji: theme.emoji,
+          color: theme.color,
           userId: ctx.session.user.id,
         },
       });

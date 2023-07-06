@@ -19,6 +19,8 @@ model Module {
   id          String   @id @default(cuid())
   title       String
   description String
+  color       String
+  emoji       String
   cards       Card[]
   userId      String
   user        User     @relation(fields: [userId], references: [id])
@@ -30,7 +32,7 @@ model Card {
   id          String   @id @default(cuid())
   front       String
   back        String
-  moduleId    String   
+  moduleId    String
   module      Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   interval    Int      @default(1)
   repetitions Int      @default(0)
