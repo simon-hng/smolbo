@@ -11,10 +11,12 @@ export const ModuleCard = ({ module }: ModuleCardProps) => {
     <>
       <Card padding="none" className="flex flex-col">
         <Link href={`/modules/${module.id}`}>
-          <div className="p-4">
-            <span className="text-4xl">{module.emoji}</span>
-            <h2 className="mb-2 text-2xl">{module.title}</h2>
-            <p>{module.description}</p>
+          <div className="flex items-center gap-4 p-4">
+            <span className="mb-2 text-4xl">{module.emoji}</span>
+            <div>
+              <h2 className="mb-2 text-2xl">{module.title}</h2>
+              <p>{module.description}</p>
+            </div>
           </div>
         </Link>
 

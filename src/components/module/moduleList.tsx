@@ -7,7 +7,7 @@ export const ModuleList = () => {
 
   if (modulesQuery.isLoading) {
     return (
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-2">
         <div className="skeleton h-36 w-full rounded-xl" />
         <div className="skeleton h-36 w-full rounded-xl" />
         <div className="skeleton h-36 w-full rounded-xl" />
@@ -16,7 +16,7 @@ export const ModuleList = () => {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-4 lg:grid-cols-2">
       {!!modules &&
         modules.map((module) => <ModuleCard key={module.id} module={module} />)}
     </div>

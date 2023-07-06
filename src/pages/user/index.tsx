@@ -19,12 +19,14 @@ export const UserPage = () => {
       email: null,
       maxCardsPerSession: 0,
     },
-    onSubmit: (values, { isSubmitting }) =>
-      void toast.promise(userMutation.mutateAsync(values), {
-        loading: "Updating user information",
-        success: "Successfully updated user information",
-        error: "Failed to update user information",
-      }),
+    onSubmit: (values, { setSubmitting }) =>
+      void toast
+        .promise(userMutation.mutateAsync(values), {
+          loading: "Updating user information",
+          success: "Successfully updated user information",
+          error: "Failed to update user information",
+        })
+        .then(() => setSubmitting(false)),
   });
   const userQuery = api.user.getUser.useQuery(undefined, {
     refetchOnWindowFocus: false,
