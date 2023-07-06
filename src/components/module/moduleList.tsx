@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
-import { DeckCard } from "./deckCard";
+import { ModuleCard } from "./moduleCard";
 
-export const DeckList = () => {
+export const ModuleList = () => {
   const decksQuery = api.deck.getAllForUser.useQuery();
   const decks = decksQuery.data;
 
@@ -17,7 +17,7 @@ export const DeckList = () => {
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {decks && decks.map((deck) => <DeckCard key={deck.id} deck={deck} />)}
+      {decks && decks.map((deck) => <ModuleCard key={deck.id} deck={deck} />)}
     </div>
   );
 };

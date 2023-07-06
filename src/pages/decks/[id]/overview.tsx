@@ -4,7 +4,7 @@ import { type NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { CardList, CardCreationDialog } from "~/components/card";
-import { UploadDialog } from "~/components/deck/uploadDialog";
+import { UploadDialog } from "~/components/module/uploadDialog";
 import { Button } from "~/components/ui/button";
 import { Card as CardComponent } from "~/components/ui/card";
 import { Section } from "~/components/ui/section";

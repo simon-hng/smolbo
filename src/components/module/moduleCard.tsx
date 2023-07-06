@@ -6,7 +6,7 @@ interface DeckCardProps {
   deck: Deck;
 }
 
-export const DeckCard = ({ deck }: DeckCardProps) => {
+export const ModuleCard = ({ deck }: DeckCardProps) => {
   return (
     <>
       <Card padding="none" className="flex flex-col">
