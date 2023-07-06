@@ -19,7 +19,7 @@ export const UserPage = () => {
       email: null,
       maxCardsPerSession: 0,
     },
-    onSubmit: (values) =>
+    onSubmit: (values, { isSubmitting }) =>
       void toast.promise(userMutation.mutateAsync(values), {
         loading: "Updating user information",
         success: "Successfully updated user information",
@@ -40,18 +40,18 @@ export const UserPage = () => {
         <Section>
           <h1 className="mb-8 text-4xl font-semibold">General Settings</h1>
 
-          <div className="space-y-4">
+          <fieldset className="space-y-4" disabled>
             <div className="skeleton h-32 w-32 rounded-full" />
 
-            <InputText label="Name" state="skeleton" />
+            <InputText label="Name" state="skeleton" disabled />
 
-            <InputText label="Email" state="skeleton" />
+            <InputText label="Email" state="skeleton" disabled />
 
             <div className="flex justify-end space-x-2">
               <Button variant="skeleton" />
               <Button variant="skeleton" />
             </div>
-          </div>
+          </fieldset>
         </Section>
       </div>
     );
@@ -63,7 +63,7 @@ export const UserPage = () => {
         <h1 className="mb-8 text-4xl font-semibold">General Settings</h1>
 
         <form onSubmit={formik.handleSubmit}>
-          <div className="space-y-4">
+          <fieldset className="space-y-4" disabled={formik.isSubmitting}>
             <UserAvatar />
 
             <InputText
@@ -127,7 +127,7 @@ export const UserPage = () => {
                 Reset
               </Button>
             </div>
-          </div>
+          </fieldset>
         </form>
       </Section>
     </div>

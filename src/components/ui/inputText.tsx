@@ -7,7 +7,7 @@ const inputStyles = cva(
   {
     variants: {
       state: {
-        default: "border-slate-500",
+        default: "border-slate-500 disabled:bg-slate-800",
         error: "border-red-800 text-red-800 bg-red-800/20",
         skeleton: "skeleton",
       },
