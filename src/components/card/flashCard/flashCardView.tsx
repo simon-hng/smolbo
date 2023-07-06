@@ -1,5 +1,6 @@
 import type { Card } from "@prisma/client";
 import * as Separator from "@radix-ui/react-separator";
+import { cx } from "class-variance-authority";
 import { AnimatePresence, motion } from "framer-motion";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { MarkdownRenderer } from "~/components/markdown";
@@ -7,14 +8,18 @@ import { MarkdownRenderer } from "~/components/markdown";
 export interface Props {
   card: Pick<Card, "front" | "back">;
   openState?: [boolean, Dispatch<SetStateAction<boolean>>];
+  className?: string;
 }
 
-export const CardView = ({ card, openState }: Props) => {
+export const CardView = ({ card, openState, className }: Props) => {
   const newOpenState = useState(false);
   const [isOpen, setIsOpen] = openState ?? newOpenState;
 
   return (
-    <div onClick={() => setIsOpen(!isOpen)} className="h-full cursor-pointer">
+    <div
+      onClick={() => setIsOpen(!isOpen)}
+      className={cx("h-full cursor-pointer", className)}
+    >
       <MarkdownRenderer content={card.front} />
 
       {isOpen && (

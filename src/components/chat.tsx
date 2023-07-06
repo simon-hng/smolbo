@@ -1,4 +1,4 @@
-import { PaperPlaneIcon } from "@radix-ui/react-icons";
+import { CardStackPlusIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import useChat from "~/hooks/useChat";
@@ -39,21 +39,23 @@ const ChatBubble = ({ question, answer, moduleId }: ChatBubbleProps) => {
   };
 
   return (
-    <Card variant="glass">
+    <Card variant="glass" padding="none">
       <CardView
         card={{ front: question, back: answer }}
         openState={openState}
+        className="p-4"
       />
 
       {!saved && (
-        <Button
-          className="mt-8"
-          variant="primary"
-          onClick={saveHandler}
-          disabled={isLoading}
-        >
-          save to module
-        </Button>
+        <div className="flex border-t-2 border-slate-500">
+          <button
+            className="flex w-full justify-center p-2 duration-500 hover:bg-slate-500"
+            onClick={saveHandler}
+            disabled={isLoading}
+          >
+            save as flashcard
+          </button>
+        </div>
       )}
     </Card>
   );
