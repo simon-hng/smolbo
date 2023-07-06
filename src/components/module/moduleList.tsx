@@ -17,7 +17,7 @@ export const ModuleList = () => {
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {modules &&
+      {!!modules &&
         modules.map((module) => <ModuleCard key={module.id} module={module} />)}
     </div>
   );

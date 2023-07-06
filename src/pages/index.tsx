@@ -1,10 +1,11 @@
 import { type NextPage } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
-import { Button } from "~/components/ui/button";
+import { ModuleList } from "~/components/module";
 import { Section } from "~/components/ui/section";
 
 const Home: NextPage = () => {
+  const { data: session } = useSession({ required: true });
   return (
     <>
       <Head>
@@ -14,13 +15,21 @@ const Home: NextPage = () => {
       </Head>
 
       <div className="pt-20">
-        <Section className="space-y-4">
-          <h1 className="mb-8 text-4xl font-semibold">Home</h1>
+        <Section>
+          <div className="mb-12">
+            <h1 className="mb-4 text-4xl font-semibold">
+              Hello {session?.user.name}, welcome back!
+            </h1>
 
-          <p>Nothing here yet. Start learning with your modules</p>
-          <Button asChild variant="primary">
-            <Link href="/modules">Modules</Link>
-          </Button>
+            <p className="mb-2">
+              {`"Look up in the sky It's a bird, it's a plane - Roseanne Park"`}
+            </p>
+          </div>
+
+          <div>
+            <h2 className="mb-4 text-2xl font-semibold">Your Modules</h2>
+            <ModuleList />
+          </div>
         </Section>
       </div>
     </>

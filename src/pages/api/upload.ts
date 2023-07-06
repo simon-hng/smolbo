@@ -24,7 +24,9 @@ export default async function handler(
 
   const moduleId = fields.moduleId?.at(0);
   if (!moduleId) {
-    res.status(405).json({ success: "false", message: "No module id provided" });
+    res
+      .status(405)
+      .json({ success: "false", message: "No module id provided" });
     return;
   }
 

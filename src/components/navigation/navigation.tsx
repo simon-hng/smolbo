@@ -2,6 +2,7 @@ import {
   CardStackIcon,
   CaretDownIcon,
   ExitIcon,
+  HomeIcon,
   PersonIcon,
   SunIcon,
 } from "@radix-ui/react-icons";
@@ -15,6 +16,15 @@ export const Navigation: React.FC = () => {
   return (
     <NavigationMenu.Root>
       <NavigationMenu.List className="absolute z-50 flex w-full items-center px-6 py-4">
+        <NavigationMenu.Item asChild>
+          <Button border="none" asChild>
+            <Link href="/">
+              <HomeIcon className="mr-2" aria-hidden />
+              Home
+            </Link>
+          </Button>
+        </NavigationMenu.Item>
+
         <NavigationMenu.Item asChild>
           <Button border="none" asChild>
             <Link href="/modules">
