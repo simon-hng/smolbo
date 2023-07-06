@@ -44,12 +44,12 @@ export const makeChain = (vectorstore: PineconeStore) => {
 };
 
 export const chatRouter = createTRPCRouter({
-  chatWithDeck: protectedProcedure
+  chatWithModule: protectedProcedure
     .input(
       z.object({
         question: z.string(),
         history: z.array(z.tuple([z.string(), z.string()])),
-        deckId: z.string(),
+        moduleId: z.string(),
       })
     )
     .query(async ({ input }) => {
@@ -65,7 +65,7 @@ export const chatRouter = createTRPCRouter({
         {
           pineconeIndex,
           textKey: "text",
-          namespace: input.deckId,
+          namespace: input.moduleId,
         }
       );
 

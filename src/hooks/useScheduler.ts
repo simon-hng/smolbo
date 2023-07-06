@@ -3,7 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 
-export const useScheduler = (deckId?: string) => {
+export const useScheduler = (moduleId?: string) => {
   const [cardsToBeReviewed, setCardsToBeReviewed] = useState<Card[]>([]);
   const [reviewedCards, setReviewedCards] = useState<Card[]>([]);
 
@@ -13,10 +13,10 @@ export const useScheduler = (deckId?: string) => {
     },
   });
 
-  const { isFetching } = api.deck.getLearningSet.useQuery(
-    { deckId: deckId as string },
+  const { isFetching } = api.module.getLearningSet.useQuery(
+    { moduleId: moduleId as string },
     {
-      enabled: !!deckId,
+      enabled: !!moduleId,
       refetchOnWindowFocus: false,
       onSuccess: (data) => setCardsToBeReviewed(data),
       onError: () => toast.error("Failed to fetch cards"),

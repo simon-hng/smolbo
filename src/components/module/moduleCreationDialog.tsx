@@ -8,20 +8,20 @@ import { Editor } from "../ui/editor";
 
 export const ModuleCreationDialog = () => {
   const ctx = api.useContext();
-  const deckCreateMutation = api.deck.create.useMutation({
+  const moduleCreateMutation = api.module.create.useMutation({
     onSuccess: () => {
-      void ctx.deck.invalidate();
+      void ctx.module.invalidate();
     },
   });
 
-  const [deck, setDeck] = useState({
+  const [module, setModule] = useState({
     title: "",
     description: "",
   });
 
   const saveHandler = () => {
-    deckCreateMutation.mutate({
-      ...deck,
+    moduleCreateMutation.mutate({
+      ...module,
     });
   };
 
@@ -31,7 +31,7 @@ export const ModuleCreationDialog = () => {
         <Dialog.Trigger asChild>
           <Button variant="primary">
             <CardStackPlusIcon aria-hidden className="mr-2" />
-            Create Deck
+            Create Module
           </Button>
         </Dialog.Trigger>
 
@@ -42,7 +42,7 @@ export const ModuleCreationDialog = () => {
               <div className="mb-4">
                 <div className="flex flex-row justify-between">
                   <Dialog.Title className="mb-2 text-2xl">
-                    Create a new deck
+                    Create a new module
                   </Dialog.Title>
 
                   <Dialog.Close className="flex h-8 w-8 items-center justify-center rounded-full p-1 duration-200 hover:bg-slate-800">
@@ -51,33 +51,33 @@ export const ModuleCreationDialog = () => {
                 </div>
 
                 <Dialog.Description>
-                  Decks offer offer a way of grouping cards
+                  Modules offer offer a way of grouping cards
                 </Dialog.Description>
               </div>
 
               <div className="flex flex-col space-y-4">
                 <label className="flex flex-col">
-                  Deck title
+                  Module title
                   <Editor
                     options={{ wordWrap: "on", minimap: { autohide: true } }}
                     height="10rem"
-                    value={deck.title}
+                    value={module.title}
                     onChange={(value) => {
-                      return setDeck({ ...deck, title: value ?? deck.title });
+                      return setModule({ ...module, title: value ?? module.title });
                     }}
                   />
                 </label>
 
                 <label className="flex flex-col">
-                  Deck description
+                  Module description
                   <Editor
                     options={{ wordWrap: "on", minimap: { autohide: true } }}
                     height="10rem"
-                    value={deck.description}
+                    value={module.description}
                     onChange={(value) => {
-                      return setDeck({
-                        ...deck,
-                        description: value ?? deck.description,
+                      return setModule({
+                        ...module,
+                        description: value ?? module.description,
                       });
                     }}
                   />

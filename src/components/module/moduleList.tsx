@@ -2,10 +2,10 @@ import { api } from "~/utils/api";
 import { ModuleCard } from "./moduleCard";
 
 export const ModuleList = () => {
-  const decksQuery = api.deck.getAllForUser.useQuery();
-  const decks = decksQuery.data;
+  const modulesQuery = api.module.getAllForUser.useQuery();
+  const modules = modulesQuery.data;
 
-  if (decksQuery.isLoading) {
+  if (modulesQuery.isLoading) {
     return (
       <div className="flex flex-col space-y-4">
         <div className="skeleton h-36 w-full rounded-2xl" />
@@ -17,7 +17,8 @@ export const ModuleList = () => {
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {decks && decks.map((deck) => <ModuleCard key={deck.id} deck={deck} />)}
+      {modules &&
+        modules.map((module) => <ModuleCard key={module.id} module={module} />)}
     </div>
   );
 };

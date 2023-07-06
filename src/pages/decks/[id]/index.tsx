@@ -20,7 +20,7 @@ import {
 } from "@radix-ui/react-icons";
 import Link from "next/link";
 
-const DecksViewPage: NextPage = () => {
+const ModulesViewPage: NextPage = () => {
   const { query } = useRouter();
   const { cards, isFetching, reviewCard, reviewedCards } = useScheduler(
     query.id as string
@@ -149,21 +149,21 @@ const DecksViewPage: NextPage = () => {
 
           <div className="flex flex-row space-x-2 overflow-auto">
             <Button variant="primary" asChild>
-              <Link href={`/decks/${query.id as string}/chat`}>
+              <Link href={`/modules/${query.id as string}/chat`}>
                 <ChatBubbleIcon aria-hidden className="mr-2" />
                 Chat
               </Link>
             </Button>
             <Button variant="primary" asChild>
-              <Link href={`/decks/${query.id as string}/overview`}>
+              <Link href={`/modules/${query.id as string}/overview`}>
                 <CardStackIcon aria-hidden className="mr-2" />
-                Deck Overview
+                Module Overview
               </Link>
             </Button>
             <Button asChild>
-              <Link href="/decks">
+              <Link href="/modules">
                 <ArrowLeftIcon aria-hidden className="mr-2" />
-                View all decks
+                View all modules
               </Link>
             </Button>
           </div>
@@ -184,9 +184,9 @@ const DecksViewPage: NextPage = () => {
         </div>
 
         <Button asChild>
-          <Link href="/decks">
+          <Link href="/modules">
             <ArrowLeftIcon aria-hidden className="mr-2" />
-            View all decks
+            View all modules
           </Link>
         </Button>
       </Section>
@@ -194,4 +194,4 @@ const DecksViewPage: NextPage = () => {
   );
 };
 
-export default DecksViewPage;
+export default ModulesViewPage;

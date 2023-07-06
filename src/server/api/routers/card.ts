@@ -16,7 +16,7 @@ export const cardRouter = createTRPCRouter({
       z.object({
         front: z.string(),
         back: z.string(),
-        deckId: z.string(),
+        moduleId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -74,21 +74,21 @@ export const cardRouter = createTRPCRouter({
   getBackRecommendation: publicProcedure
     .input(
       z.object({
-        deckId: z.string(),
+        moduleId: z.string(),
         front: z.string(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const deck = await ctx.prisma.deck.findFirst({
+      const courseModule = await ctx.prisma.module.findFirst({
         where: {
-          id: input.deckId,
+          id: input.moduleId,
         },
       });
 
-      if (!deck) {
+      if (!courseModule) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "The deck you provided does not exist",
+          message: "The module you provided does not exist",
         });
       }
 
@@ -104,7 +104,7 @@ export const cardRouter = createTRPCRouter({
             },
             {
               role: "system",
-              content: `You are writing a flashcard for ${deck.title}`,
+              content: `You are writing a flashcard for ${courseModule.title}`,
             },
             { role: "user", content: input.front },
           ],

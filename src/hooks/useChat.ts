@@ -2,10 +2,10 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 
-const useChat = (deckId: string, question: string) => {
+const useChat = (moduleId: string, question: string) => {
   const [history, setHistory] = useState<[string, string][]>([]);
-  const cardRecommendation = api.chat.chatWithDeck.useQuery(
-    { deckId, question, history },
+  const cardRecommendation = api.chat.chatWithModule.useQuery(
+    { moduleId, question, history },
     {
       refetchOnWindowFocus: false,
       enabled: false,

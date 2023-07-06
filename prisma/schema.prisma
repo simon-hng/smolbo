@@ -15,7 +15,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Deck {
+model Module {
   id          String   @id @default(cuid())
   title       String
   description String
@@ -30,8 +30,8 @@ model Card {
   id          String   @id @default(cuid())
   front       String
   back        String
-  deckId      String
-  deck        Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  moduleId    String   
+  module      Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   interval    Int      @default(1)
   repetitions Int      @default(0)
   dueDate     DateTime @default(now())
@@ -73,7 +73,7 @@ model User {
   image              String?
   accounts           Account[]
   sessions           Session[]
-  decks              Deck[]
+  modules            Module[]
   maxCardsPerSession Int       @default(10)
 }
 

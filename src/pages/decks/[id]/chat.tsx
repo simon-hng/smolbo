@@ -4,14 +4,14 @@ import { Chat } from "~/components/chat";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
-const DecksEditPage: NextPage = () => {
+const ModulesEditPage: NextPage = () => {
   const { query } = useRouter();
 
-  const deckQuery = api.deck.getById.useQuery(query.id as string, {
+  const moduleQuery = api.module.getById.useQuery(query.id as string, {
     enabled: !!query.id,
   });
 
-  if (deckQuery.isLoading) {
+  if (moduleQuery.isLoading) {
     return (
       <div className="pt-20">
         <Section className="space-y-8">
@@ -24,14 +24,14 @@ const DecksEditPage: NextPage = () => {
     );
   }
 
-  if (deckQuery.error || !deckQuery.data || typeof query.id !== "string") {
+  if (moduleQuery.error || !moduleQuery.data || typeof query.id !== "string") {
     return (
       <div className="pt-20">
         <Section>
           <h1 className="skeleton mb-2 w-40 text-4xl font-semibold">
-            Failed to load deck
+            Failed to load module
           </h1>
-          <p> Deck with id {query.id} not found</p>
+          <p> Module with id {query.id} not found</p>
         </Section>
       </div>
     );
@@ -42,15 +42,15 @@ const DecksEditPage: NextPage = () => {
       <Section className="space-y-8">
         <div>
           <h1 className="mb-2 text-4xl font-semibold">
-            {deckQuery.data.title}
+            {moduleQuery.data.title}
           </h1>
-          <p>{deckQuery.data.description}</p>
+          <p>{moduleQuery.data.description}</p>
         </div>
 
-        <Chat deckId={query.id} />
+        <Chat moduleId={query.id} />
       </Section>
     </div>
   );
 };
 
-export default DecksEditPage;
+export default ModulesEditPage;

@@ -22,9 +22,9 @@ export default async function handler(
   const formParse = form.parse(req) as unknown as Promise<[Fields, Files]>;
   const [fields, data] = await formParse;
 
-  const deckId = fields.deckId?.at(0);
-  if (!deckId) {
-    res.status(405).json({ success: "false", message: "No deck id provided" });
+  const moduleId = fields.moduleId?.at(0);
+  if (!moduleId) {
+    res.status(405).json({ success: "false", message: "No module id provided" });
     return;
   }
 
@@ -54,7 +54,7 @@ export default async function handler(
 
   await PineconeStore.fromDocuments(chunkedData, embeddings, {
     pineconeIndex,
-    namespace: deckId,
+    namespace: moduleId,
     textKey: "text",
   });
 

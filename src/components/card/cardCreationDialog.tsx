@@ -1,7 +1,7 @@
 import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { api } from "~/utils/api";
-import type { Deck } from "@prisma/client";
+import type { Module } from "@prisma/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
@@ -9,19 +9,19 @@ import { Card } from "@ui/card";
 import { Editor } from "../ui/editor";
 
 interface CardCreationDialogProps {
-  deck: Deck;
+  module: Module;
   children?: React.ReactNode;
 }
 
 export const CardCreationDialog = ({
-  deck,
+  module,
   children,
 }: CardCreationDialogProps) => {
   const ctx = api.useContext();
   const [card, setCard] = useState({
     front: "",
     back: "",
-    deckId: deck.id,
+    moduleId: module.id,
   });
 
   const trigger = children ?? (
@@ -32,7 +32,7 @@ export const CardCreationDialog = ({
   );
 
   const cardCreateMutation = api.card.create.useMutation({
-    onSuccess: () => ctx.deck.invalidate(),
+    onSuccess: () => ctx.module.invalidate(),
   });
 
   const saveHandler = () => {
@@ -74,7 +74,7 @@ export const CardCreationDialog = ({
               </div>
 
               <Dialog.Description>
-                You are adding a card to {deck.title}
+                You are adding a card to {module.title}
               </Dialog.Description>
             </div>
 

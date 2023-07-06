@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
-export const deckRouter = createTRPCRouter({
+export const moduleRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
       z.object({
@@ -10,7 +10,7 @@ export const deckRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.deck.create({
+      await ctx.prisma.module.create({
         data: {
           ...input,
           userId: ctx.session.user.id,
@@ -27,7 +27,7 @@ export const deckRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.deck.update({
+      await ctx.prisma.module.update({
         where: {
           id: input.id,
         },
@@ -38,7 +38,7 @@ export const deckRouter = createTRPCRouter({
   getLearningSet: protectedProcedure
     .input(
       z.object({
-        deckId: z.string(),
+        moduleId: z.string(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -51,7 +51,7 @@ export const deckRouter = createTRPCRouter({
       return await ctx.prisma.card.findMany({
         take: user?.maxCardsPerSession,
         where: {
-          deckId: input.deckId,
+          moduleId: input.moduleId,
           dueDate: {
             lt: new Date(),
           },
@@ -60,7 +60,7 @@ export const deckRouter = createTRPCRouter({
     }),
 
   getById: protectedProcedure.input(z.string()).query(({ ctx, input }) => {
-    return ctx.prisma.deck.findFirst({
+    return ctx.prisma.module.findFirst({
       include: {
         cards: true,
       },
@@ -71,7 +71,7 @@ export const deckRouter = createTRPCRouter({
   }),
 
   getAllForUser: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.deck.findMany({
+    return ctx.prisma.module.findMany({
       where: {
         userId: ctx.session.user.id,
       },
@@ -81,7 +81,7 @@ export const deckRouter = createTRPCRouter({
   deleteById: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.deck.delete({
+      await ctx.prisma.module.delete({
         where: {
           id: input,
         },

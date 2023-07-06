@@ -1,7 +1,7 @@
 import { ModuleCreationDialog, ModuleList } from "~/components/module";
 import { Section } from "~/components/ui/section";
 
-export const DecksPage = () => {
+export const ModulesPage = () => {
   return (
     <div className="pt-20">
       <Section className="space-y-4">
@@ -14,4 +14,4 @@ export const DecksPage = () => {
   );
 };
 
-export default DecksPage;
+export default ModulesPage;

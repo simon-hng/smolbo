@@ -17,9 +17,9 @@ const Home: NextPage = () => {
         <Section className="space-y-4">
           <h1 className="mb-8 text-4xl font-semibold">Home</h1>
 
-          <p>Nothing here yet. Start learning with your decks</p>
+          <p>Nothing here yet. Start learning with your modules</p>
           <Button asChild variant="primary">
-            <Link href="/decks">Decks</Link>
+            <Link href="/modules">Modules</Link>
           </Button>
         </Section>
       </div>

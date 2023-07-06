@@ -1,6 +1,6 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { cardRouter } from "./routers/card";
-import { deckRouter } from "./routers/deck";
+import { moduleRouter } from "./routers/module";
 import { userRouter } from "./routers/user";
 import { chatRouter } from "./routers/chat";
 
@@ -11,7 +11,7 @@ import { chatRouter } from "./routers/chat";
  */
 export const appRouter = createTRPCRouter({
   card: cardRouter,
-  deck: deckRouter,
+  module: moduleRouter,
   user: userRouter,
   chat: chatRouter,
 });

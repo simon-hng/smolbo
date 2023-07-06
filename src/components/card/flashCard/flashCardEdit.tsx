@@ -15,7 +15,7 @@ interface Props {
 export const CardEdit = ({ card, setCard, setIsEdit }: Props) => {
   const ctx = api.useContext();
   const cardUpdateMutation = api.card.update.useMutation({
-    onSuccess: () => void ctx.deck.invalidate(),
+    onSuccess: () => void ctx.module.invalidate(),
   });
 
   return (

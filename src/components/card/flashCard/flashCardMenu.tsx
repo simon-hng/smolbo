@@ -14,7 +14,7 @@ interface Props {
 export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
   const ctx = api.useContext();
   const deleteCardMutation = api.card.deleteById.useMutation({
-    onSuccess: () => ctx.deck.invalidate(),
+    onSuccess: () => ctx.module.invalidate(),
   });
 
   return (

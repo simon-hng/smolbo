@@ -10,10 +10,10 @@ import { Card as CardComponent } from "~/components/ui/card";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
-const DecksEditPage: NextPage = () => {
+const ModulesEditPage: NextPage = () => {
   const { query } = useRouter();
 
-  const deckQuery = api.deck.getById.useQuery(query.id as string, {
+  const moduleQuery = api.module.getById.useQuery(query.id as string, {
     enabled: !!query.id,
   });
 
@@ -22,7 +22,7 @@ const DecksEditPage: NextPage = () => {
     return cards.filter((card) => card.dueDate < now).length;
   };
 
-  if (deckQuery.isLoading) {
+  if (moduleQuery.isLoading) {
     return (
       <div className="pt-20">
         <Section className="space-y-8">
@@ -51,14 +51,14 @@ const DecksEditPage: NextPage = () => {
     );
   }
 
-  if (deckQuery.error || !deckQuery.data || typeof query.id !== "string") {
+  if (moduleQuery.error || !moduleQuery.data || typeof query.id !== "string") {
     return (
       <div className="pt-20">
         <Section>
           <h1 className="skeleton mb-2 w-40 text-4xl font-semibold">
-            Failed to load deck
+            Failed to load module
           </h1>
-          <p> Deck with id {query.id} not found</p>
+          <p> Module with id {query.id} not found</p>
         </Section>
       </div>
     );
@@ -69,22 +69,22 @@ const DecksEditPage: NextPage = () => {
       <Section className="space-y-8">
         <div>
           <h1 className="mb-2 text-4xl font-semibold">
-            {deckQuery.data.title}
+            {moduleQuery.data.title}
           </h1>
-          <p>{deckQuery.data.description}</p>
+          <p>{moduleQuery.data.description}</p>
         </div>
 
         <div>
-          <p>This deck contains {deckQuery.data.cards.length} cards</p>
-          {!!countCardsDue(deckQuery.data.cards) && (
+          <p>This module contains {moduleQuery.data.cards.length} cards</p>
+          {!!countCardsDue(moduleQuery.data.cards) && (
             <p>
               <span className="text-red-500">
-                {countCardsDue(deckQuery.data.cards)} cards
+                {countCardsDue(moduleQuery.data.cards)} cards
               </span>{" "}
               are due for review,{" "}
               <span className="text-blue-500">
-                {deckQuery.data.cards.length -
-                  countCardsDue(deckQuery.data.cards)}{" "}
+                {moduleQuery.data.cards.length -
+                  countCardsDue(moduleQuery.data.cards)}{" "}
                 cards
               </span>{" "}
               are good
@@ -94,31 +94,31 @@ const DecksEditPage: NextPage = () => {
 
         <div className="scrollbar flex flex-row space-x-2 overflow-x-auto">
           <Button variant="primary" asChild>
-            <Link href={`/decks/${deckQuery.data.id}/chat`}>
+            <Link href={`/modules/${moduleQuery.data.id}/chat`}>
               <ChatBubbleIcon aria-hidden className="mr-2" />
               Chat
             </Link>
           </Button>
           <Button variant="primary" asChild>
-            <Link href={`/decks/${deckQuery.data.id}`}>
+            <Link href={`/modules/${moduleQuery.data.id}`}>
               <RocketIcon aria-hidden className="mr-2" />
               Review
             </Link>
           </Button>
-          <UploadDialog deckId={deckQuery.data.id} />
-          <CardCreationDialog deck={deckQuery.data} />
+          <UploadDialog moduleId={moduleQuery.data.id} />
+          <CardCreationDialog module={moduleQuery.data} />
           <Button variant="primary" asChild>
-            <Link href={`/decks/${deckQuery.data.id}/edit`}>
+            <Link href={`/modules/${moduleQuery.data.id}/edit`}>
               <Pencil1Icon aria-hidden className="mr-2" />
               Edit
             </Link>
           </Button>
         </div>
 
-        <CardList cards={deckQuery.data.cards} />
+        <CardList cards={moduleQuery.data.cards} />
       </Section>
     </div>
   );
 };
 
-export default DecksEditPage;
+export default ModulesEditPage;

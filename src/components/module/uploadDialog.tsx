@@ -10,9 +10,9 @@ import { Card } from "../ui/card";
 import toast from "react-hot-toast";
 
 interface Props {
-  deckId: string;
+  moduleId: string;
 }
-export const UploadDialog = ({ deckId }: Props) => {
+export const UploadDialog = ({ moduleId }: Props) => {
   const [files, setFiles] = useState<FileList>();
 
   const handleFileInput: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -26,7 +26,7 @@ export const UploadDialog = ({ deckId }: Props) => {
     if (!files) return;
 
     const data = new FormData();
-    data.set("deckId", deckId);
+    data.set("moduleId", moduleId);
 
     for (const file of files) {
       data.set(file.name, file);

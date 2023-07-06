@@ -10,16 +10,16 @@ import toast from "react-hot-toast";
 export interface ChatBubbleProps {
   question: string;
   answer: string;
-  deckId: string;
+  moduleId: string;
 }
 
-const ChatBubble = ({ question, answer, deckId }: ChatBubbleProps) => {
+const ChatBubble = ({ question, answer, moduleId }: ChatBubbleProps) => {
   const openState = useState(true);
   const [saved, setSaved] = useState(false);
   const ctx = api.useContext();
 
   const { mutateAsync, isLoading } = api.card.create.useMutation({
-    onSuccess: () => void ctx.deck.invalidate(),
+    onSuccess: () => void ctx.module.invalidate(),
   });
 
   const saveHandler = () => {
@@ -28,7 +28,7 @@ const ChatBubble = ({ question, answer, deckId }: ChatBubbleProps) => {
       mutateAsync({
         front: question,
         back: answer,
-        deckId,
+        moduleId,
       }),
       {
         loading: "Adding card",
@@ -52,7 +52,7 @@ const ChatBubble = ({ question, answer, deckId }: ChatBubbleProps) => {
           onClick={saveHandler}
           disabled={isLoading}
         >
-          save to deck
+          save to module
         </Button>
       )}
     </Card>
@@ -60,13 +60,13 @@ const ChatBubble = ({ question, answer, deckId }: ChatBubbleProps) => {
 };
 
 export interface Props {
-  deckId: string;
+  moduleId: string;
   className?: string;
 }
 
-export const Chat = ({ deckId, className }: Props) => {
+export const Chat = ({ moduleId, className }: Props) => {
   const [question, setQuestion] = useState("");
-  const { sendChat, history, isFetching } = useChat(deckId, question);
+  const { sendChat, history, isFetching } = useChat(moduleId, question);
   const sendHandler = () => {
     void sendChat().then(() => setQuestion(""));
   };
@@ -76,10 +76,10 @@ export const Chat = ({ deckId, className }: Props) => {
       <div className="mb-4 space-y-4">
         {history.map(([q, a]) => (
           <ChatBubble
-            key={deckId + q}
+            key={moduleId + q}
             question={q}
             answer={a}
-            deckId={deckId}
+            moduleId={moduleId}
           />
         ))}
       </div>

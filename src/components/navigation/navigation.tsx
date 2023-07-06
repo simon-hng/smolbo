@@ -17,9 +17,9 @@ export const Navigation: React.FC = () => {
       <NavigationMenu.List className="absolute z-50 flex w-full items-center px-6 py-4">
         <NavigationMenu.Item asChild>
           <Button border="none" asChild>
-            <Link href="/decks">
+            <Link href="/modules">
               <CardStackIcon className="mr-2" aria-hidden />
-              Decks
+              Modules
             </Link>
           </Button>
         </NavigationMenu.Item>

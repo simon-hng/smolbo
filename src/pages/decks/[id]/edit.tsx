@@ -1,4 +1,4 @@
-import type { Deck } from "@prisma/client";
+import type { Module } from "@prisma/client";
 import { useFormik } from "formik";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
@@ -8,13 +8,13 @@ import { InputText } from "~/components/ui/inputText";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
-const DecksEditPage: NextPage = () => {
+const ModulesEditPage: NextPage = () => {
   const router = useRouter();
 
-  const updateMutation = api.deck.update.useMutation();
-  const deleteMutation = api.deck.deleteById.useMutation();
+  const updateMutation = api.module.update.useMutation();
+  const deleteMutation = api.module.deleteById.useMutation();
 
-  const formik = useFormik<Pick<Deck, "id" | "title" | "description">>({
+  const formik = useFormik<Pick<Module, "id" | "title" | "description">>({
     initialValues: {
       id: "",
       title: "",
@@ -22,19 +22,19 @@ const DecksEditPage: NextPage = () => {
     },
     onSubmit: (values) =>
       void toast.promise(updateMutation.mutateAsync(values), {
-        loading: "Updating deck values",
-        success: "Successfully updated deck",
-        error: "Failed to update deck",
+        loading: "Updating module values",
+        success: "Successfully updated module",
+        error: "Failed to update module",
       }),
   });
 
-  const deckQuery = api.deck.getById.useQuery(router.query.id as string, {
+  const moduleQuery = api.module.getById.useQuery(router.query.id as string, {
     enabled: !!router.query.id,
     refetchOnWindowFocus: false,
-    onSuccess: (data) => void formik.setValues(data as Deck),
+    onSuccess: (data) => void formik.setValues(data as Module),
   });
 
-  if (deckQuery.isLoading) {
+  if (moduleQuery.isLoading) {
     return (
       <div className="pt-20">
         <Section className="space-y-8"></Section>
@@ -43,17 +43,17 @@ const DecksEditPage: NextPage = () => {
   }
 
   if (
-    deckQuery.error ||
-    !deckQuery.data ||
+    moduleQuery.error ||
+    !moduleQuery.data ||
     typeof router.query.id !== "string"
   ) {
     return (
       <div className="pt-20">
         <Section>
           <h1 className="skeleton mb-2 w-40 text-4xl font-semibold">
-            Failed to load deck
+            Failed to load module
           </h1>
-          <p> Deck with id {router.query.id} not found</p>
+          <p> Module with id {router.query.id} not found</p>
         </Section>
       </div>
     );
@@ -88,16 +88,16 @@ const DecksEditPage: NextPage = () => {
                   void toast.promise(
                     deleteMutation
                       .mutateAsync(router.query.id as string)
-                      .then(() => router.push("/decks")),
+                      .then(() => router.push("/modules")),
                     {
-                      success: "Successfully deleted deck with id",
-                      loading: "Deleting deck",
-                      error: "Failed to delete deck",
+                      success: "Successfully deleted module with id",
+                      loading: "Deleting module",
+                      error: "Failed to delete module",
                     }
                   );
                 }}
               >
-                Delete deck
+                Delete module
               </Button>
               <Button variant="primary" type="submit">
                 Save changes
@@ -110,4 +110,4 @@ const DecksEditPage: NextPage = () => {
   );
 };
 
-export default DecksEditPage;
+export default ModulesEditPage;
