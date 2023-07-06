@@ -108,7 +108,7 @@ export const UserPage = () => {
               </Slider.Root>
             </label>
 
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-end gap-2">
               <Button variant="primary" type="submit">
                 Save
               </Button>

@@ -1,12 +1,13 @@
 import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { api } from "~/utils/api";
-import type { Module } from "@prisma/client";
+import type { Card, Module } from "@prisma/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
-import { Card } from "@ui/card";
-import { Editor } from "../ui/editor";
+import { Card as CardComponent } from "@ui/card";
+import { useFormik } from "formik";
+import { InputText } from "../ui/inputText";
 
 interface CardCreationDialogProps {
   module: Module;
@@ -17,51 +18,45 @@ export const CardCreationDialog = ({
   module,
   children,
 }: CardCreationDialogProps) => {
+  const [open, setOpen] = useState(false);
   const ctx = api.useContext();
-  const [card, setCard] = useState({
-    front: "",
-    back: "",
-    moduleId: module.id,
-  });
-
-  const trigger = children ?? (
+  const Trigger = children ?? (
     <Button variant="primary">
       <PlusIcon aria-hidden className="mr-2" />
       Card
     </Button>
   );
-
   const cardCreateMutation = api.card.create.useMutation({
     onSuccess: () => ctx.module.invalidate(),
   });
 
-  const saveHandler = () => {
-    void toast.promise(
-      cardCreateMutation.mutateAsync({
-        ...card,
-      }),
-      {
-        loading: "Adding card",
-        success: "Successfully added card",
-        error: "Failed to add card",
-      }
-    );
-
-    setCard({
-      ...card,
+  const formik = useFormik<Pick<Card, "front" | "back">>({
+    initialValues: {
       front: "",
       back: "",
-    });
-  };
+    },
+    onSubmit: (values, { setSubmitting, resetForm }) =>
+      void toast
+        .promise(
+          cardCreateMutation.mutateAsync({ moduleId: module.id, ...values }),
+          {
+            loading: "Creating new card",
+            success: "Succesfully created card",
+            error: "Failed to create module",
+          }
+        )
+        .then(() => setSubmitting(false))
+        .then(() => resetForm()),
+  });
 
   return (
-    <Dialog.Root>
-      <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
+    <Dialog.Root open={open} onOpenChange={(open) => setOpen(open)}>
+      <Dialog.Trigger asChild>{Trigger}</Dialog.Trigger>
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-slate-900/50 backdrop-blur-lg" />
         <Dialog.Content className="fixed-center container mx-auto p-8">
-          <Card variant="primary">
+          <CardComponent variant="primary">
             <div className="mb-4">
               <div className="flex flex-row justify-between">
                 <Dialog.Title className="mb-2 text-2xl">
@@ -78,40 +73,34 @@ export const CardCreationDialog = ({
               </Dialog.Description>
             </div>
 
-            <div className="flex flex-col space-y-4">
-              <label className="flex flex-col">
-                Card front
-                <Editor
-                  options={{ wordWrap: "on", minimap: { autohide: true } }}
-                  height="10rem"
-                  value={card.front}
-                  onChange={(value) => {
-                    return setCard({ ...card, front: value ?? "" });
-                  }}
-                />
-              </label>
+            <form
+              className="flex flex-col space-y-4"
+              onSubmit={formik.handleSubmit}
+            >
+              <InputText
+                label="Front"
+                name="front"
+                value={formik.values.front}
+                onChange={formik.handleChange}
+              />
 
-              <label className="flex flex-col">
-                Card back - Answer
-                <Editor
-                  options={{ wordWrap: "on", minimap: { autohide: true } }}
-                  height="10rem"
-                  defaultLanguage="markdown"
-                  onChange={(value) => {
-                    return setCard({ ...card, back: value ?? "" });
-                  }}
-                />
-              </label>
+              <InputText
+                label="Back"
+                name="back"
+                value={formik.values.back}
+                onChange={formik.handleChange}
+                asChild
+              >
+                <textarea className="h-32" />
+              </InputText>
 
-              <div>
-                <Dialog.Close asChild>
-                  <Button variant="primary" onClick={saveHandler}>
-                    save
-                  </Button>
-                </Dialog.Close>
+              <div className="flex justify-end gap-2">
+                <Button variant="primary" type="submit">
+                  save
+                </Button>
               </div>
-            </div>
-          </Card>
+            </form>
+          </CardComponent>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { getModuleTheme } from "~/server/chains/getModuleTheme";
-import { error } from "console";
 
 export const moduleRouter = createTRPCRouter({
   create: protectedProcedure
@@ -24,7 +23,7 @@ export const moduleRouter = createTRPCRouter({
         }
       );
 
-      await ctx.prisma.module.create({
+      return await ctx.prisma.module.create({
         data: {
           ...input,
           emoji: theme.emoji,

@@ -4,13 +4,13 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
-import { Editor } from "../ui/editor";
 import { useFormik } from "formik";
 import { type Module } from "@prisma/client";
 import toast from "react-hot-toast";
 import { InputText } from "../ui/inputText";
 
 export const ModuleCreationDialog = () => {
+  const [open, setOpen] = useState(false);
   const ctx = api.useContext();
   const moduleCreateMutation = api.module.create.useMutation({
     onSuccess: () => {
@@ -23,17 +23,20 @@ export const ModuleCreationDialog = () => {
       title: "",
       description: "",
     },
-    onSubmit: (values) =>
-      void toast.promise(moduleCreateMutation.mutateAsync(values), {
-        loading: null,
-        success: null,
-        error: null,
-      }),
+    onSubmit: (values, { setSubmitting }) =>
+      void toast
+        .promise(moduleCreateMutation.mutateAsync(values), {
+          loading: "Creating new module",
+          success: (data) => `Succesfully created module ${data?.title}`,
+          error: "Failed to create module",
+        })
+        .then(() => setSubmitting(false))
+        .then(() => setOpen(false)),
   });
 
   return (
     <>
-      <Dialog.Root>
+      <Dialog.Root open={open} onOpenChange={(open) => setOpen(open)}>
         <Dialog.Trigger asChild>
           <Button variant="primary">
             <CardStackPlusIcon aria-hidden className="mr-2" />
@@ -62,7 +65,10 @@ export const ModuleCreationDialog = () => {
                 </Dialog.Description>
               </div>
 
-              <form className="flex flex-col space-y-4">
+              <form
+                className="flex flex-col space-y-4"
+                onSubmit={formik.handleSubmit}
+              >
                 <InputText
                   label="Title"
                   name="title"
@@ -80,12 +86,10 @@ export const ModuleCreationDialog = () => {
                   <textarea className="h-32" />
                 </InputText>
 
-                <div>
-                  <Dialog.Close asChild>
-                    <Button variant="primary" type="submit">
-                      save
-                    </Button>
-                  </Dialog.Close>
+                <div className="flex justify-end gap-2">
+                  <Button variant="primary" type="submit">
+                    save
+                  </Button>
                 </div>
               </form>
             </Card>
