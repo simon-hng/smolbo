@@ -6,6 +6,7 @@ import { Card } from "./ui/card";
 import { CardView } from "./card/flashCard/flashCardView";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import { InputText } from "./ui/inputText";
 
 export interface ChatBubbleProps {
   question: string;
@@ -87,10 +88,11 @@ export const Chat = ({ moduleId, className }: Props) => {
       </div>
 
       <div className="flex space-x-4">
-        <input
+        <InputText
           value={question}
+          fullWidth
           onChange={(event) => setQuestion(event.target.value)}
-          className="w-full rounded-full border-2 border-slate-500 bg-slate-900/50 px-4 py-2 backdrop-blur-lg disabled:bg-slate-800 disabled:text-slate-500"
+          className="w-full"
           placeholder="Ask me anything!"
           disabled={isFetching}
           onKeyDown={(e) => {

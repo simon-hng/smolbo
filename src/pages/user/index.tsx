@@ -43,15 +43,9 @@ export const UserPage = () => {
           <div className="space-y-4">
             <div className="skeleton h-32 w-32 rounded-full" />
 
-            <label className="flex flex-col">
-              Name
-              <input className="textarea skeleton" />
-            </label>
+            <InputText label="Name" state="skeleton" />
 
-            <label className="flex flex-col">
-              Email
-              <input className="textarea skeleton" />
-            </label>
+            <InputText label="Email" state="skeleton" />
 
             <div className="flex space-x-2">
               <Button variant="skeleton" />
