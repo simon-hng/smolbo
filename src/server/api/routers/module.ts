@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { getModuleTheme } from "~/server/chains/getModuleTheme";
+import { getPineconeIndex } from "~/server/pinecone";
+import { TRPCError } from "@trpc/server";
 
 export const moduleRouter = createTRPCRouter({
   create: protectedProcedure
@@ -96,10 +98,26 @@ export const moduleRouter = createTRPCRouter({
   deleteById: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.module.delete({
-        where: {
-          id: input,
-        },
+      const pineconeIndex = await getPineconeIndex();
+
+      await Promise.allSettled([
+        pineconeIndex.delete1({
+          deleteAll: true,
+          namespace: input,
+        }),
+        ctx.prisma.module.delete({
+          where: {
+            id: input,
+          },
+        }),
+      ]).catch((error) => {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: `Failed to delete module ${input}`,
+          cause: error,
+        });
       });
+
+      return input;
     }),
 });

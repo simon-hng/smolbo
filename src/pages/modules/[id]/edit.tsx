@@ -1,4 +1,5 @@
 import type { Module } from "@prisma/client";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { useFormik } from "formik";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
@@ -28,40 +29,22 @@ const ModulesEditPage: NextPage = () => {
       }),
   });
 
-  const moduleQuery = api.module.getById.useQuery(router.query.id as string, {
+  const { isLoading } = api.module.getById.useQuery(router.query.id as string, {
     enabled: !!router.query.id,
     refetchOnWindowFocus: false,
     onSuccess: (data) => void formik.setValues(data as Module),
   });
 
-  if (moduleQuery.isLoading) {
-    return (
-      <div className="pt-20">
-        <Section className="space-y-8"></Section>
-      </div>
-    );
-  }
-
-  if (
-    moduleQuery.error ||
-    !moduleQuery.data ||
-    typeof router.query.id !== "string"
-  ) {
-    return (
-      <div className="pt-20">
-        <Section>
-          <h1 className="skeleton mb-2 w-40 text-4xl font-semibold">
-            Failed to load module
-          </h1>
-          <p> Module with id {router.query.id} not found</p>
-        </Section>
-      </div>
-    );
-  }
-
   return (
     <div className="pt-20">
       <Section className="space-y-8">
+        <div className="mb-2 flex items-center gap-6">
+          <button onClick={() => router.back()}>
+            <ArrowLeftIcon className="h-8 w-8" />
+          </button>
+
+          <h1 className="text-4xl font-semibold">Edit module</h1>
+        </div>
         <form onSubmit={formik.handleSubmit}>
           <fieldset className="space-y-4">
             <InputText
@@ -70,6 +53,7 @@ const ModulesEditPage: NextPage = () => {
               value={formik.values.title}
               onChange={formik.handleChange}
               className="w-full"
+              state={isLoading ? "skeleton" : "default"}
             />
 
             <InputText
@@ -78,6 +62,7 @@ const ModulesEditPage: NextPage = () => {
               value={formik.values.description}
               onChange={formik.handleChange}
               className="w-full"
+              state={isLoading ? "skeleton" : "default"}
             />
 
             <div className="flex justify-end gap-2">
@@ -85,16 +70,17 @@ const ModulesEditPage: NextPage = () => {
                 variant="red"
                 type="button"
                 onClick={() => {
-                  void toast.promise(
-                    deleteMutation
-                      .mutateAsync(router.query.id as string)
-                      .then(() => router.push("/modules")),
-                    {
-                      success: "Successfully deleted module with id",
-                      loading: "Deleting module",
-                      error: "Failed to delete module",
-                    }
-                  );
+                  void toast
+                    .promise(
+                      deleteMutation.mutateAsync(router.query.id as string),
+                      {
+                        loading: "Deleting module",
+                        success: (data) =>
+                          `Successfully deleted module with id ${data}`,
+                        error: "Failed to delete module",
+                      }
+                    )
+                    .then(() => router.push("/modules"));
                 }}
               >
                 Delete module

@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { PineconeClient } from "@pinecone-database/pinecone";
-import { env } from "~/env.mjs";
+import { getPineconeIndex } from "../../pinecone";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { AIChatMessage, HumanChatMessage } from "langchain/schema";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
@@ -17,13 +16,7 @@ export const chatRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      const pinecone = new PineconeClient();
-      await pinecone.init({
-        environment: env.PINECONE_ENVIRONMENT,
-        apiKey: env.PINECONE_API_KEY,
-      });
-
-      const pineconeIndex = pinecone.Index(env.PINECONE_INDEX);
+      const pineconeIndex = await getPineconeIndex();
       const vectorStore = await PineconeStore.fromExistingIndex(
         new OpenAIEmbeddings({}),
         {

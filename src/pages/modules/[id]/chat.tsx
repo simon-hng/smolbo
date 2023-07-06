@@ -5,13 +5,13 @@ import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
 const ModulesEditPage: NextPage = () => {
-  const { query } = useRouter();
+  const router = useRouter();
 
-  const moduleQuery = api.module.getById.useQuery(query.id as string, {
-    enabled: !!query.id,
+  const moduleQuery = api.module.getById.useQuery(router.query.id as string, {
+    enabled: !!router.query.id,
   });
 
-  if (moduleQuery.isLoading) {
+  if (!moduleQuery.isSuccess || !moduleQuery.data) {
     return (
       <div className="pt-20">
         <Section className="space-y-8">
@@ -19,19 +19,6 @@ const ModulesEditPage: NextPage = () => {
             <h1 className="skeleton mb-2 w-80 text-4xl" />
             <p className="skeleton w-80 animate-pulse" />
           </div>
-        </Section>
-      </div>
-    );
-  }
-
-  if (moduleQuery.error || !moduleQuery.data || typeof query.id !== "string") {
-    return (
-      <div className="pt-20">
-        <Section>
-          <h1 className="skeleton mb-2 w-40 text-4xl font-semibold">
-            Failed to load module
-          </h1>
-          <p> Module with id {query.id} not found</p>
         </Section>
       </div>
     );
@@ -47,7 +34,7 @@ const ModulesEditPage: NextPage = () => {
           <p>{moduleQuery.data.description}</p>
         </div>
 
-        <Chat moduleId={query.id} />
+        <Chat moduleId={router.query.id as string} />
       </Section>
     </div>
   );
