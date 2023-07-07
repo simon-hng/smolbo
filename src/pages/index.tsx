@@ -27,7 +27,11 @@ const Home: NextPage = () => {
             )}
 
             {quoteQuery.isLoading && <p className="skeleton mb-2" />}
-            {quoteQuery.data && <p className="mb-2">{quoteQuery.data}</p>}
+            {quoteQuery.data && (
+              <p className="mb-2">
+                {`"${quoteQuery.data.quote}" - ${quoteQuery.data.person}`}
+              </p>
+            )}
           </div>
 
           <div className="space-y-4">
