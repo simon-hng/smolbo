@@ -101,7 +101,7 @@ export const moduleRouter = createTRPCRouter({
         })
         .then((data) => ({
           ...data,
-          vectorCount: namespaces[input]?.vectorCount,
+          vectorCount: namespaces[input]?.vectorCount ?? 0,
         }));
     }),
 

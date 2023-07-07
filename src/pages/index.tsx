@@ -19,14 +19,18 @@ const Home: NextPage = () => {
       <div className="pt-20">
         <Section>
           <div className="mb-12">
-            {status === "loading" && <h1 className="skeleton mb-4 text-4xl" />}
+            {status === "loading" && (
+              <h1 className="skeleton mb-4 w-96 max-w-full text-4xl" />
+            )}
             {status === "authenticated" && (
               <h1 className="mb-4 text-4xl font-semibold">
                 Hello {session?.user.name}, welcome back!
               </h1>
             )}
 
-            {quoteQuery.isLoading && <p className="skeleton mb-2" />}
+            {quoteQuery.isLoading && (
+              <p className="skeleton mb-2 w-80 max-w-full" />
+            )}
             {quoteQuery.data && (
               <p className="mb-2">
                 {`"${quoteQuery.data.quote}" - ${quoteQuery.data.person}`}

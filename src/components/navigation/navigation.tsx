@@ -44,7 +44,7 @@ export const Navigation: React.FC = () => {
             <ul className="space-y-2 py-2">
               <li>
                 <Link
-                  className="flex w-full items-center px-4 py-2 hover:bg-slate-500"
+                  className="flex w-full items-center px-4 py-2 duration-500 hover:bg-slate-500"
                   href="/user"
                 >
                   <PersonIcon aria-hidden className="mr-2" />
@@ -52,14 +52,14 @@ export const Navigation: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <button className="flex w-full items-center px-4 py-2 hover:bg-slate-500">
+                <button className="flex w-full items-center px-4 py-2 duration-500 hover:bg-slate-500">
                   <SunIcon aria-hidden className="mr-2" />
                   Theme
                 </button>
               </li>
               <li>
                 <button
-                  className="flex w-full items-center px-4 py-2 hover:bg-slate-500"
+                  className="flex w-full items-center px-4 py-2 duration-500 hover:bg-slate-500"
                   onClick={() => void signOut()}
                 >
                   <ExitIcon aria-hidden className="mr-2" />
