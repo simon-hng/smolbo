@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { ModuleList } from "~/components/module";
+import { ModuleCreationDialog, ModuleList } from "~/components/module";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
 
@@ -30,9 +30,10 @@ const Home: NextPage = () => {
             {quoteQuery.data && <p className="mb-2">{quoteQuery.data}</p>}
           </div>
 
-          <div>
+          <div className="space-y-4">
             <h2 className="mb-4 text-2xl font-semibold">Your Modules</h2>
             <ModuleList />
+            <ModuleCreationDialog />
           </div>
         </Section>
       </div>

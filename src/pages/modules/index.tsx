@@ -6,7 +6,6 @@ export const ModulesPage = () => {
     <div className="pt-20">
       <Section className="space-y-4">
         <h1 className="mb-8 text-4xl font-semibold">Your Modules</h1>
-
         <ModuleList />
         <ModuleCreationDialog />
       </Section>

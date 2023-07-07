@@ -16,6 +16,17 @@ export const ModuleList = () => {
     );
   }
 
+  if (!modules?.length) {
+    return (
+      <div>
+        <h2>
+          You haven&apos;t added any modules yet. Begin incorporating modules
+          and embark on your learning journey 🚀
+        </h2>
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       {!!modules &&
