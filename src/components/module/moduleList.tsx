@@ -1,5 +1,6 @@
 import { api } from "~/utils/api";
 import { ModuleCard } from "./moduleCard";
+import { Card } from "../ui/card";
 
 export const ModuleList = () => {
   const modulesQuery = api.module.getAllForUser.useQuery();
@@ -8,9 +9,9 @@ export const ModuleList = () => {
   if (modulesQuery.isLoading) {
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="skeleton h-36 w-full rounded-xl" />
-        <div className="skeleton h-36 w-full rounded-xl" />
-        <div className="skeleton h-36 w-full rounded-xl" />
+        {[...Array(4).keys()].map((i) => (
+          <Card key={i} variant="skeleton" className="h-36" />
+        ))}
       </div>
     );
   }

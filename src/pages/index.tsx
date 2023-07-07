@@ -3,9 +3,11 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { ModuleList } from "~/components/module";
 import { Section } from "~/components/ui/section";
+import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const { data: session } = useSession({ required: true });
+  const { data: session, status } = useSession({ required: true });
+  const quoteQuery = api.quotes.getDailyQuote.useQuery();
   return (
     <>
       <Head>
@@ -17,13 +19,15 @@ const Home: NextPage = () => {
       <div className="pt-20">
         <Section>
           <div className="mb-12">
-            <h1 className="mb-4 text-4xl font-semibold">
-              Hello {session?.user.name}, welcome back!
-            </h1>
+            {status === "loading" && <h1 className="skeleton mb-4 text-4xl" />}
+            {status === "authenticated" && (
+              <h1 className="mb-4 text-4xl font-semibold">
+                Hello {session?.user.name}, welcome back!
+              </h1>
+            )}
 
-            <p className="mb-2">
-              {`"Look up in the sky It's a bird, it's a plane - Roseanne Park"`}
-            </p>
+            {quoteQuery.isLoading && <p className="skeleton mb-2" />}
+            {quoteQuery.data && <p className="mb-2">{quoteQuery.data}</p>}
           </div>
 
           <div>

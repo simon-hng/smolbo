@@ -9,9 +9,9 @@ export const CardList = ({ cards }: Props) => {
   if (!cards) {
     return (
       <div className="columns-sm gap-8">
-        <CardComponent variant="skeleton" className="mb-4 h-16" />
-        <CardComponent variant="skeleton" className="mb-4 h-16" />
-        <CardComponent variant="skeleton" className="mb-4 h-16" />
+        {[...Array(8).keys()].map((i) => (
+          <CardComponent key={i} variant="skeleton" className="mb-4 h-16" />
+        ))}
       </div>
     );
   }

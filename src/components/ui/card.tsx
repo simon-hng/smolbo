@@ -11,7 +11,7 @@ export const styles = cva(
       },
       variant: {
         primary: "bg-slate-900 text-white",
-        skeleton: "h-40 skeleton",
+        skeleton: "skeleton",
         glass: "backdrop-blur-lg bg-slate-900/50",
       },
       padding: {

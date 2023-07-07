@@ -17,20 +17,25 @@ interface ModuleSummaryProps {
   module?: ModuleInformation;
 }
 const ModuleSummary = ({ module }: ModuleSummaryProps) => {
-  if (!module) {
-    return (
-      <div className="mb-12 space-y-4">
-        <div className="skeleton mb-2 text-4xl" />
-        <div className="skeleton mb-4" />
-        <div className="skeleton h-16" />
-      </div>
-    );
-  }
-
   const countCardsDue = (cards: Card[]) => {
     const now = new Date();
     return cards.filter((card) => card.dueDate < now).length;
   };
+
+  if (!module) {
+    return (
+      <div className="mb-12 space-y-4">
+        <div className="skeleton mb-2 w-96 max-w-full text-4xl" />
+        <div className="skeleton mb-4 w-16" />
+        <div className="skeleton h-12 w-80" />
+        <div className="scrollbar mb-12 flex flex-row space-x-2 overflow-x-auto">
+          {[...Array(8).keys()].map((i) => (
+            <Button variant="skeleton" key={i} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mb-12 space-y-4">
