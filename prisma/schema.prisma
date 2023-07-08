@@ -19,7 +19,6 @@ model Module {
   id          String   @id @default(cuid())
   title       String
   description String
-  color       String
   emoji       String
   cards       Card[]
   userId      String

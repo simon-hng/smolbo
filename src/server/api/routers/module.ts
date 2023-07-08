@@ -14,10 +14,7 @@ export const moduleRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      let theme = {
-        emoji: "📚",
-        color: "blue",
-      };
+      let theme = { emoji: "📚" };
 
       theme = await getModuleTheme(input.title, input.description).catch(
         (error) => {
@@ -30,7 +27,6 @@ export const moduleRouter = createTRPCRouter({
         data: {
           ...input,
           emoji: theme.emoji,
-          color: theme.color,
           userId: ctx.session.user.id,
         },
       });
