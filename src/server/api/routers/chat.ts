@@ -32,13 +32,13 @@ export const chatRouter = createTRPCRouter({
         new HumanChatMessage(q),
         new AIChatMessage(a),
       ]);
-      const response = await chain
+
+      return await chain
         .call({
           question: input.question.trim().replaceAll("\n", ""),
           chat_history: history,
         })
+        .then((res) => res.text as string)
         .catch((err) => console.error(err));
-
-      return response;
     }),
 });

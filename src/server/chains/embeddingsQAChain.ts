@@ -1,6 +1,6 @@
 import { OpenAI } from "langchain";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
-import { PineconeStore } from "langchain/vectorstores/pinecone";
+import { type PineconeStore } from "langchain/vectorstores/pinecone";
 import { model } from "./model";
 
 const CONDENSE_PROMPT = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.

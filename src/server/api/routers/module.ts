@@ -4,7 +4,7 @@ import { getModuleTheme } from "~/server/chains/getModuleTheme";
 import { getPineconeIndex } from "~/server/pinecone";
 import { TRPCError } from "@trpc/server";
 import { prisma } from "~/server/db";
-import { NamespaceSummary } from "@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch";
+import { type NamespaceSummary } from "@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch";
 
 export const moduleRouter = createTRPCRouter({
   create: protectedProcedure

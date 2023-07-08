@@ -9,9 +9,8 @@ const useChat = (moduleId: string, question: string) => {
     {
       refetchOnWindowFocus: false,
       enabled: false,
-      onSuccess: (data) => {
-        setHistory([...history, [question, data.text]]);
-        console.log(data);
+      onSuccess: (answer) => {
+        setHistory([...history, [question, answer ?? ""]]);
       },
       onError: () => {
         toast.error("failed to get recommendation");
