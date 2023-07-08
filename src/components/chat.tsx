@@ -1,4 +1,4 @@
-import { CardStackPlusIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import useChat from "~/hooks/useChat";

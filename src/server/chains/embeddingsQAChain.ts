@@ -1,4 +1,3 @@
-import { OpenAI } from "langchain";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { type PineconeStore } from "langchain/vectorstores/pinecone";
 import { model } from "./model";
