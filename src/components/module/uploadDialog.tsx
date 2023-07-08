@@ -71,7 +71,9 @@ export const UploadDialog = ({ moduleId }: Props) => {
                 </div>
 
                 <Dialog.Description>
-                  Create embeddings and generate responses based on your PDFs
+                  Create vectors and generate responses based on your PDFs. You
+                  can then use those vectors to chat with your PDFs through the
+                  chat function.
                 </Dialog.Description>
               </div>
 
@@ -79,7 +81,6 @@ export const UploadDialog = ({ moduleId }: Props) => {
                 className="mb-4"
                 type="file"
                 name="file"
-                multiple
                 onChange={handleFileInput}
               />
 
