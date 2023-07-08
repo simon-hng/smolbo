@@ -3,7 +3,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { type ComponentPropsWithRef } from "react";
 
 export const styles = cva(
-  "rounded-xl px-4 py-1 duration-500 flex items-center",
+  "rounded-xl px-4 py-1 duration-500 flex items-center shrink-0",
   {
     variants: {
       border: {
@@ -11,7 +11,7 @@ export const styles = cva(
         none: "border-0",
       },
       variant: {
-        skeleton: "skeleton w-36",
+        skeleton: "skeleton w-28",
         primary:
           "bg-slate-900 hover:bg-slate-500 disabled:bg-slate-800 disabled:text-slate-500",
         red: "bg-red-700",

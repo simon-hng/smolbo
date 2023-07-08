@@ -29,7 +29,7 @@ const ModuleSummary = ({ module }: ModuleSummaryProps) => {
         <div className="skeleton mb-4 w-16" />
         <div className="skeleton h-12 w-80" />
         <div className="scrollbar mb-12 flex flex-row space-x-2 overflow-x-auto">
-          {[...Array(8).keys()].map((i) => (
+          {[...Array(5).keys()].map((i) => (
             <Button variant="skeleton" key={i} />
           ))}
         </div>
