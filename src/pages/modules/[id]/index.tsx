@@ -84,7 +84,7 @@ const ModulesViewPage: NextPage = () => {
   if (card) {
     return (
       <motion.div style={{ backgroundColor }} className="min-h-screen pt-20">
-        <Section>
+        <Section className="mb-20">
           <motion.div
             drag="x"
             dragSnapToOrigin
@@ -104,7 +104,7 @@ const ModulesViewPage: NextPage = () => {
 
         <div className="fixed bottom-0 w-full">
           <div className="container mx-auto p-8 lg:p-16">
-            <div className="flex w-full divide-x-2 divide-slate-500 overflow-hidden rounded-full border-2 border-slate-500 bg-slate-900/50 backdrop-blur-lg">
+            <div className="flex w-full divide-x-2 divide-slate-500 overflow-hidden rounded-xl border-2 border-slate-500 bg-slate-900/50 backdrop-blur-lg">
               {!open && (
                 <button
                   className="w-full p-2 text-center duration-500 hover:bg-slate-500"
