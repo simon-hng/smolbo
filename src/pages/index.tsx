@@ -7,7 +7,11 @@ import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession({ required: true });
-  const quoteQuery = api.quotes.getDailyQuote.useQuery();
+  const quoteQuery = api.quotes.getDailyQuote.useQuery(undefined, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
   return (
     <>
       <Head>
