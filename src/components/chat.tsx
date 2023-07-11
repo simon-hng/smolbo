@@ -7,6 +7,7 @@ import { CardView } from "./card/flashCard/flashCardView";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { InputText } from "./ui/inputText";
+import { cx } from "class-variance-authority";
 
 export interface ChatBubbleProps {
   question: string;
@@ -75,8 +76,8 @@ export const Chat = ({ moduleId, className }: Props) => {
   };
 
   return (
-    <div className={className}>
-      <div className="mb-4 space-y-4">
+    <div className={cx("relative h-[70vh] pb-16", className)}>
+      <div className="scrollbar mb-12 h-full space-y-4 overflow-y-scroll pr-4">
         {history.map(([q, a]) => (
           <ChatBubble
             key={moduleId + q}
@@ -87,7 +88,7 @@ export const Chat = ({ moduleId, className }: Props) => {
         ))}
       </div>
 
-      <div className="flex space-x-4">
+      <div className="absolute bottom-0 flex w-full space-x-4">
         <InputText
           value={question}
           fullWidth
@@ -99,8 +100,6 @@ export const Chat = ({ moduleId, className }: Props) => {
             if (e.key === "Enter") sendHandler();
           }}
         />
-
-        {isFetching}
 
         <Button variant="primary" onClick={sendHandler} disabled={isFetching}>
           <PaperPlaneIcon className="mr-2" /> Send
