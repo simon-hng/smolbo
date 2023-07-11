@@ -25,9 +25,9 @@ const ModulesEditPage: NextPage = () => {
   }
 
   return (
-    <div className="pt-20">
-      <Section className="space-y-8">
-        <div>
+    <div className="h-screen pt-20">
+      <Section className="flex h-full flex-col">
+        <div className="mb-8">
           <h1 className="mb-2 text-4xl font-semibold">
             {moduleQuery.data.title}
           </h1>

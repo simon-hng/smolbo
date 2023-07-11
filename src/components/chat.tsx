@@ -76,8 +76,8 @@ export const Chat = ({ moduleId, className }: Props) => {
   };
 
   return (
-    <div className={cx("relative h-[70vh] pb-16", className)}>
-      <div className="scrollbar mb-12 h-full space-y-4 overflow-y-scroll pr-4">
+    <div className={cx("relative h-full pb-32", className)}>
+      <div className="scrollbar h-full space-y-4 overflow-y-scroll pr-4">
         {history.map(([q, a]) => (
           <ChatBubble
             key={moduleId + q}
@@ -88,12 +88,12 @@ export const Chat = ({ moduleId, className }: Props) => {
         ))}
       </div>
 
-      <div className="absolute bottom-0 flex w-full space-x-4">
+      <div className="absolute bottom-0 mb-8 flex w-full space-x-4">
         <InputText
           value={question}
           fullWidth
           onChange={(event) => setQuestion(event.target.value)}
-          className="w-full"
+          className="w-full py-4"
           placeholder="Ask me anything!"
           disabled={isFetching}
           onKeyDown={(e) => {
