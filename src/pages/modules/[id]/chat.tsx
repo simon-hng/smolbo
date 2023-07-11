@@ -11,13 +11,13 @@ const ModulesEditPage: NextPage = () => {
     enabled: !!router.query.id,
   });
 
-  if (!moduleQuery.isSuccess || !moduleQuery.data) {
+  if (!moduleQuery.data) {
     return (
       <div className="pt-20">
         <Section className="space-y-8">
           <div>
-            <h1 className="skeleton mb-2 w-80 text-4xl" />
-            <p className="skeleton w-80 animate-pulse" />
+            <div className="skeleton mb-2 w-96 max-w-full text-4xl" />
+            <div className="skeleton mb-4 w-16" />
           </div>
         </Section>
       </div>
