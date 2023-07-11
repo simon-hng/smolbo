@@ -77,7 +77,7 @@ export const Chat = ({ moduleId, className }: Props) => {
 
   return (
     <div className={cx("flex h-full flex-col overflow-hidden pb-8", className)}>
-      <div className="scrollbar mb-16 h-full space-y-4 overflow-y-scroll pr-4">
+      <div className="scrollbar mb-8 h-full space-y-4 overflow-y-scroll pr-4">
         {history.map(([q, a]) => (
           <ChatBubble
             key={moduleId + q}
