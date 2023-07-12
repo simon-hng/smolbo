@@ -83,8 +83,8 @@ const ModulesViewPage: NextPage = () => {
   const card = cards.at(0);
   if (card) {
     return (
-      <motion.div style={{ backgroundColor }} className="min-h-screen pt-20">
-        <Section className="mb-20">
+      <motion.div style={{ backgroundColor }} className="flex h-screen pt-20">
+        <Section className="scrollbar overflow-y-auto pb-32">
           <motion.div
             drag="x"
             dragSnapToOrigin
@@ -96,7 +96,7 @@ const ModulesViewPage: NextPage = () => {
             <FlashCard
               key={card.id}
               card={card}
-              className="min-h-[50vh]"
+              className="min-h-full"
               openState={[open, setOpen]}
             />
           </motion.div>
