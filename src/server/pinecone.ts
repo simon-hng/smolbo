@@ -12,5 +12,5 @@ export const getPineconeClient = async () => {
 
 export const getPineconeIndex = async () => {
   const pinecone = await getPineconeClient();
-  return pinecone.Index(env.PINECONE_INDEX);
+  return await pinecone.Index(env.PINECONE_INDEX);
 };

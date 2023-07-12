@@ -5,13 +5,34 @@ import { PDFLoader } from "langchain/document_loaders";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
-import { PineconeClient } from "@pinecone-database/pinecone";
-import { env } from "~/env.mjs";
+import { type Document } from "langchain/document";
+import { getPineconeIndex } from "~/server/pinecone";
 
 export const config = {
   api: {
     bodyParser: false,
   },
+};
+
+const createEmbeddings = async (
+  moduleId: string,
+  files: Document<Record<string, string>>[]
+) => {
+  const textSplitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 1000,
+    chunkOverlap: 200,
+  });
+
+  const chunkedData = await textSplitter.splitDocuments(files);
+
+  const embeddings = new OpenAIEmbeddings();
+  const pineconeIndex = await getPineconeIndex();
+
+  await PineconeStore.fromDocuments(chunkedData, embeddings, {
+    pineconeIndex,
+    namespace: moduleId,
+    textKey: "text",
+  });
 };
 
 export default async function handler(
@@ -30,12 +51,6 @@ export default async function handler(
     return;
   }
 
-  const pinecone = new PineconeClient();
-  await pinecone.init({
-    environment: env.PINECONE_ENVIRONMENT,
-    apiKey: env.PINECONE_API_KEY,
-  });
-
   const files = await Promise.all(
     Object.values(data)
       .filter((file): file is File[] => Array.isArray(file))
@@ -44,21 +59,7 @@ export default async function handler(
       .map((file) => new PDFLoader(file.filepath).load())
   ).then((files) => files.flat());
 
-  const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
-    chunkOverlap: 200,
-  });
-
-  const chunkedData = await textSplitter.splitDocuments(files);
-
-  const embeddings = new OpenAIEmbeddings();
-  const pineconeIndex = pinecone.Index(env.PINECONE_INDEX);
-
-  await PineconeStore.fromDocuments(chunkedData, embeddings, {
-    pineconeIndex,
-    namespace: moduleId,
-    textKey: "text",
-  });
+  await createEmbeddings(moduleId, files);
 
   res.status(200).json({ success: "true" });
 }
