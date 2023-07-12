@@ -43,22 +43,26 @@ export const Navigation: React.FC = () => {
           <NavigationMenu.Content className="absolute right-2 z-50 mt-2 min-w-[12rem] rounded-xl border-2 border-slate-500 bg-slate-900">
             <ul className="space-y-2 py-2">
               <li>
-                <Link
-                  className="flex w-full items-center px-4 py-2 duration-500 hover:bg-slate-500"
-                  href="/user"
-                >
-                  <PersonIcon aria-hidden className="mr-2" />
-                  Account
-                </Link>
+                <NavigationMenu.Link asChild>
+                  <Link
+                    className="flex w-full items-center px-4 py-2 duration-500 hover:bg-slate-500"
+                    href="/user"
+                  >
+                    <PersonIcon aria-hidden className="mr-2" />
+                    Account
+                  </Link>
+                </NavigationMenu.Link>
               </li>
               <li>
-                <button
-                  className="flex w-full items-center px-4 py-2 duration-500 hover:bg-slate-500"
-                  onClick={() => void signOut()}
-                >
-                  <ExitIcon aria-hidden className="mr-2" />
-                  Logout
-                </button>
+                <NavigationMenu.Link asChild>
+                  <button
+                    className="flex w-full items-center px-4 py-2 duration-500 hover:bg-slate-500"
+                    onClick={() => void signOut()}
+                  >
+                    <ExitIcon aria-hidden className="mr-2" />
+                    Logout
+                  </button>
+                </NavigationMenu.Link>
               </li>
             </ul>
           </NavigationMenu.Content>
