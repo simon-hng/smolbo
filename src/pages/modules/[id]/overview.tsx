@@ -69,7 +69,7 @@ const ModuleSummary = ({ module }: ModuleSummaryProps) => {
           </Link>
         </Button>
         <Button variant="primary" asChild>
-          <Link href={`/modules/${module.id}`}>
+          <Link href={`/modules/${module.id}/review`}>
             <RocketIcon aria-hidden className="mr-2" />
             Review
           </Link>
