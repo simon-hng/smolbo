@@ -17,14 +17,14 @@ export const config = {
 
 const createEmbeddings = async (
   moduleId: string,
-  files: Document<Record<string, string>>[]
+  pages: Document<Record<string, string>>[]
 ) => {
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
     chunkOverlap: 200,
   });
 
-  const chunkedData = await textSplitter.splitDocuments(files);
+  const chunkedData = await textSplitter.splitDocuments(pages);
 
   const embeddings = new OpenAIEmbeddings();
   const pineconeIndex = await getPineconeIndex();
@@ -39,9 +39,9 @@ const createEmbeddings = async (
 // TODO: It would be a lot easier if the PDFs are just in a blob storage
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createMarkdownSummary = async (
-  files: Document<Record<string, string>>[]
+  pages: Document<Record<string, string>>[]
 ) => {
-  const pageChunks = files
+  const pageChunks = pages
     .map((file) => {
       const metadata = file.metadata as { loc?: { pageNumber?: number } };
       const pageNumber = metadata?.loc?.pageNumber;
@@ -85,10 +85,13 @@ export default async function handler(
       .filter((file): file is File[] => Array.isArray(file))
       .map((files) => files.at(0))
       .filter((file): file is File => file !== undefined)
-      .map((file) => new PDFLoader(file.filepath).load())
+  );
+
+  const pages = await Promise.all(
+    files.map((file) => new PDFLoader(file.filepath).load())
   ).then((files) => files.flat());
 
-  await createEmbeddings(moduleId, files);
+  await createEmbeddings(moduleId, pages);
 
   res.status(200).json({ success: "true" });
 }
