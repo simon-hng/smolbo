@@ -7,6 +7,7 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { type Document } from "langchain/document";
 import { getPineconeIndex } from "~/server/pinecone";
+import { makeMarkdownSummaryChain } from "~/server/chains/markdownSummaryChain";
 
 export const config = {
   api: {
@@ -33,6 +34,34 @@ const createEmbeddings = async (
     namespace: moduleId,
     textKey: "text",
   });
+};
+
+// TODO: It would be a lot easier if the PDFs are just in a blob storage
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const createMarkdownSummary = async (
+  files: Document<Record<string, string>>[]
+) => {
+  const pageChunks = files
+    .map((file) => {
+      const metadata = file.metadata as { loc?: { pageNumber?: number } };
+      const pageNumber = metadata?.loc?.pageNumber;
+      return `BEGINNING_SLIDE ${pageNumber ?? ""}\n` + file.pageContent;
+    })
+    .reduce((chunks, item, index) => {
+      const chunkIndex: number = Math.floor(index / 15);
+      chunks[chunkIndex] = ([] as string[]).concat(
+        chunks[chunkIndex] || ([] as string[]),
+        item
+      );
+      return chunks;
+    }, [] as string[][])
+    .map((chunk) => chunk.join("\n"));
+
+  const chain = makeMarkdownSummaryChain();
+  const pageQuestions = await Promise.allSettled(
+    pageChunks.map(async (chunk) => chain.call({ content: chunk }))
+  );
+  console.log(pageQuestions);
 };
 
 export default async function handler(
