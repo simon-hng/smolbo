@@ -36,6 +36,7 @@ model Card {
   interval    Int      @default(1)
   repetitions Int      @default(0)
   dueDate     DateTime @default(now())
+  createdAt   DateTime @default(now())
 }
 
 // Necessary for Next auth
