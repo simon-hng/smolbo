@@ -83,8 +83,8 @@ const ModulesViewPage: NextPage = () => {
   const card = cards.at(0);
   if (card) {
     return (
-      <motion.div style={{ backgroundColor }} className="flex pt-20">
-        <Section className="pb-32">
+      <motion.div style={{ backgroundColor }} className="mb-20 flex pt-20">
+        <Section>
           <motion.div
             drag="x"
             dragSnapToOrigin
