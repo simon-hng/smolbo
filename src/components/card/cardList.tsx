@@ -16,6 +16,7 @@ export const CardList = ({ cards }: Props) => {
     repetitions: (a, b) => a.repetitions - b.repetitions,
   };
   const [sortBy, setSortBy] = useState("dueDate");
+  const [cardFilter, setCardFilter] = useState("");
 
   if (!cards) {
     return (
@@ -30,7 +31,11 @@ export const CardList = ({ cards }: Props) => {
   return (
     <>
       <div className="mb-4 flex justify-between">
-        <InputText placeholder="Search for any card" />
+        <InputText
+          placeholder="Search for any card"
+          value={cardFilter}
+          onChange={(e) => setCardFilter(e.target.value)}
+        />
         <DropdownMenu.Root>
           <DropdownMenu.Trigger className="flex items-center gap-2 rounded-2xl px-4 py-2 duration-500 hover:bg-slate-100/50">
             Sort
@@ -52,9 +57,15 @@ export const CardList = ({ cards }: Props) => {
         </DropdownMenu.Root>
       </div>
       <div className="columns-sm gap-8">
-        {cards.sort(comparators[sortBy]).map((card) => (
-          <FlashCard key={card.id} card={card} className="mb-4 w-full" />
-        ))}
+        {cards
+          .filter((item) => {
+            const regex = new RegExp(cardFilter);
+            return regex.test(item.front) || regex.test(item.back);
+          })
+          .sort(comparators[sortBy])
+          .map((card) => (
+            <FlashCard key={card.id} card={card} className="mb-4 w-full" />
+          ))}
       </div>
     </>
   );
