@@ -33,12 +33,6 @@ export const ModuleCard = ({ module }: ModuleCardProps) => {
           >
             Overview
           </Link>
-          <Link
-            href={`modules/${module.id}/edit`}
-            className="w-full p-2 text-center duration-500 hover:bg-slate-500"
-          >
-            Edit
-          </Link>
         </div>
       </Card>
     </>
