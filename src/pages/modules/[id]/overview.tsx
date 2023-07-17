@@ -1,10 +1,11 @@
 import type { Card, Module } from "@prisma/client";
-import { ChatBubbleIcon, Pencil1Icon, RocketIcon } from "@radix-ui/react-icons";
+import { ChatBubbleIcon, RocketIcon } from "@radix-ui/react-icons";
 import { type NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { CardList, CardCreationDialog } from "~/components/card";
 import { UploadDialog } from "~/components/module/uploadDialog";
+import { EditDialog } from "~/components/module/editDialog";
 import { Button } from "~/components/ui/button";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
@@ -76,12 +77,7 @@ const ModuleSummary = ({ module }: ModuleSummaryProps) => {
         </Button>
         <UploadDialog moduleId={module.id} />
         <CardCreationDialog module={module} />
-        <Button variant="primary" asChild>
-          <Link href={`/modules/${module.id}/edit`}>
-            <Pencil1Icon aria-hidden className="mr-2" />
-            Edit
-          </Link>
-        </Button>
+        <EditDialog moduleId={module.id} />
       </div>
     </div>
   );
