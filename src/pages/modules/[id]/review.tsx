@@ -74,7 +74,7 @@ const ModulesViewPage: NextPage = () => {
     return (
       <div className="pt-20">
         <Section>
-          <CardComponent variant="skeleton" className="min-h-[50vh]" />
+          <CardComponent variant="skeleton" className="h-32" />
         </Section>
       </div>
     );
@@ -83,8 +83,8 @@ const ModulesViewPage: NextPage = () => {
   const card = cards.at(0);
   if (card) {
     return (
-      <motion.div style={{ backgroundColor }} className="flex h-screen pt-20">
-        <Section className="scrollbar overflow-y-auto pb-32">
+      <motion.div style={{ backgroundColor }} className="flex pt-20">
+        <Section className="pb-32">
           <motion.div
             drag="x"
             dragSnapToOrigin
