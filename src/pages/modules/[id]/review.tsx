@@ -83,7 +83,10 @@ const ModulesViewPage: NextPage = () => {
   const card = cards.at(0);
   if (card) {
     return (
-      <motion.div style={{ backgroundColor }} className="mb-20 flex pt-20">
+      <motion.div
+        style={{ backgroundColor }}
+        className="flex min-h-screen pt-20"
+      >
         <Section>
           <motion.div
             drag="x"
@@ -92,13 +95,9 @@ const ModulesViewPage: NextPage = () => {
             onDragEnd={dragEndHandler}
             animate={controls}
             style={{ x }}
+            className="pb-20"
           >
-            <FlashCard
-              key={card.id}
-              card={card}
-              className="min-h-full"
-              openState={[open, setOpen]}
-            />
+            <FlashCard key={card.id} card={card} openState={[open, setOpen]} />
           </motion.div>
         </Section>
 
