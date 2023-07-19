@@ -28,7 +28,7 @@ export const env = createEnv({
 
     OPENAI_API_KEY: z.string(),
     OPENAI_ORGANIZATION: z.string(),
-    USE_GPT4: z.boolean().optional(),
+    OPENAI_MODELNAME: z.string(),
 
     PINECONE_ENVIRONMENT: z.string(),
     PINECONE_API_KEY: z.string(),
@@ -59,7 +59,7 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     OPENAI_ORGANIZATION: process.env.OPENAI_ORGANIZATION,
-    USE_GPT4: process.env.GPT4,
+    OPENAI_MODELNAME: process.env.OPENAI_MODELNAME,
     PINECONE_ENVIRONMENT: process.env.PINECONE_ENVIRONMENT,
     PINECONE_API_KEY: process.env.PINECONE_API_KEY,
     PINECONE_INDEX: process.env.PINECONE_INDEX,
