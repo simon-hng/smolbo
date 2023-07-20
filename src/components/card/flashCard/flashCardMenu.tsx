@@ -4,14 +4,13 @@ import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import toast from "react-hot-toast";
 import { Card as CardComponent } from "~/components/ui/card";
 import { api } from "~/utils/api";
+import { CardDialog } from "../cardDialog";
 
 interface Props {
   card: Card;
-  isEdit: boolean;
-  setIsEdit: (edit: boolean) => void;
 }
 
-export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
+export const CardMenu = ({ card }: Props) => {
   const ctx = api.useContext();
   const deleteCardMutation = api.card.deleteById.useMutation({
     onSuccess: () => ctx.module.invalidate(),
@@ -33,9 +32,11 @@ export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
             className="mt-4 flex flex-col divide-y divide-slate-500 text-white"
           >
             <DropdownMenu.Item asChild>
-              <button className="px-4 py-2" onClick={() => setIsEdit(!isEdit)}>
-                Edit
-              </button>
+              <CardDialog card={card}>
+                <button type="button" className="px-4 py-2">
+                  Edit
+                </button>
+              </CardDialog>
             </DropdownMenu.Item>
             <DropdownMenu.Item asChild>
               <button

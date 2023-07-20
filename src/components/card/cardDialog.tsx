@@ -1,7 +1,7 @@
 import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { api } from "~/utils/api";
-import type { Card, Module } from "@prisma/client";
+import type { Card } from "@prisma/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
@@ -10,14 +10,11 @@ import { useFormik } from "formik";
 import { InputText } from "../ui/inputText";
 
 interface CardCreationDialogProps {
-  module: Module;
   children?: React.ReactNode;
+  card: Card | (Pick<Card, "moduleId"> & Partial<Card>);
 }
 
-export const CardCreationDialog = ({
-  module,
-  children,
-}: CardCreationDialogProps) => {
+export const CardDialog = ({ children, card }: CardCreationDialogProps) => {
   const [open, setOpen] = useState(false);
   const ctx = api.useContext();
   const Trigger = children ?? (
@@ -26,27 +23,39 @@ export const CardCreationDialog = ({
       Card
     </Button>
   );
-  const cardCreateMutation = api.card.create.useMutation({
-    onSuccess: () => ctx.module.invalidate(),
-  });
+  const cardCreateMutation = api.card.create.useMutation();
+  const cardUpdateMutation = api.card.update.useMutation();
 
   const formik = useFormik<Pick<Card, "front" | "back">>({
     initialValues: {
-      front: "",
-      back: "",
+      front: card?.front ?? "",
+      back: card?.back ?? "",
     },
-    onSubmit: (values, { setSubmitting, resetForm }) =>
+    onSubmit: (values, { setSubmitting, resetForm }) => {
+      const submit: () => Promise<Card> = () => {
+        if (!!card.id) {
+          return cardUpdateMutation.mutateAsync({
+            id: card.id,
+            ...card,
+            ...values,
+          } as Card);
+        }
+        return cardCreateMutation.mutateAsync({
+          moduleId: card.moduleId,
+          ...values,
+        });
+      };
+
       void toast
-        .promise(
-          cardCreateMutation.mutateAsync({ moduleId: module.id, ...values }),
-          {
-            loading: "Creating new card",
-            success: "Succesfully created card",
-            error: "Failed to create module",
-          }
-        )
+        .promise(submit(), {
+          loading: "Saving card",
+          success: "Succesfully saved card",
+          error: "Failed to save card ",
+        })
         .then(() => setSubmitting(false))
-        .then(() => resetForm()),
+        .then(() => ctx.module.invalidate())
+        .then(() => resetForm());
+    },
   });
 
   return (
@@ -60,7 +69,8 @@ export const CardCreationDialog = ({
             <div className="mb-4">
               <div className="flex flex-row justify-between">
                 <Dialog.Title className="mb-2 text-2xl">
-                  Create a new card
+                  {!!card.id && "Edit card"}
+                  {!card.id && "Create a new card"}
                 </Dialog.Title>
 
                 <Dialog.Close className="flex h-8 w-8 items-center justify-center rounded-full p-1 duration-200 hover:bg-slate-800">
@@ -69,7 +79,8 @@ export const CardCreationDialog = ({
               </div>
 
               <Dialog.Description>
-                You are adding a card to {module.title}
+                {!!card.id && `You are editing a card`}
+                {!card.id && `You are creating a new card`}
               </Dialog.Description>
             </div>
 
@@ -91,7 +102,7 @@ export const CardCreationDialog = ({
                 onChange={formik.handleChange}
                 asChild
               >
-                <textarea className="h-32" />
+                <textarea className="h-32 resize-none" />
               </InputText>
 
               <div className="flex justify-end gap-2">

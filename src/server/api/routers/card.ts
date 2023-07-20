@@ -29,7 +29,7 @@ export const cardRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.card
+      return await ctx.prisma.card
         .update({
           where: {
             id: input.id,

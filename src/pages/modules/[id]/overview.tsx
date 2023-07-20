@@ -3,7 +3,7 @@ import { ChatBubbleIcon, RocketIcon } from "@radix-ui/react-icons";
 import { type NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { CardList, CardCreationDialog } from "~/components/card";
+import { CardList, CardDialog } from "~/components/card";
 import { UploadDialog } from "~/components/module/uploadDialog";
 import { EditDialog } from "~/components/module/editDialog";
 import { Button } from "~/components/ui/button";
@@ -76,7 +76,7 @@ const ModuleSummary = ({ module }: ModuleSummaryProps) => {
           </Link>
         </Button>
         <UploadDialog moduleId={module.id} />
-        <CardCreationDialog module={module} />
+        <CardDialog card={{ moduleId: module.id }} />
         <EditDialog moduleId={module.id} />
       </div>
     </div>
