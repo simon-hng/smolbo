@@ -31,16 +31,18 @@ export const CardMenu = ({ card }: Props) => {
             padding="none"
             className="mt-4 flex flex-col divide-y divide-slate-500 text-white"
           >
-            <DropdownMenu.Item asChild>
-              <CardDialog card={card}>
-                <button type="button" className="px-4 py-2">
-                  Edit
-                </button>
-              </CardDialog>
-            </DropdownMenu.Item>
+            <CardDialog card={card}>
+              <button
+                type="button"
+                className="flex cursor-pointer items-center gap-2 px-4 py-2 outline-none duration-500 hover:bg-slate-100/50"
+              >
+                Edit
+              </button>
+            </CardDialog>
+
             <DropdownMenu.Item asChild>
               <button
-                className="px-4 py-2"
+                className="flex cursor-pointer items-center gap-2 px-4 py-2 outline-none duration-500 hover:bg-slate-100/50"
                 onClick={() =>
                   void toast.promise(
                     navigator.clipboard.writeText(
@@ -59,7 +61,7 @@ export const CardMenu = ({ card }: Props) => {
             </DropdownMenu.Item>
             <DropdownMenu.Item asChild>
               <button
-                className="bg-red-900 px-4 py-2"
+                className="flex cursor-pointer items-center gap-2 bg-red-900 px-4 py-2 outline-none duration-500 hover:bg-slate-100/50"
                 onClick={() =>
                   void toast.promise(deleteCardMutation.mutateAsync(card.id), {
                     loading: "Deleting card",

@@ -41,19 +41,27 @@ export const CardList = ({ cards }: Props) => {
             Sort
             <CaretDownIcon />
           </DropdownMenu.Trigger>
-          <DropdownMenu.Content className="z-10 flex w-40 flex-col gap-2 overflow-hidden rounded-2xl border-2 border-slate-500 bg-slate-900 py-2 text-white">
-            {["dueDate", "createdAt", "repetitions"].map((sortByItem) => (
-              <DropdownMenu.Item asChild key={sortByItem}>
-                <button
-                  className="flex cursor-pointer items-center gap-2 px-4 py-2 outline-none duration-500 hover:bg-slate-100/50"
-                  onClick={() => setSortBy(sortByItem)}
-                >
-                  {sortByItem}
-                  {sortBy === sortByItem && <ArrowDownIcon />}
-                </button>
-              </DropdownMenu.Item>
-            ))}
-          </DropdownMenu.Content>
+          <DropdownMenu.Portal>
+            <DropdownMenu.Content asChild>
+              <CardComponent
+                className="mt-4 flex flex-col divide-y divide-slate-500 text-white"
+                variant="glass"
+                padding="none"
+              >
+                {["dueDate", "createdAt", "repetitions"].map((sortByItem) => (
+                  <DropdownMenu.Item asChild key={sortByItem}>
+                    <button
+                      className="flex cursor-pointer items-center gap-2 px-4 py-2 outline-none duration-500 hover:bg-slate-100/50"
+                      onClick={() => setSortBy(sortByItem)}
+                    >
+                      {sortByItem}
+                      {sortBy === sortByItem && <ArrowDownIcon />}
+                    </button>
+                  </DropdownMenu.Item>
+                ))}
+              </CardComponent>
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
         </DropdownMenu.Root>
       </div>
       <div className="columns-sm gap-8">
