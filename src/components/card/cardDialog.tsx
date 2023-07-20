@@ -8,10 +8,11 @@ import { Button } from "../ui/button";
 import { Card as CardComponent } from "@ui/card";
 import { useFormik } from "formik";
 import { InputText } from "../ui/inputText";
+import { type RequireAtLeastOne } from "~/utils/ts-utils";
 
 interface CardCreationDialogProps {
   children?: React.ReactNode;
-  card: Card | (Pick<Card, "moduleId"> & Partial<Card>);
+  card: RequireAtLeastOne<Partial<Card>, "moduleId" | "id">;
 }
 
 export const CardDialog = ({ children, card }: CardCreationDialogProps) => {
@@ -40,10 +41,12 @@ export const CardDialog = ({ children, card }: CardCreationDialogProps) => {
             ...values,
           } as Card);
         }
-        return cardCreateMutation.mutateAsync({
-          moduleId: card.moduleId,
-          ...values,
-        });
+        if (!!card.moduleId)
+          return cardCreateMutation.mutateAsync({
+            moduleId: card.moduleId,
+            ...values,
+          });
+        return Promise.reject();
       };
 
       void toast
