@@ -25,7 +25,7 @@ const ModulesViewPage: NextPage = () => {
   const { cards, isFetching, reviewCard, reviewedCards } = useScheduler(
     query.id as string
   );
-  const [open, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(false);
 
   const controls = useAnimation();
   const handleNextRound = async (isCorrect: boolean) => {
@@ -97,14 +97,14 @@ const ModulesViewPage: NextPage = () => {
             style={{ x }}
             className="pb-20"
           >
-            <FlashCard key={card.id} card={card} openState={[open, setOpen]} />
+            <FlashCard key={card.id} card={card} isOpen={isOpen} />
           </motion.div>
         </Section>
 
         <div className="fixed bottom-0 w-full">
           <div className="container mx-auto p-8 lg:p-16">
             <div className="flex w-full divide-x-2 divide-slate-500 overflow-hidden rounded-xl border-2 border-slate-500 bg-slate-900/50 backdrop-blur-lg">
-              {!open && (
+              {!isOpen && (
                 <button
                   className="w-full p-2 text-center duration-500 hover:bg-slate-500"
                   onClick={() => {
@@ -114,7 +114,7 @@ const ModulesViewPage: NextPage = () => {
                   Show answer
                 </button>
               )}
-              {!!open && (
+              {!!isOpen && (
                 <>
                   <button
                     className="w-full bg-[#064e3b] p-2 text-center"
@@ -178,7 +178,7 @@ const ModulesViewPage: NextPage = () => {
 
         <div className="space-y-4">
           {reviewedCards.map((card) => (
-            <FlashCard key={card.id} card={card} />
+            <FlashCard key={card.id} card={card} isOpen={true} />
           ))}
         </div>
 

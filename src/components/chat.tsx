@@ -16,7 +16,6 @@ export interface ChatBubbleProps {
 }
 
 const ChatBubble = ({ question, answer, moduleId }: ChatBubbleProps) => {
-  const openState = useState(true);
   const [saved, setSaved] = useState(false);
   const ctx = api.useContext();
 
@@ -44,7 +43,7 @@ const ChatBubble = ({ question, answer, moduleId }: ChatBubbleProps) => {
     <Card variant="glass" padding="none">
       <CardView
         card={{ front: question, back: answer }}
-        openState={openState}
+        isOpen={true}
         className="p-4"
       />
 

@@ -64,7 +64,12 @@ export const CardList = ({ cards }: Props) => {
           })
           .sort(comparators[sortBy])
           .map((card) => (
-            <FlashCard key={card.id} card={card} className="mb-4 w-full" />
+            <FlashCard
+              key={card.id}
+              card={card}
+              className="mb-4 w-full"
+              isOpen={true}
+            />
           ))}
       </div>
     </>
