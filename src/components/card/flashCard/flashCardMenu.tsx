@@ -39,6 +39,25 @@ export const CardMenu = ({ card, isEdit, setIsEdit }: Props) => {
             </DropdownMenu.Item>
             <DropdownMenu.Item asChild>
               <button
+                className="px-4 py-2"
+                onClick={() =>
+                  void toast.promise(
+                    navigator.clipboard.writeText(
+                      `${card.front}\n---\n${card.back}`
+                    ),
+                    {
+                      loading: "Copying to clipboard",
+                      success: "Copied card content to clipboard",
+                      error: "Failed to copy to clipboard",
+                    }
+                  )
+                }
+              >
+                Copy to clipboard
+              </button>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item asChild>
+              <button
                 className="bg-red-900 px-4 py-2"
                 onClick={() =>
                   void toast.promise(deleteCardMutation.mutateAsync(card.id), {
