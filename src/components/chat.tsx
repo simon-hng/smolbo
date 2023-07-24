@@ -8,6 +8,7 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { InputText } from "./ui/inputText";
 import { cx } from "class-variance-authority";
+import Head from "next/head";
 
 export interface ChatBubbleProps {
   question: string;
@@ -75,35 +76,42 @@ export const Chat = ({ moduleId, className }: Props) => {
   };
 
   return (
-    <div className={cx("flex h-full flex-col overflow-hidden pb-8", className)}>
-      <div className="scrollbar mb-8 h-full space-y-4 overflow-y-scroll pr-4">
-        {history.map(([q, a]) => (
-          <ChatBubble
-            key={moduleId + q}
-            question={q}
-            answer={a}
-            moduleId={moduleId}
+    <>
+      <Head>
+        <title>Smolbo - Chat</title>
+      </Head>
+      <div
+        className={cx("flex h-full flex-col overflow-hidden pb-8", className)}
+      >
+        <div className="scrollbar mb-8 h-full space-y-4 overflow-y-scroll pr-4">
+          {history.map(([q, a]) => (
+            <ChatBubble
+              key={moduleId + q}
+              question={q}
+              answer={a}
+              moduleId={moduleId}
+            />
+          ))}
+        </div>
+
+        <div className="flex w-full space-x-4">
+          <InputText
+            value={question}
+            fullWidth
+            onChange={(event) => setQuestion(event.target.value)}
+            className="w-full py-4"
+            placeholder="Ask me anything!"
+            disabled={isFetching}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") sendHandler();
+            }}
           />
-        ))}
-      </div>
 
-      <div className="flex w-full space-x-4">
-        <InputText
-          value={question}
-          fullWidth
-          onChange={(event) => setQuestion(event.target.value)}
-          className="w-full py-4"
-          placeholder="Ask me anything!"
-          disabled={isFetching}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") sendHandler();
-          }}
-        />
-
-        <Button variant="primary" onClick={sendHandler} disabled={isFetching}>
-          <PaperPlaneIcon className="mr-2" /> Send
-        </Button>
+          <Button variant="primary" onClick={sendHandler} disabled={isFetching}>
+            <PaperPlaneIcon className="mr-2" /> Send
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };

@@ -19,8 +19,9 @@ import {
   ChatBubbleIcon,
 } from "@radix-ui/react-icons";
 import Link from "next/link";
+import Head from "next/head";
 
-const ModulesViewPage: NextPage = () => {
+const Review: NextPage = () => {
   const { query } = useRouter();
   const { cards, isFetching, reviewCard, reviewedCards } = useScheduler(
     query.id as string
@@ -83,58 +84,63 @@ const ModulesViewPage: NextPage = () => {
   const card = cards.at(0);
   if (card) {
     return (
-      <motion.div
-        style={{ backgroundColor }}
-        className="flex min-h-screen pt-20"
-      >
-        <Section>
-          <motion.div
-            drag="x"
-            dragSnapToOrigin
-            whileDrag={{ scale: 1.1 }}
-            onDragEnd={dragEndHandler}
-            animate={controls}
-            style={{ x }}
-            className="pb-20"
-          >
-            <FlashCard key={card.id} card={card} isOpen={isOpen} />
-          </motion.div>
-        </Section>
+      <>
+        <Head>
+          <title>Smolbo - Review</title>
+        </Head>
+        <motion.div
+          style={{ backgroundColor }}
+          className="flex min-h-screen pt-20"
+        >
+          <Section>
+            <motion.div
+              drag="x"
+              dragSnapToOrigin
+              whileDrag={{ scale: 1.1 }}
+              onDragEnd={dragEndHandler}
+              animate={controls}
+              style={{ x }}
+              className="pb-20"
+            >
+              <FlashCard key={card.id} card={card} isOpen={isOpen} />
+            </motion.div>
+          </Section>
 
-        <div className="fixed bottom-0 w-full">
-          <div className="container mx-auto p-8 lg:p-16">
-            <div className="flex w-full divide-x-2 divide-slate-500 overflow-hidden rounded-xl border-2 border-slate-500 bg-slate-900/50 backdrop-blur-lg">
-              {!isOpen && (
-                <button
-                  className="w-full p-2 text-center duration-500 hover:bg-slate-500"
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                >
-                  Show answer
-                </button>
-              )}
-              {!!isOpen && (
-                <>
+          <div className="fixed bottom-0 w-full">
+            <div className="container mx-auto p-8 lg:p-16">
+              <div className="flex w-full divide-x-2 divide-slate-500 overflow-hidden rounded-xl border-2 border-slate-500 bg-slate-900/50 backdrop-blur-lg">
+                {!isOpen && (
                   <button
-                    className="w-full bg-[#064e3b] p-2 text-center"
-                    onClick={() => void handleNextRound(true)}
+                    className="w-full p-2 text-center duration-500 hover:bg-slate-500"
+                    onClick={() => {
+                      setOpen(true);
+                    }}
                   >
-                    Easy
+                    Show answer
                   </button>
+                )}
+                {!!isOpen && (
+                  <>
+                    <button
+                      className="w-full bg-[#064e3b] p-2 text-center"
+                      onClick={() => void handleNextRound(true)}
+                    >
+                      Easy
+                    </button>
 
-                  <button
-                    className="w-full bg-[#881337] p-2 text-center"
-                    onClick={() => void handleNextRound(false)}
-                  >
-                    Hard
-                  </button>
-                </>
-              )}
+                    <button
+                      className="w-full bg-[#881337] p-2 text-center"
+                      onClick={() => void handleNextRound(false)}
+                    >
+                      Hard
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </>
     );
   }
 
@@ -193,4 +199,4 @@ const ModulesViewPage: NextPage = () => {
   );
 };
 
-export default ModulesViewPage;
+export default Review;

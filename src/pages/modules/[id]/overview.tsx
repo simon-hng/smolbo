@@ -9,6 +9,7 @@ import { EditDialog } from "~/components/module/editDialog";
 import { Button } from "~/components/ui/button";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
+import Head from "next/head";
 
 interface ModuleInformation extends Module {
   cards: Card[];
@@ -83,7 +84,7 @@ const ModuleSummary = ({ module }: ModuleSummaryProps) => {
   );
 };
 
-const ModulesEditPage: NextPage = () => {
+const Overview: NextPage = () => {
   const { query } = useRouter();
 
   const moduleQuery = api.module.getById.useQuery(query.id as string, {
@@ -91,16 +92,21 @@ const ModulesEditPage: NextPage = () => {
   });
 
   return (
-    <div className="pt-20">
-      <Section>
-        <ModuleSummary module={moduleQuery.data as ModuleInformation} />
-        <div>
-          <h2 className="mb-4 text-2xl font-semibold">Your Flashcards</h2>
-          <CardList cards={moduleQuery.data?.cards} />
-        </div>
-      </Section>
-    </div>
+    <>
+      <Head>
+        <title>Smolbo - {moduleQuery.data?.title}</title>
+      </Head>
+      <div className="pt-20">
+        <Section>
+          <ModuleSummary module={moduleQuery.data as ModuleInformation} />
+          <div>
+            <h2 className="mb-4 text-2xl font-semibold">Your Flashcards</h2>
+            <CardList cards={moduleQuery.data?.cards} />
+          </div>
+        </Section>
+      </div>
+    </>
   );
 };
 
-export default ModulesEditPage;
+export default Overview;
