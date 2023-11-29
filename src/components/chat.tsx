@@ -107,11 +107,15 @@ export const Chat = ({ moduleId, scrollRef }: Props) => {
             placeholder="Ask me anything!"
             disabled={isFetching}
             onKeyDown={(e) => {
-              if (e.key === "Enter") sendHandler();
+              if (e.key === "Enter") void sendHandler();
             }}
           />
 
-          <Button variant="primary" onClick={sendHandler} disabled={isFetching}>
+          <Button
+            variant="primary"
+            onClick={() => void sendHandler()}
+            disabled={isFetching}
+          >
             <PaperPlaneIcon className="mr-2" /> Send
           </Button>
         </div>
