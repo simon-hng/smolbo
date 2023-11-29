@@ -1,5 +1,5 @@
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import { Button } from "~/components/ui/button";
 import useChat from "~/hooks/useChat";
 import { Card } from "./ui/card";
@@ -7,8 +7,6 @@ import { CardView } from "./card/flashCard/flashCardView";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { InputText } from "./ui/inputText";
-import { cx } from "class-variance-authority";
-import { Section } from "./ui/section";
 
 export interface ChatBubbleProps {
   question: string;
@@ -65,18 +63,30 @@ const ChatBubble = ({ question, answer, moduleId }: ChatBubbleProps) => {
 
 export interface Props {
   moduleId: string;
+  scrollRef: RefObject<HTMLDivElement>;
 }
 
-export const Chat = ({ moduleId }: Props) => {
+export const Chat = ({ moduleId, scrollRef }: Props) => {
   const [question, setQuestion] = useState("");
   const { sendChat, history, isFetching } = useChat(moduleId, question);
-  const sendHandler = () => {
-    void sendChat().then(() => setQuestion(""));
+  const sendHandler = async () => {
+    await sendChat();
+    setQuestion("");
+
+    setTimeout(() => {
+      if (!scrollRef?.current) return;
+
+      scrollRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }, 1);
   };
 
   return (
     <>
-      <div className="relative flex h-full flex-col overflow-hidden pb-16">
+      <div className="flex h-full flex-col gap-4 pb-16">
         {history.map(([q, a]) => (
           <ChatBubble
             key={moduleId + q}

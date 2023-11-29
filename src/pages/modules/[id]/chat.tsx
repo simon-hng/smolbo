@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useRef } from "react";
 import { Chat } from "~/components/chat";
 import { Section } from "~/components/ui/section";
 import { api } from "~/utils/api";
@@ -11,6 +12,8 @@ const ModulesEditPage: NextPage = () => {
   const moduleQuery = api.module.getById.useQuery(router.query.id as string, {
     enabled: !!router.query.id,
   });
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   if (!moduleQuery.data) {
     return (
@@ -31,7 +34,7 @@ const ModulesEditPage: NextPage = () => {
         <title>Smolbo - Chat</title>
       </Head>
 
-      <Section>
+      <Section ref={scrollRef}>
         <div className="relative pt-20">
           <div className="mb-8">
             <h1 className="mb-2 text-4xl font-semibold">
@@ -40,7 +43,7 @@ const ModulesEditPage: NextPage = () => {
             <p>{moduleQuery.data.description}</p>
           </div>
 
-          <Chat moduleId={router.query.id as string} />
+          <Chat scrollRef={scrollRef} moduleId={router.query.id as string} />
         </div>
       </Section>
     </>
