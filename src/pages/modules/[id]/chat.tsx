@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { Chat } from "~/components/chat";
 import { Section } from "~/components/ui/section";
@@ -25,18 +26,24 @@ const ModulesEditPage: NextPage = () => {
   }
 
   return (
-    <div className="h-screen pt-20">
-      <Section className="flex h-full flex-col">
-        <div className="mb-8">
-          <h1 className="mb-2 text-4xl font-semibold">
-            {moduleQuery.data.title}
-          </h1>
-          <p>{moduleQuery.data.description}</p>
-        </div>
+    <>
+      <Head>
+        <title>Smolbo - Chat</title>
+      </Head>
 
-        <Chat moduleId={router.query.id as string} />
+      <Section>
+        <div className="relative pt-20">
+          <div className="mb-8">
+            <h1 className="mb-2 text-4xl font-semibold">
+              {moduleQuery.data.title}
+            </h1>
+            <p>{moduleQuery.data.description}</p>
+          </div>
+
+          <Chat moduleId={router.query.id as string} />
+        </div>
       </Section>
-    </div>
+    </>
   );
 };
 

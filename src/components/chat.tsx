@@ -8,7 +8,7 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { InputText } from "./ui/inputText";
 import { cx } from "class-variance-authority";
-import Head from "next/head";
+import { Section } from "./ui/section";
 
 export interface ChatBubbleProps {
   question: string;
@@ -65,10 +65,9 @@ const ChatBubble = ({ question, answer, moduleId }: ChatBubbleProps) => {
 
 export interface Props {
   moduleId: string;
-  className?: string;
 }
 
-export const Chat = ({ moduleId, className }: Props) => {
+export const Chat = ({ moduleId }: Props) => {
   const [question, setQuestion] = useState("");
   const { sendChat, history, isFetching } = useChat(moduleId, question);
   const sendHandler = () => {
@@ -77,29 +76,24 @@ export const Chat = ({ moduleId, className }: Props) => {
 
   return (
     <>
-      <Head>
-        <title>Smolbo - Chat</title>
-      </Head>
-      <div
-        className={cx("flex h-full flex-col overflow-hidden pb-8", className)}
-      >
-        <div className="scrollbar mb-8 h-full space-y-4 overflow-y-scroll pr-4">
-          {history.map(([q, a]) => (
-            <ChatBubble
-              key={moduleId + q}
-              question={q}
-              answer={a}
-              moduleId={moduleId}
-            />
-          ))}
-        </div>
+      <div className="relative flex h-full flex-col overflow-hidden pb-16">
+        {history.map(([q, a]) => (
+          <ChatBubble
+            key={moduleId + q}
+            question={q}
+            answer={a}
+            moduleId={moduleId}
+          />
+        ))}
+      </div>
 
-        <div className="flex w-full space-x-4">
+      <div className="fixed bottom-0 left-0 w-full">
+        <div className="container mx-auto flex gap-4 px-8 py-10 lg:px-16">
           <InputText
             value={question}
             fullWidth
             onChange={(event) => setQuestion(event.target.value)}
-            className="w-full py-4"
+            className="w-full bg-slate-900/50 py-3 backdrop-blur-lg"
             placeholder="Ask me anything!"
             disabled={isFetching}
             onKeyDown={(e) => {
